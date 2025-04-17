@@ -1,3 +1,11 @@
+# Personal
+.vscode/
+.VSCodeCounter
+.DS_Store
+!template/.vscode
+
+TODO.md
+
 # Compiled Lua sources
 luac.out
 
