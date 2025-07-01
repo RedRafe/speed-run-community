@@ -208,6 +208,10 @@ Gui.on_click(visual.action_assign, function(event)
         end
     else
         --- Case: Player is self-assigning
+        if not Game.is_playing() then
+            player.print({'bingo.game_paused'})
+            return
+        end
         if side then
             if selected[index].side == nil then
                 selected[index].side = side

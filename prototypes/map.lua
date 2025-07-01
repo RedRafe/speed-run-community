@@ -29,7 +29,7 @@ mgs.autoplace_controls = {
     -- Resources
     ['coal']         = { frequency = 3.21, size = 0.68,  richness = 0.24  },
     ['copper-ore']   = { frequency = 4.00, size = 0.71,  richness = 0.35  },
-    ['crude-oil']    = { frequency = 4,    size = 2.8,   richness = 0.45  },
+    ['crude-oil']    = { frequency = 4,    size = 2.8,   richness = 9.00  },
     ['iron-ore']     = { frequency = 4.25, size = 1.6,   richness = 0.23  },
     ['stone']        = { frequency = 3,    size = 0.77,  richness = 0.25  },
     ['uranium-ore']  = { frequency = 1.1,  size = 2,     richness = 1     },

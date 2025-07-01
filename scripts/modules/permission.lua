@@ -45,8 +45,8 @@ fsrc.on_init(function()
     Permission.apply_permissions(Config.permission_group.default, true)
     Permission.apply_permissions(Config.permission_group.default, false, {
         defines.input_action.delete_permission_group,
-        defines.input_action.import_blueprint_string,
-        defines.input_action.open_blueprint_library_gui,
+        --defines.input_action.import_blueprint_string,
+        --defines.input_action.open_blueprint_library_gui,
     })
 
     Permission.apply_permissions(Config.permission_group.player, false)
