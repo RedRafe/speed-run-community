@@ -39,7 +39,7 @@ Custom.full_modular_grid = {
     end,
 }
 
-Custom.full_coal_inventory = {
+Custom.full_inventory_coal = {
     [defines.events.on_player_main_inventory_changed] = function(event)
         local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
         local side = player.force.name
@@ -54,7 +54,7 @@ Custom.full_coal_inventory = {
     end,
 }
 
-Custom.full_unique_inventory = {
+Custom.full_inventory_unique = {
     [defines.events.on_player_main_inventory_changed] = function(event)
         local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
         local side = player.force.name
