@@ -88,6 +88,11 @@ local sides = {
     south = true,
 }
 
+local opposite = {
+    north = 'south',
+    south = 'north',
+}
+
 fsrc.add(defines.events.on_match_started, function()
     local selected = PlayerGui.get_selected()
 
@@ -115,7 +120,7 @@ fsrc.add(defines.events.on_match_started, function()
         end
 
         for _, death_condition in pairs(current.death) do
-            death_counts[death_condition] = 0
+            death_counts[death_condition] = {north = 0, south = 0}
         end
 
         ::continue::
@@ -305,15 +310,19 @@ fsrc.add(defines.events.on_entity_died, function(event)
                 goto continue
             end
         end
+        local condition_side = side
+        if condition.enemy then
+            condition_side = opposite[entity.force.name]
+        end
 
-        local death_count = death_counts[condition] + 1
-        death_counts[condition] = death_count
+        local death_count = death_counts[condition][condition_side] + 1
+        death_counts[condition][condition_side] = death_count
 
         if death_count < (condition.count or 1) then
             goto continue
         end
 
-        complete_condition(condition, side)
+        complete_condition(condition, condition_side)
         conditions[k] = nil
 
         ::continue::
@@ -356,3 +365,4 @@ end)
 -- TODO:
 -- game reset?
 -- tile tracking
+-- hidden items
