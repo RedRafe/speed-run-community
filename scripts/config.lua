@@ -78,7 +78,7 @@ return {
         {
             { caption = 'Rock Power', tooltip = 'Connect power to 20 rocks.' },
             { caption = 'Total Rock Power', tooltip = 'Connect power to 100 rocks.' },
-        }
+        },
         { caption = 'Heart-Shaped Box', tooltip = 'Place 200 wooden chests in a heart shape.' },
         { caption = 'Pole Upgrade Program', tooltip = 'Replace all small poles with medium ones.' },
         { caption = 'Looping Louie', tooltip = 'Build 100 separate belt loops.' },
