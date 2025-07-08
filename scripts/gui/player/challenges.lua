@@ -24,6 +24,10 @@ fsrc.subscribe({
     proposed = tbl.proposed
 end)
 
+function Public.get_selected()
+    return selected
+end
+
 
 -- == VISUAL ==================================================================
 
@@ -145,14 +149,14 @@ Visual.update = function(player)
                     tags = { [Gui.tag] = visual.action_assign, index = index }
                 }
                 Gui.set_style(button, { size = btn_size, padding = 0 })
-    
+
                 local h_flow = button.add { type = 'flow', direction = 'horizontal' }
                 Gui.set_style(h_flow, { vertical_align = 'center', horizontally_stretchable = true, vertically_stretchable = true, size = btn_size - 6, margin = -2 })
-    
+
                 local v_flow = h_flow.add { type = 'flow', direction = 'vertical' }
                 Gui.add_pusher(v_flow, 'vertical')
                 Gui.set_style(v_flow, { horizontal_align = 'center', vertically_stretchable = true, horizontally_stretchable = true, size = btn_size - 6, margin = -2 })
-    
+
                 local label = v_flow.add { type = 'label', caption = ch.caption, style = 'caption_label' }
                 Gui.set_style(label, { single_line = false, font = 'var', font_color = { 255, 255, 255 }, maximal_width = btn_size - 10, horizontal_align = 'center', padding = 0, margin = 0 })
                 Gui.add_pusher(v_flow, 'vertical')
@@ -170,6 +174,18 @@ Visual.update_all = function()
     for _, player in pairs(game.players) do
         Visual.update(player)
     end
+end
+
+Visual.print_challenge = function(challenge, side)
+    local result = (challenge.side == side)
+    game.print({ 'bingo.challenge_'..(result and 'achieved' or 'failed'),
+        table.concat(Config.color[side], ','),
+        Config.force_name_map[side],
+        challenge.caption,
+        challenge.tooltip,
+    }, {
+        sound_path = result and 'utility/achievement_unlocked' or 'utility/new_objective'
+    })
 end
 
 -- == VISUAL - EVENTS =========================================================
@@ -221,16 +237,7 @@ Gui.on_click(visual.action_assign, function(event)
         end
     end
 
-    local result = (selected[index].side == side) 
-    game.print({ 'bingo.challenge_'..(result and 'achieved' or 'failed'), 
-        table.concat(Config.color[side], ','),
-        Config.force_name_map[side],
-        selected[index].caption,
-        selected[index].tooltip,
-    }, {
-        sound_path = result and 'utility/achievement_unlocked' or 'utility/new_objective'
-    })
-
+    Visual.print_challenge(selected[index], side)
     Visual.update_all()
 end)
 
@@ -300,23 +307,23 @@ Editor.draw = function(player)
     --- Bingo settings
     local box_2 = frame.add { type = 'frame', caption = 'Bingo settings', style = 'bordered_frame' }
     Gui.set_style(box_2, { left_margin = 12, right_margin = 12 })
-    
+
     local v_flow = box_2.add { type = 'flow', direction = 'vertical' }
 
     local h_flow = v_flow.add { type = 'flow', direction = 'horizontal' }
     local ch_table = h_flow.add { type = 'table', column_count = 5 }
-    
+
     Gui.add_pusher(ch_table)
     local list_box = ch_table.add{ type = 'frame', style = 'deep_frame_in_shallow_frame' }.add { type = 'list-box', items = {}, vertical_scroll_policy = 'auto-and-reserve-space'}
     Gui.set_style(list_box, { height = 360, width = 240 })
     data.editor_left = list_box
-    
+
     local b_flow = ch_table.add { type = 'flow', direction = 'horizontal' }
     Gui.add_pusher(b_flow)
     local reroll = b_flow.add{ type = 'sprite-button', name = editor.action_get_random, sprite = 'utility/refresh', tooltip = 'Reroll random challenges', style = 'tool_button' }
     Gui.set_style(reroll, { size = 40, padding = 2, right_margin = 8 })
     Gui.add_pusher(b_flow)
-    
+
     local list_box = ch_table.add{ type = 'frame', style = 'deep_frame_in_shallow_frame' }.add { type = 'list-box', items = {}, vertical_scroll_policy = 'auto-and-reserve-space' }
     Gui.set_style(list_box, { height = 360, width = 240 })
     Gui.add_pusher(ch_table)

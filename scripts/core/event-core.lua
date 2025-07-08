@@ -156,6 +156,11 @@ Public.remove = function(event_name, handler, options)
     local on_nth_tick = options.on_nth_tick or false
     local handlers_table = on_nth_tick and event_handlers_on_nth_tick or event_handlers
 
+    -- Case: Explicit function
+    if handler_type == "function" then
+        return remove_handler(event_name, handler, handlers_table)
+    end
+
     -- Case: Token function
     if handler_type == 'number' then
         local token_handler = get_token(handler)
