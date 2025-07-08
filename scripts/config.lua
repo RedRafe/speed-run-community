@@ -3,21 +3,24 @@ local function factory_challenge(caption, tooltip, name, counts)
     if #counts == 3 then
         table.insert(suffixes, 'Factory')
     end
+    
     local challenges = {}
     local multiple = type(name) == 'table'
     for i, count in pairs(counts) do
-        local challenge = {
+        local condition = { type = 'craft', count = count }
+        if multiple then
+            condition.names = name
+        else
+            condition.name = name
+        end
+
+        challenges[i] = {
             caption = caption .. ' ' .. suffixes[i],
             tooltip = string.format(tooltip, count),
-            condition = { type = 'craft', count = count }
+            condition = condition
         }
-        if multiple then
-            challenge.names = name
-        else
-            challenge.name = name
-        end
-        challenges[i] = challenge
     end
+
     return challenges
 end
 
