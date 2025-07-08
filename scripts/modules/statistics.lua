@@ -187,12 +187,20 @@ fsrc.on_mined_tile(function(event)
 
     local source = event.robot or event.platform or game.get_player(event.player_index) --[[@as LuaPlayer]]
     local side = source.force.name
-    local item_stats = current[side] and current[side][tile.name]
-    if not item_stats then
+    if not current[side] then
         return
     end
 
-    item_stats.lost = item_stats.lost + 1
+    local lost = {}
+    for _, data in pairs(event.tiles) do
+        local old = data.old_tile
+        lost[old.name] = (lost[old.name] or 0) + 1
+    end
+
+    for name, count in pairs(lost) do
+        local old_item_stats = current[side][name]
+        old_item_stats.lost = old_item_stats.lost + count
+    end
 end)
 
 fsrc.add(defines.events.on_map_init, function()
