@@ -1,9 +1,13 @@
+---@param caption string
+---@param tooltip string
+---@param name string|string[]
+---@param counts uint[]
 local function factory_challenge(caption, tooltip, name, counts)
     local suffixes = {'Mega Factory', 'Giga Factory'}
     if #counts == 3 then
         table.insert(suffixes, 'Factory')
     end
-    
+
     local challenges = {}
     local multiple = type(name) == 'table'
     for i, count in pairs(counts) do
