@@ -119,8 +119,10 @@ fsrc.add(defines.events.on_match_started, function()
             end
         end
 
-        for _, death_condition in pairs(current.death) do
-            death_counts[death_condition] = {north = 0, south = 0}
+        for _, death_conditions in pairs(current.death) do
+            for _, death_condition in pairs(death_conditions) do
+                death_counts[death_condition] = {north = 0, south = 0}
+            end
         end
 
         ::continue::
@@ -300,8 +302,8 @@ fsrc.add(defines.events.on_entity_died, function(event)
         return
     end
 
-    local side = entity.force.name
-    if not sides[side] then
+    local death_side = entity.force.name
+    if not sides[death_side] then
         return
     end
 
@@ -324,19 +326,19 @@ fsrc.add(defines.events.on_entity_died, function(event)
                 goto continue
             end
         end
-        local condition_side = side
+        local side = death_side
         if condition.enemy then
-            condition_side = opposite[entity.force.name]
+            side = opposite[entity.force.name]
         end
 
-        local death_count = death_counts[condition][condition_side] + 1
-        death_counts[condition][condition_side] = death_count
+        local death_count = death_counts[condition][side] + 1
+        death_counts[condition][side] = death_count
 
         if death_count < (condition.count or 1) then
             goto continue
         end
 
-        complete_condition(condition, condition_side)
+        complete_condition(condition, side)
         conditions[k] = nil
 
         ::continue::
