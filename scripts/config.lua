@@ -85,7 +85,6 @@ return {
         { caption = 'Assembly Line Upgrade', tooltip = 'Upgrade all assemblers to level 2.' },
 
         -- Craft
-        { caption = 'Vat of Acid', tooltip = 'Fill 100 barrels with sulfuric acid.', condition = { type = 'craft', name = 'sulfuric-acid-barrel', count = 100 } },
         { caption = 'Uranium Touch', tooltip = 'Craft one U-235.', condition = { type = 'craft', name = 'uranium-235' } },
         { caption = 'Blue Chips', tooltip = 'Craft 200 processing units.', condition = { type = 'craft', name = 'processing-unit', count = 200 } },
         { caption = 'LDS Factory', tooltip = 'Craft 200 low-density structures.', condition = { type = 'craft', name = 'low-density-structure', count = 200 } },
@@ -130,6 +129,7 @@ return {
 
         -- Hold
         { caption = 'Fishing Industry', tooltip = 'Collect 200 fish.', condition = { type = 'hold', name = 'raw-fish', count = 200 } },
+        { caption = 'Vat of Acid', tooltip = 'Hold 100 sulfuric acid barrels.', condition = { type = 'hold', name = 'sulfuric-acid-barrel', count = 100 } },
         { caption = 'Rainbow Barrels', tooltip = 'Carry one of each barrel type.', condition = { type = 'hold', names = { 'water-barrel', 'crude-oil-barrel', 'petroleum-gas-barrel', 'light-oil-barrel', 'heavy-oil-barrel', 'lubricant-barrel', 'sulfuric-acid-barrel'} } },
         { caption = 'Inserter Collector', tooltip = 'Hold one of every type of inserter.', condition = { type = 'hold', names = { 'burner-inserter', 'inserter', 'long-handed-inserter', 'fast-inserter', 'bulk-inserter' } } },
 

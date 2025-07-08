@@ -377,7 +377,3 @@ fsrc.add(defines.events.on_player_placed_equipment, function(event)
         complete_condition(condition, side)
     end
 end)
-
--- TODO:
--- game reset?
--- hidden items?
