@@ -136,28 +136,21 @@ fsrc.add(defines.events.on_match_finished, function()
 end)
 
 -- Build
-fsrc.on_built(function(event)
-    if not Game.is_playing() then
-        return
-    end
 
-    local entity = event.entity
-    if not (entity and entity.valid) then
-        return
-    end
-
-    local conditions = current.build[entity.name]
+---@param id string
+---@param side string
+local function built(id, side)
+    local conditions = current.build[id]
     if not conditions then
         return
     end
 
-    local side = entity.force.name
     if not sides[side] then
         return
     end
 
-    local current = Statistics.get_current()
-    local stats = current[side]
+    local current_stats = Statistics.get_current()
+    local stats = current_stats[side]
     if not stats then
         return
     end
@@ -178,6 +171,29 @@ fsrc.on_built(function(event)
 
         ::continue::
     end
+end
+
+fsrc.on_built(function(event)
+    if not Game.is_playing() then
+        return
+    end
+
+    local entity = event.entity
+    if not (entity and entity.valid) then
+        return
+    end
+
+    built(entity.name, entity.force.name)
+end)
+
+fsrc.on_built_tile(function(event)
+    if not Game.is_playing() then
+        return
+    end
+
+    local tile = event.tile
+    local source = event.robot or event.platform or game.get_player(event.player_index) --[[@as LuaPlayer]]
+    built(tile.name, source.force.name)
 end)
 
 -- Craft
@@ -270,8 +286,6 @@ end)
 
 -- Death
 fsrc.add(defines.events.on_entity_died, function(event)
-    game.print(event.entity.name)
-
     if not Game.is_playing() then
         return
     end

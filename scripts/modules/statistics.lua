@@ -146,6 +146,55 @@ fsrc.on_destroyed(function(event)
     end
 end)
 
+fsrc.on_built_tile(function(event)
+    if not Game.is_playing() then
+        return
+    end
+
+    local tile = event.tile
+
+    local source = event.robot or event.platform or game.get_player(event.player_index) --[[@as LuaPlayer]]
+    local side = source.force.name
+    local side_stats = current[side]
+    local item_stats = side_stats and side_stats[tile.name]
+    if not item_stats then
+        return
+    end
+
+    local lost = {}
+    for _, data in pairs(event.tiles) do
+        local old = data.old_tile
+        lost[old.name] = (lost[old.name] or 0) + 1
+    end
+
+    for name, count in pairs(lost) do
+        local old_item_stats = current[side][name]
+        if old_item_stats and old_item_stats.type == "item" then
+            old_item_stats.lost = old_item_stats.lost + count
+        end
+    end
+
+    item_stats.placed = item_stats.placed + #event.tiles
+    item_stats:get_stored()
+end)
+
+fsrc.on_mined_tile(function(event)
+    if not Game.is_playing() then
+        return
+    end
+
+    local tile = event.tile
+
+    local source = event.robot or event.platform or game.get_player(event.player_index) --[[@as LuaPlayer]]
+    local side = source.force.name
+    local item_stats = current[side] and current[side][tile.name]
+    if not item_stats then
+        return
+    end
+
+    item_stats.lost = item_stats.lost + 1
+end)
+
 fsrc.add(defines.events.on_map_init, function()
     for _, side in pairs({ 'north', 'south' }) do
         -- Cache LuaFlowStatistics
