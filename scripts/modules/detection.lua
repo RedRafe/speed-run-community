@@ -378,5 +378,4 @@ end)
 
 -- TODO:
 -- game reset?
--- tile tracking
--- hidden items
+-- hidden items?
