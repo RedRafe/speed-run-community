@@ -32,3 +32,6 @@ require '__speed-run-community__.scripts.gui.player.challenges'
 require '__speed-run-community__.scripts.gui.player.statistics'
 require '__speed-run-community__.scripts.gui.player.teams'
 require '__speed-run-community__.scripts.gui.clock.main'
+
+-- Post Modules
+require '__speed-run-community__.scripts.modules.detection'

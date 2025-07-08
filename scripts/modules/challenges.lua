@@ -2,7 +2,7 @@ local Config = require 'scripts.config'
 
 local Public = {}
 
----@type LuaChallenge
+---@class LuaChallenge
 ---@field caption string
 ---@field tooltip string
 
@@ -58,8 +58,20 @@ Public.utils = {
     end
 }
 
+local function collapse_challenges(list, challenge_arr)
+    for _, challenge in ipairs(challenge_arr) do
+        if challenge.caption then
+            list[#list+1] = challenge
+        else
+            collapse_challenges(list, challenge)
+        end
+    end
+end
+
 Public.get_challenges = function()
-    return challenges
+    local list = {}
+    collapse_challenges(list, challenges)
+    return list
 end
 
 Public.get_selected = function()
@@ -82,16 +94,27 @@ Public.clear_all = function()
     table.clear_table(challenges)
 end
 
+local function choose_random_challenge(list, remove)
+    local selected
+    if remove then
+        selected = table.remove(list, math.random(#list))
+    else
+        selected = list[math.random(#list)]
+    end
+
+    if not selected.caption then
+        return choose_random_challenge(selected, false)
+    end
+    return selected
+end
+
 ---@param size? number
 Public.select_random_challenges = function(size)
-    local selected = {}
+    local selected = {} ---@type LuaChallenge[]
     local to_add = (size or this.size) ^ 2
-    while to_add > 0 do
-        local proposed = challenges[math.random(#challenges)]
-        if not Public.utils.contains(selected, proposed) then
-            table.insert(selected, table.deepcopy(proposed))
-            to_add = to_add - 1
-        end
+    local list = table.deepcopy(challenges)
+    for i = 1, to_add do
+        selected[i] = choose_random_challenge(list, true)
     end
     return selected
 end
