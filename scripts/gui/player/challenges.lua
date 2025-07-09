@@ -43,10 +43,11 @@ local styles = {
 }
 
 local challenge_tooltip = function(player, challenge)
+    local claim_text = challenge.condition and {'bingo.challenge_claim_auto'} or {'bingo.challenge_claim_manual'}
     if player.admin then
-        return {'', {'bingo.challenge_admin_tooltip', Config.force_name_map.north, Config.force_name_map.south}, {'bingo.challenge_player_tooltip', challenge.side and Config.force_name_map[challenge.side] or '---', challenge.tooltip } }
+        return {'', {'bingo.challenge_admin_tooltip', Config.force_name_map.north, Config.force_name_map.south}, {'bingo.challenge_player_tooltip', challenge.side and Config.force_name_map[challenge.side] or '---', challenge.tooltip, claim_text } }
     end
-    return {'', {'bingo.challenge_player_tooltip', challenge.side and Config.force_name_map[challenge.side] or '---', challenge.tooltip } }
+    return {'', {'bingo.challenge_player_tooltip', challenge.side and Config.force_name_map[challenge.side] or '---', challenge.tooltip, claim_text } }
 end
 
 local count_points = function()
@@ -156,6 +157,11 @@ Visual.update = function(player)
                 local v_flow = h_flow.add { type = 'flow', direction = 'vertical' }
                 Gui.add_pusher(v_flow, 'vertical')
                 Gui.set_style(v_flow, { horizontal_align = 'center', vertically_stretchable = true, horizontally_stretchable = true, size = btn_size - 6, margin = -2 })
+
+                if not (ch.condition or ch.side) then
+                    local asterisk = h_flow.add { type = 'label', caption = '[font=var][color=red]*[/color][/font]', }
+                    Gui.set_style(asterisk, { left_margin = -8, top_margin = 38 })
+                end
 
                 local label = v_flow.add { type = 'label', caption = ch.caption, style = 'caption_label' }
                 Gui.set_style(label, { single_line = false, font = 'var', font_color = { 255, 255, 255 }, maximal_width = btn_size - 10, horizontal_align = 'center', padding = 0, margin = 0 })
