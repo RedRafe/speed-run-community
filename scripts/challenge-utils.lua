@@ -107,7 +107,7 @@ end
 function Public.factory(caption, tooltip, name, counts)
     local suffixes = {'Mega Factory', 'Giga Factory'}
     if #counts == 3 then
-        table.insert(suffixes, 'Factory')
+        table.insert(suffixes, 1, 'Factory')
     end
 
     local challenges = {} ---@type LuaChallenge[]
