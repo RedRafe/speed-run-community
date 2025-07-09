@@ -40,6 +40,8 @@
 ---@field name string
 ---@field data table<AnyBasic, AnyBasic>
 
+local Locale = require 'utils.locale'
+
 local Public = {}
 
 local icon_map = {
@@ -66,6 +68,10 @@ function process(challenges)
             if not condition then
                 challenge.icon = { sprite = 'utility/questionmark' }
                 goto continue
+            end
+
+            if not challenge.tooltip then
+                challenge.tooltip = Locale.condition(challenge.condition)
             end
 
             local icons = icon_map[condition.type]

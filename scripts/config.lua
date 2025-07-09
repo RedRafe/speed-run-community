@@ -33,11 +33,11 @@ return {
     },
     challenges = Challenges.process{
         -- Build
-        { caption = 'Light Up!', tooltip = 'Place 3 lamps.', condition = { type = 'build', name = 'small-lamp', count = 3 } },
-        { caption = 'Landfiller', tooltip = 'Place 200 landfill.', condition = { type = 'build', name = 'landfill', count = 200 } },
-        { caption = 'Burner Metropolis', tooltip = 'Place 200 burner mining drills.', condition = { type = 'build', name = 'burner-mining-drill', count = 200 } },
-        { caption = 'Oil Explorer', tooltip = 'Place 30 pumpjacks.', condition = { type = 'build', name = 'pumpjack', count = 30 } },
-        { caption = 'Silo Foundation', tooltip = 'Build 1,000 concrete.', condition = { type = 'build', name = 'concrete', count = 1000 } },
+        { caption = 'Light Up!', condition = { type = 'build', name = 'small-lamp', count = 3 } },
+        { caption = 'Landfiller', condition = { type = 'build', name = 'landfill', count = 200 } },
+        { caption = 'Burner Metropolis', condition = { type = 'build', name = 'burner-mining-drill', count = 200 } },
+        { caption = 'Oil Explorer', condition = { type = 'build', name = 'pumpjack', count = 30 } },
+        { caption = 'Silo Foundation', condition = { type = 'build', name = 'concrete', count = 1000 } },
 
         { caption = 'Lab Rush', tooltip = 'Have 100 labs researching.', icon = icon('entity/lab', 100) },
         { caption = 'Botlap', tooltip = 'Build a locomotive with bots.', icon = icon('entity/locomotive'), condition = { type = 'custom', name = 'botlap' } },
