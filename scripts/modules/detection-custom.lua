@@ -97,7 +97,7 @@ Custom.full_modular_grid = {
 }
 
 Custom.long_gate = {
-    [defines.events.on_built_entity] = function(event)
+    [defines.events.on_built_entity] = function(event, data)
         local entity = event.entity
         if entity.type ~= 'gate' then
             return
@@ -119,7 +119,7 @@ Custom.long_gate = {
             end
         end
 
-        if #to_check >= 250 then
+        if #to_check >= data.count then
             return side
         end
     end,
