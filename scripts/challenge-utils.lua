@@ -38,6 +38,7 @@
 ---@class CustomCondition
 ---@field type 'custom'
 ---@field name string
+---@field data table<AnyBasic, AnyBasic>
 
 local Public = {}
 

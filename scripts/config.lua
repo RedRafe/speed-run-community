@@ -48,7 +48,7 @@ return {
         { caption = 'Gatekeeper', tooltip = 'Build one gate that\'s 250 tiles long.', icon = icon('entity/gate', 250), condition = { type = 'custom', name = 'long_gate' } },
         { caption = 'Pumped Dry', tooltip = 'Place pumps on every usable position of your starter lake and connect their outputs.', icon = icon('entity/offshore-pump') },
         { caption = 'Copper Pavement', tooltip = 'Cover a copper patch with stone bricks.', icon = icon('entity/copper-ore') },
-        { caption = 'Freight Train', tooltip = 'Construct a train with 30 wagons.', icon = icon('entity/cargo-wagon') },
+        { caption = 'Freight Train', tooltip = 'Construct a train with 30 wagons.', icon = icon('entity/cargo-wagon'), condition = { type = 'custom', name = 'long_train', data = {count = 30} } },
         {
             { caption = 'Rock Power', tooltip = 'Connect power to 20 rocks.', icon = icon('entity/big-rock', 20) },
             { caption = 'Total Rock Power', tooltip = 'Connect power to 100 rocks.', icon = icon('entity/huge-rock', 100) },

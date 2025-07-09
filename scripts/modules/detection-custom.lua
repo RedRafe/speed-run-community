@@ -125,4 +125,23 @@ Custom.long_gate = {
     end,
 }
 
+Custom.long_train = {
+    [defines.events.on_built_entity] = function(event, data)
+        local entity = event.entity
+        local train = entity.train
+        if not train then
+            return
+        end
+
+        local side = entity.force.name
+        if not sides[side] then
+            return
+        end
+
+        if #train.carriages >= data.count then
+            return side
+        end
+    end,
+}
+
 return Custom
