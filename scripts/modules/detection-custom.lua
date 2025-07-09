@@ -62,6 +62,39 @@ Custom.full_inventory_unique = {
     end,
 }
 
+Custom.full_iron_chest = {
+    [defines.events.on_built_entity] = function(event, data)
+        local entity = event.entity
+        if entity.name ~= 'iron-chest' then
+            return
+        end
+
+        local side = entity.force.name
+        if not sides[side] then
+            return
+        end
+
+        data.chests[entity.unit_number] = entity
+    end,
+    [defines.events.on_tick] = function(event, data)
+        local index, chest = next(data.chests, data.index)
+        if not index then
+            data.index = nil
+            ---@cast chest -?
+            return
+        end
+        if not chest.valid then
+            data.chests[index] = nil
+        end
+
+        local inventory = chest.get_inventory(defines.inventory.chest)
+        if inventory.get_item_count('iron-chest') == #inventory * 50 then
+            return chest.force.name
+        end
+    end,
+}
+Custom.full_iron_chest[defines.events.on_robot_built_entity] = Custom.full_iron_chest[defines.events.on_built_entity]
+
 Custom.full_modular_grid = {
     [defines.events.on_player_placed_equipment] = function(event)
         local grid = event.grid

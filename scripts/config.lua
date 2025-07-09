@@ -133,7 +133,7 @@ return {
         { caption = 'Chestplosion', tooltip = 'Cause a chestplosion that fully covers a stone patch.', icon = icon('entity/stone') },
         { caption = 'Lube Up', tooltip = 'Fill a fluid wagon with lubricant.', icon = icon('entity/fluid-wagon') },
         { caption = 'Perfect Mining', tooltip = 'Use electric mining drills to fully cover one coal patch without overlapping areas.', icon = icon('entity/electric-mining-drill') },
-        { caption = 'Ironception', tooltip = 'Fill an iron chest with iron chests.', icon = icon('entity/iron-chest') },
+        { caption = 'Ironception', tooltip = 'Fill an iron chest with iron chests.', icon = icon('entity/iron-chest'), condition = { type = 'custom', name = 'full_iron_chest', data = { chests = {} } } },
         { caption = 'Accumulator Test', tooltip = 'Fully charge and discharge 250 accumulators.', icon = icon('entity/accumulator', 250) },
         { caption = 'Radar Network', tooltip = 'Power 50 radars with full energy satisfaction.', icon = icon('entity/radar', 50) },
         { caption = 'Belt Loop Adventure', tooltip = 'Ride a belt loop around your starter lake without moving manually.', icon = icon('item/transport-belt') },
