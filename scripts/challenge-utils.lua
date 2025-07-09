@@ -58,6 +58,11 @@ local icon_map = {
 function process(challenges)
     for _, challenge in pairs(challenges) do
         if challenge.caption then
+            local caption = challenge.caption
+            if type(caption) == 'string' then
+                challenge.caption = {'?', {'challenge-caption.'..caption}, caption}
+            end
+
             if challenge.icon then
                 if not helpers.is_valid_sprite_path(challenge.icon.sprite) then
                     challenge.icon.sprite = 'utility/questionmark'
