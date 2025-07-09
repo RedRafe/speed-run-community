@@ -45,9 +45,7 @@ Custom.full_inventory_unique = {
         end
 
         local inventory = player.get_main_inventory() --[[@as LuaInventory]]
-        if not inventory.is_full() then
-            return
-        end
+        if inventory.count_empty_stacks(true, true) > 0 then return end
 
         local seen = {}
         for i = 1, #inventory do
@@ -94,6 +92,50 @@ Custom.full_iron_chest = {
     end,
 }
 Custom.full_iron_chest[defines.events.on_robot_built_entity] = Custom.full_iron_chest[defines.events.on_built_entity]
+
+Custom.full_steel_chest_unique = {
+        [defines.events.on_built_entity] = function(event, data)
+        local entity = event.entity
+        if entity.name ~= 'steel-chest' then
+            return
+        end
+
+        local side = entity.force.name
+        if not sides[side] then
+            return
+        end
+
+        data.chests[entity.unit_number] = entity
+    end,
+    [defines.events.on_tick] = function(event, data)
+        local index, chest = next(data.chests, data.index)
+        if not index then
+            data.index = nil
+            ---@cast chest -?
+            return
+        end
+        if not chest.valid then
+            data.chests[index] = nil
+        end
+
+        local inventory = chest.get_inventory(defines.inventory.chest)
+        if inventory.count_empty_stacks(true, true) > 0 then
+            return
+        end
+
+        local seen = {}
+        for i = 1, #inventory do
+            local name = inventory[i].name
+            if seen[name] or inventory.get_insertable_count(name) > 0 then
+                return
+            end
+            seen[name] = true
+        end
+
+        return chest.force.name
+    end,
+}
+Custom.full_steel_chest_unique[defines.events.on_robot_built_entity] = Custom.full_steel_chest_unique[defines.events.on_built_entity]
 
 Custom.full_modular_grid = {
     [defines.events.on_player_placed_equipment] = function(event)

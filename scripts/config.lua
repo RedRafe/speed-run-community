@@ -142,7 +142,7 @@ return {
         { caption = 'Racer', tooltip = 'Stay in a car for 3 minutes without exiting.', icon = icon('entity/car', 3) },
         { caption = 'Display of Affection', tooltip = 'Write “I❤️FACTORIO” using 10 display panels.', icon = icon('entity/display-panel') },
         { caption = 'Catch Me If You Can', tooltip = 'Get chased by 50 biters at once.', icon = icon('entity/small-biter', 50) },
-        { caption = 'Collector’s Chest', tooltip = 'Fill a steel chest with full stacks of different items.', icon = icon('entity/steel-chest') },
+        { caption = 'Collector’s Chest', tooltip = 'Fill a steel chest with full stacks of different items.', icon = icon('entity/steel-chest'), condition = { type = 'custom', name = 'full_steel_chest_unique', data = { chests = {} } } },
         { caption = 'Beacon King', tooltip = 'Have 12 machines running under the influence of a beacon.', icon = icon('entity/beacon', 12) },
         { caption = 'Shooting Practice', tooltip = 'Use 500 yellow ammo on biters.', icon = icon('item/firearm-magazine', 500) },
     }
