@@ -110,7 +110,7 @@ fsrc.add(defines.events.on_match_started, function()
         challenge_map[condition] = challenge
 
         if condition.type == 'craft' then
-            current.craft[condition.name] = condition
+            current.craft[challenge.caption] = condition
         elseif condition.type == 'custom' then
             current.custom[condition.name] = condition
         else
@@ -212,10 +212,16 @@ fsrc.add(defines.events.on_tick, function()
     for side in pairs(sides) do
         local item_stats = stats[side]
         for k, condition in pairs(crafts) do
-            if item_stats[condition.name].produced >= (condition.count or 1) then
-                complete_condition(condition, side)
-                crafts[k] = nil
+            for _, name in pairs(condition.names or {condition.name}) do
+                if item_stats[name].produced < (condition.count or 1) then
+                    goto continue
+                end
             end
+
+            complete_condition(condition, side)
+            crafts[k] = nil
+
+            ::continue::
         end
     end
 

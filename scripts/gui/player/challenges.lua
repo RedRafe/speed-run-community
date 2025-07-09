@@ -160,6 +160,12 @@ Visual.update = function(player)
                 local label = v_flow.add { type = 'label', caption = ch.caption, style = 'caption_label' }
                 Gui.set_style(label, { single_line = false, font = 'var', font_color = { 255, 255, 255 }, maximal_width = btn_size - 10, horizontal_align = 'center', padding = 0, margin = 0 })
                 Gui.add_pusher(v_flow, 'vertical')
+
+                local icon = v_flow.add { type = 'sprite-button', style = 'transparent_slot' }
+                if ch.icon then
+                    icon.sprite = ch.icon.sprite
+                    icon.number = ch.icon.number
+                end
             end
         end
     end

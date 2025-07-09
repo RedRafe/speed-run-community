@@ -2,10 +2,6 @@ local Config = require 'scripts.config'
 
 local Public = {}
 
----@class LuaChallenge
----@field caption string
----@field tooltip string
-
 ---@type LuaChallenge[]
 local challenges = {}
 local this = {
