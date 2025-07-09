@@ -15,3 +15,11 @@ for _, event_name in pairs(events) do
         }
     })
 end
+
+data:extend({
+    {
+        type = 'custom-input',
+        name = 'open_player_menu',
+        key_sequence = 'SHIFT + B',
+    }
+})

@@ -1,32 +1,4 @@
----@param caption string
----@param tooltip string
----@param name string|string[]
----@param counts uint[]
-local function factory_challenge(caption, tooltip, name, counts)
-    local suffixes = {'Mega Factory', 'Giga Factory'}
-    if #counts == 3 then
-        table.insert(suffixes, 'Factory')
-    end
-
-    local challenges = {}
-    local multiple = type(name) == 'table'
-    for i, count in pairs(counts) do
-        local condition = { type = 'craft', count = count }
-        if multiple then
-            condition.names = name
-        else
-            condition.name = name
-        end
-
-        challenges[i] = {
-            caption = caption .. ' ' .. suffixes[i],
-            tooltip = string.format(tooltip, count),
-            condition = condition
-        }
-    end
-
-    return challenges
-end
+local Challenges = require 'scripts.challenge-utils'
 
 return {
     force_name_map = {
@@ -58,7 +30,7 @@ return {
         south = { 252, 084, 084 },
         player = {111, 111, 111 },
     },
-    challenges = {
+    challenges = Challenges.process{
         -- Build
         { caption = 'Light Up!', tooltip = 'Place 3 lamps.', condition = {type = 'build', name = 'small-lamp', count = 3 } },
         { caption = 'Landfiller', tooltip = 'Place 200 landfill.', condition = {type = 'build', name = 'landfill', count = 200 } },
@@ -94,30 +66,30 @@ return {
         { caption = 'Bulk Inserters', tooltip = 'Craft 200 bulk inserters.', condition = { type = 'craft', name = 'bulk-inserter', count = 200 } },
         { caption = 'Paint It Red', tooltip = 'Gather 10,000 copper ore.', condition = { type = 'craft', name = 'copper-ore', count = 10000 } },
         {
-            factory_challenge("Underground Pipe", 'Produce %d underground pipes', 'pipe-to-ground', { 500, 2000 }),
-            factory_challenge("Fast Inserter", 'Produce %d fast inserters', 'fast-inserter', { 250, 1000 }),
-            factory_challenge("Rail", 'Produce %d rails', 'rail', { 500, 2500, 5000 }),
-            factory_challenge('Big Electric Pole', 'Produce %d big electric poles.', 'big-electric-pole', { 50, 250, 500 }),
-            factory_challenge('Train Stop', 'Produce %d train stops.', 'train-stop', { 50, 250, 500 } ),
-            factory_challenge('Car', 'Produce %d cars.', 'car', { 10, 50, 250 } ),
-            factory_challenge('Refined Hazard Concrete', 'Produce %d refined hazard concrete.', 'refined-hazard-concrete', { 1000, 2500, 5000 } ),
-            factory_challenge('Accumulator', 'Produce %d accumulators.', 'accumulator', { 500, 1000 } ),
-            factory_challenge('Module', 'Produce %d modules.',
+            Challenges.factory("Underground Pipe", 'Produce %d underground pipes', 'pipe-to-ground', { 500, 2000 }),
+            Challenges.factory("Fast Inserter", 'Produce %d fast inserters', 'fast-inserter', { 250, 1000 }),
+            Challenges.factory("Rail", 'Produce %d rails', 'rail', { 500, 2500, 5000 }),
+            Challenges.factory('Big Electric Pole', 'Produce %d big electric poles.', 'big-electric-pole', { 50, 250, 500 }),
+            Challenges.factory('Train Stop', 'Produce %d train stops.', 'train-stop', { 50, 250, 500 } ),
+            Challenges.factory('Car', 'Produce %d cars.', 'car', { 10, 50, 250 } ),
+            Challenges.factory('Refined Hazard Concrete', 'Produce %d refined hazard concrete.', 'refined-hazard-concrete', { 1000, 2500, 5000 } ),
+            Challenges.factory('Accumulator', 'Produce %d accumulators.', 'accumulator', { 500, 1000 } ),
+            Challenges.factory('Module', 'Produce %d modules.',
                 { 'speed-module', 'speed-module-2', 'speed-module-3', 'efficiency-module', 'efficiency-module-2', 'efficiency-module-3', 'productivity-module', 'productivity-module-2', 'productivity-module-3' },
                 { 50, 250 }
             ),
-            factory_challenge('Flamethrower Turret', 'Produce %d flamethrower turrets.', 'flamethrower-turret', { 25, 100 } ),
-            factory_challenge('Rocket', 'Produce %d rockets.', 'rocket', { 500, 2500 } ),
-            factory_challenge('Land Mine', 'Produce %d land mines.', 'land-mine', { 1000, 5000 } ),
-            factory_challenge('Flamethrower Ammo', 'Produce %d flamethrower ammo.', 'flamethrower-ammo', { 500, 2500 } ),
-            factory_challenge('Grenade', 'Produce %d grenades.', 'grenade', { 50, 250, 1000 } ),
-            factory_challenge('Defender Capsule', 'Produce %d defender capsules.', 'defender-capsule', { 10, 50, 250 } ),
-            factory_challenge('Submachine Gun', 'Produce %d submachine guns.', 'submachine-gun', { 100, 250 } ),
-            factory_challenge('Programmable Speaker', 'Produce %d programmable speakers.', 'programmable-speaker', { 250, 1000 } ),
-            factory_challenge('Fast Splitter', 'Produce %d fast splitters.', 'fast-splitter', { 100, 250 } ),
-            factory_challenge('Electric Pump', 'Produce %d electric pumps.', 'pump', { 250, 1000 } ),
-            factory_challenge('Oil Refinery', 'Produce %d oil refineries.', 'refinery', { 50, 200 } ),
-            factory_challenge('Solid Fuel', 'Produce %d solid fuel.', 'solid-fuel', { 500, 2000, 10000 } ),
+            Challenges.factory('Flamethrower Turret', 'Produce %d flamethrower turrets.', 'flamethrower-turret', { 25, 100 } ),
+            Challenges.factory('Rocket', 'Produce %d rockets.', 'rocket', { 500, 2500 } ),
+            Challenges.factory('Land Mine', 'Produce %d land mines.', 'land-mine', { 1000, 5000 } ),
+            Challenges.factory('Flamethrower Ammo', 'Produce %d flamethrower ammo.', 'flamethrower-ammo', { 500, 2500 } ),
+            Challenges.factory('Grenade', 'Produce %d grenades.', 'grenade', { 50, 250, 1000 } ),
+            Challenges.factory('Defender Capsule', 'Produce %d defender capsules.', 'defender-capsule', { 10, 50, 250 } ),
+            Challenges.factory('Submachine Gun', 'Produce %d submachine guns.', 'submachine-gun', { 100, 250 } ),
+            Challenges.factory('Programmable Speaker', 'Produce %d programmable speakers.', 'programmable-speaker', { 250, 1000 } ),
+            Challenges.factory('Fast Splitter', 'Produce %d fast splitters.', 'fast-splitter', { 100, 250 } ),
+            Challenges.factory('Electric Pump', 'Produce %d electric pumps.', 'pump', { 250, 1000 } ),
+            Challenges.factory('Oil Refinery', 'Produce %d oil refineries.', 'refinery', { 50, 200 } ),
+            Challenges.factory('Solid Fuel', 'Produce %d solid fuel.', 'solid-fuel', { 500, 2000, 10000 } ),
         },
 
         -- Research
