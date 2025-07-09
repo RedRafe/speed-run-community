@@ -201,6 +201,11 @@ return function(config)
         Public.toggle_main_button(event.player)
     end)
 
+    fsrc.add(prototypes.custom_input.open_player_menu, function(event)
+        local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
+        Public.toggle_main_button(player)
+    end)
+
     Public.on_filter_changed = (function()
         local handlers
 
@@ -223,7 +228,7 @@ return function(config)
             handler(event)
         end
 
-        return function(element_name, handler)            
+        return function(element_name, handler)
             if not handlers then
                 handlers = {}
                 Gui.on_text_changed(config.searchbox_name, on_event)
