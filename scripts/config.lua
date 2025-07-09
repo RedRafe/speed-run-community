@@ -90,7 +90,7 @@ return {
             Challenges.factory('Programmable Speaker', 'Produce %d programmable speakers.', 'programmable-speaker', { 250, 1000 } ),
             Challenges.factory('Fast Splitter', 'Produce %d fast splitters.', 'fast-splitter', { 100, 250 } ),
             Challenges.factory('Electric Pump', 'Produce %d electric pumps.', 'pump', { 250, 1000 } ),
-            Challenges.factory('Oil Refinery', 'Produce %d oil refineries.', 'refinery', { 50, 200 } ),
+            Challenges.factory('Oil Refinery', 'Produce %d oil refineries.', 'oil-refinery', { 50, 200 } ),
             Challenges.factory('Solid Fuel', 'Produce %d solid fuel.', 'solid-fuel', { 500, 2000, 10000 } ),
         },
 
