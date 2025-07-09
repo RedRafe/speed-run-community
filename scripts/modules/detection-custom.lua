@@ -5,6 +5,22 @@ local sides = {
 
 local Custom = {}
 
+Custom.botlap = {
+    [defines.events.on_robot_built_entity] = function(event)
+        local entity = event.entity
+        if entity.type ~= 'locomotive' then
+            return
+        end
+
+        local side = entity.force.name
+        if not sides[side] then
+            return
+        end
+
+        return side
+    end,
+}
+
 Custom.full_inventory_coal = {
     [defines.events.on_player_main_inventory_changed] = function(event)
         local player = game.get_player(event.player_index) --[[@as LuaPlayer]]

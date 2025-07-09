@@ -40,7 +40,7 @@ return {
         { caption = 'Silo Foundation', tooltip = 'Build 1,000 concrete.', condition = { type = 'build', name = 'concrete', count = 1000 } },
 
         { caption = 'Lab Rush', tooltip = 'Have 100 labs researching.', icon = icon('entity/lab', 100) },
-        { caption = 'Botlap', tooltip = 'Build a locomotive with bots.', icon = icon('entity/locomotive') },
+        { caption = 'Botlap', tooltip = 'Build a locomotive with bots.', icon = icon('entity/locomotive'), condition = { type = 'custom', name = 'botlap' } },
         { caption = 'Solaris', tooltip = 'Place and connect 100 solar panels.', icon = icon('entity/solar-panel', 100) },
         { caption = 'Rollercoaster', tooltip = 'Build a rail loop around your starter lake and complete 5 train laps.', icon = icon('entity/curved-rail-a') },
         { caption = 'Fortified!', tooltip = 'Surround yourself with 8 walls.', icon = icon('entity/stone-wall', 8) },
