@@ -45,7 +45,7 @@ return {
         { caption = 'Rollercoaster', tooltip = 'Build a rail loop around your starter lake and complete 5 train laps.', icon = icon('entity/curved-rail-a') },
         { caption = 'Fortified!', tooltip = 'Surround yourself with 8 walls.', icon = icon('entity/stone-wall', 8) },
         { caption = 'Steel Upgrade', tooltip = 'Upgrade 150 furnaces to steel furnaces.', icon = icon('entity/steel-furnace', 150) },
-        { caption = 'Gatekeeper', tooltip = 'Build one gate that\'s 250 tiles long.', icon = icon('entity/gate', 250) },
+        { caption = 'Gatekeeper', tooltip = 'Build one gate that\'s 250 tiles long.', icon = icon('entity/gate', 250), condition = { type = 'custom', name = 'long_gate' } },
         { caption = 'Pumped Dry', tooltip = 'Place pumps on every usable position of your starter lake and connect their outputs.', icon = icon('entity/offshore-pump') },
         { caption = 'Copper Pavement', tooltip = 'Cover a copper patch with stone bricks.', icon = icon('entity/copper-ore') },
         { caption = 'Freight Train', tooltip = 'Construct a train with 30 wagons.', icon = icon('entity/cargo-wagon') },
@@ -107,8 +107,8 @@ return {
         { caption = 'Rainbow Barrels', tooltip = 'Carry one of each barrel type.', condition = { type = 'hold', names = { 'water-barrel', 'crude-oil-barrel', 'petroleum-gas-barrel', 'light-oil-barrel', 'heavy-oil-barrel', 'lubricant-barrel', 'sulfuric-acid-barrel'} } },
         { caption = 'Inserter Collector', tooltip = 'Hold one of every type of inserter.', condition = { type = 'hold', names = { 'burner-inserter', 'inserter', 'long-handed-inserter', 'fast-inserter', 'bulk-inserter' } } },
 
-        { caption = 'Comfort Coal', tooltip = 'Fill your inventory with coal only.', condition = { type = 'custom', name = 'full_inventory_coal' }, icon = icon('item/coal') },
-        { caption = 'Inventory Variety', tooltip = 'Fill your inventory with a different item in every slot.', condition = { type = 'custom', name = 'full_inventory_unique' }, icon = icon('technology/toolbelt') },
+        { caption = 'Comfort Coal', tooltip = 'Fill your inventory with coal only.', icon = icon('item/coal'), condition = { type = 'custom', name = 'full_inventory_coal' } },
+        { caption = 'Inventory Variety', tooltip = 'Fill your inventory with a different item in every slot.', icon = icon('technology/toolbelt'), condition = { type = 'custom', name = 'full_inventory_unique' } },
 
         -- Death
         { caption = 'RIP', tooltip = 'Die in any way.', condition = { type = 'death', name = 'character' } },
@@ -117,7 +117,7 @@ return {
         { caption = 'Turret Buster', tooltip = 'Destroy 5 gun turrets.', condition = { type = 'death', name = 'gun-turret', count = 5 } },
         { caption = 'Bug Check', tooltip = 'Destroy 1 biter base.', condition = { type = 'death', names = {'biter-spawner', 'spitter-spawner'}, enemy = true } },
         { caption = 'Biter Extinction', tooltip = 'Destroy 25 biter bases.', condition = { type = 'death', names = {'biter-spawner', 'spitter-spawner'}, count = 25, enemy = true } },
-        { caption = 'Roadkill', tooltip = 'Die by getting run over by a tank.', condition = { type = 'death', name = 'character', cause_name = 'tank' }, icon = icon('entity/tank') },
+        { caption = 'Roadkill', tooltip = 'Die by getting run over by a tank.', icon = icon('entity/tank'), condition = { type = 'death', name = 'character', cause_name = 'tank' } },
 
         { caption = 'Cliffhanger', tooltip = 'Destroy a cliff.', icon = icon('utility/cliff_deconstruction_enabled_modifier_icon') },
         { caption = 'Shotgun Sheriff', tooltip = 'Kill 100 biters with a shotgun.', icon = icon('entity/small-biter', 100) },
