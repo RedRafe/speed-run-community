@@ -27,6 +27,10 @@
 
 ---@class DeathCondition:GenericCondition
 ---@field type 'death'
+---@field damage_type? string
+---@field cause_type? string
+---@field cause_name? string
+---@field enemy? boolean
 
 ---@class EquipCondition:GenericCondition
 ---@field type 'equip'
@@ -38,12 +42,12 @@
 local Public = {}
 
 local icon_map = {
-    build = 'entity/',
-    craft = 'item/',
-    research = 'technology/',
-    hold = 'item/',
-    death = 'entity/',
-    equip = 'equipment/',
+    build = {'entity/', 'tile/'},
+    craft = {'item/', 'fluid/'},
+    research = {'technology/'},
+    hold = {'item/'},
+    death = {'entity/'},
+    equip = {'equipment/'},
 }
 
 ---@param challenges LuaChallengeUnion[]
@@ -51,24 +55,32 @@ function process(challenges)
     for _, challenge in pairs(challenges) do
         if challenge.caption then
             if challenge.icon then
+                if not helpers.is_valid_sprite_path(challenge.icon.sprite) then
+                    challenge.icon.sprite = 'utility/questionmark'
+                end
                 goto continue
             end
 
             local condition = challenge.condition
             if not condition then
+                challenge.icon = { sprite = 'utility/questionmark' }
                 goto continue
             end
 
-            local icon = icon_map[condition.type]
-            if icon then
+            local icons = icon_map[condition.type]
+            if icons then
                 local name = condition.name or condition.names[1]
-                icon = icon .. name
-                if not helpers.is_valid_sprite_path(icon) and condition.type == 'craft' then
-                    icon = 'fluid/' .. name
+                for _, icon in pairs(icons) do
+                    icon = icon .. name
+                    if helpers.is_valid_sprite_path(icon) then
+                        challenge.icon = { sprite = icon, number = condition.count }
+                        goto forelse
+                    end
                 end
-                if helpers.is_valid_sprite_path(icon) then
-                    challenge.icon = { sprite = icon, number = condition.count }
-                end
+
+                challenge.icon = { sprite = 'utility/questionmark', count = condition.count }
+
+                ::forelse::
             end
         else
             process(challenge)
@@ -80,6 +92,12 @@ function process(challenges)
     return challenges
 end
 Public.process = process
+
+---@param sprite SpritePath
+---@param number? int
+function Public.icon(sprite, number)
+    return { sprite = sprite, number = number }
+end
 
 ---@param caption string
 ---@param tooltip string
