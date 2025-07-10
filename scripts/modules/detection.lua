@@ -314,7 +314,15 @@ fsrc.add(defines.events.on_entity_died, function(event)
     end
 
     for k, condition in pairs(conditions) do
-        if condition.cause_type then
+        if condition.cause_name then
+            local cause = event.cause
+            if not cause then
+                goto continue
+            end
+            if cause.name ~= condition.cause_name then
+                goto continue
+            end
+        elseif condition.cause_type then
             local cause = event.cause
             if not cause then
                 goto continue
@@ -332,6 +340,7 @@ fsrc.add(defines.events.on_entity_died, function(event)
                 goto continue
             end
         end
+        
         local side = death_side
         if condition.enemy then
             side = opposite[entity.force.name]
