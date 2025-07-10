@@ -21,6 +21,22 @@ Custom.botlap = {
     end,
 }
 
+Custom.destroy_cliff = {
+    [defines.events.on_player_used_capsule] = function(event)
+        if event.item.name ~= 'cliff-explosives' then
+            return
+        end
+
+        local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
+        local side = player.force.name
+        if not sides[side] then
+            return
+        end
+
+        return side
+    end,
+}
+
 Custom.full_inventory_coal = {
     [defines.events.on_player_main_inventory_changed] = function(event)
         local player = game.get_player(event.player_index) --[[@as LuaPlayer]]

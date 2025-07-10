@@ -119,7 +119,7 @@ return {
         { caption = 'Biter Extinction', tooltip = 'Destroy 25 biter bases.', condition = { type = 'death', names = {'biter-spawner', 'spitter-spawner'}, count = 25, enemy = true } },
         { caption = 'Roadkill', tooltip = 'Die by getting run over by a tank.', icon = icon('entity/tank'), condition = { type = 'death', name = 'character', cause_name = 'tank' } },
 
-        { caption = 'Cliffhanger', tooltip = 'Destroy a cliff.', icon = icon('utility/cliff_deconstruction_enabled_modifier_icon') },
+        { caption = 'Cliffhanger', tooltip = 'Destroy a cliff.', icon = icon('utility/cliff_deconstruction_enabled_modifier_icon'), condition = { type = 'custom', name = 'destroy_cliff' } },
         { caption = 'Shotgun Sheriff', tooltip = 'Kill 100 biters with a shotgun.', icon = icon('entity/small-biter', 100) },
 
         -- Equip
