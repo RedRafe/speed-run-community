@@ -1,10 +1,9 @@
 local Gui = require 'scripts.modules.gui'
 local PlayerMenu = require 'scripts.gui.player.core'
 local Statistics = require 'scripts.modules.statistics'
-local Config = require 'scripts.config'
 
 local string_find = string.find
-function formatNumberWithCommas(number)
+local function formatNumberWithCommas(number)
     local formattedNumber = string.format('%d', number)
     local left, num, right = string.match(formattedNumber, '^([^%d]*%d)(%d*)(.-)$')
     return left..(num:reverse():gsub('(%d%d%d)','%1,'):reverse())..right
@@ -77,7 +76,7 @@ Public.update = function(player)
     end
 
     local pattern = data.searchbox.text or ''
-    patter = pattern:lower()
+    pattern = pattern:lower()
     local current = Statistics.get_current()
     local north = current.north
     local south = current.south
@@ -103,13 +102,13 @@ Public.update = function(player)
             north = { 140, 140, 252 },
             south = { 252, 084, 084 },
         }) do
-            local flow = comparison.add { type = 'flow', direction = 'horizontal' }
-            Gui.set_style(flow, { vertical_align = 'center' })
+            local flow_2 = comparison.add { type = 'flow', direction = 'horizontal' }
+            Gui.set_style(flow_2, { vertical_align = 'center' })
 
-            local progressbar = flow.add { type = 'progressbar', value = value[side] / tot }
+            local progressbar = flow_2.add { type = 'progressbar', value = value[side] / tot }
             Gui.set_style(progressbar, { color = color, natural_width = 160 })
 
-            local label = flow.add { type = 'label', caption = formatNumberWithCommas(value[side]) }
+            local label = flow_2.add { type = 'label', caption = formatNumberWithCommas(value[side]) }
             Gui.set_style(label, { minimal_width = 65, horizontal_align = 'right' })
         end
     end

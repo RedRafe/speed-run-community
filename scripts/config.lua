@@ -1,4 +1,4 @@
-local Challenges = require 'scripts.challenge-utils'
+local Challenges = require 'scripts.modules.challenge-utils'
 local icon = Challenges.icon
 
 return {
@@ -38,7 +38,6 @@ return {
         { caption = 'Burner Metropolis', tooltip = 'Place 200 burner mining drills.', condition = { type = 'build', name = 'burner-mining-drill', count = 200 } },
         { caption = 'Oil Explorer', tooltip = 'Place 30 pumpjacks.', condition = { type = 'build', name = 'pumpjack', count = 30 } },
         { caption = 'Silo Foundation', tooltip = 'Build 1,000 concrete.', condition = { type = 'build', name = 'concrete', count = 1000 } },
-
         { caption = 'Lab Rush', tooltip = 'Have 100 labs researching.', icon = icon('entity/lab', 100) },
         { caption = 'Botlap', tooltip = 'Build a locomotive with bots.', icon = icon('entity/locomotive'), condition = { type = 'custom', name = 'botlap' } },
         { caption = 'Solaris', tooltip = 'Place and connect 100 solar panels.', icon = icon('entity/solar-panel', 100) },
@@ -68,9 +67,9 @@ return {
         { caption = 'Bulk Inserters', tooltip = 'Craft 200 bulk inserters.', condition = { type = 'craft', name = 'bulk-inserter', count = 200 } },
         { caption = 'Paint It Red', tooltip = 'Gather 10,000 copper ore.', condition = { type = 'craft', name = 'copper-ore', count = 10000 } },
         {
-            Challenges.factory("Underground Pipe", 'Produce %d underground pipes', 'pipe-to-ground', { 500, 2000 }),
-            Challenges.factory("Fast Inserter", 'Produce %d fast inserters', 'fast-inserter', { 250, 1000 }),
-            Challenges.factory("Rail", 'Produce %d rails', 'rail', { 500, 2500, 5000 }),
+            Challenges.factory('Underground Pipe', 'Produce %d underground pipes', 'pipe-to-ground', { 500, 2000 }),
+            Challenges.factory('Fast Inserter', 'Produce %d fast inserters', 'fast-inserter', { 250, 1000 }),
+            Challenges.factory('Rail', 'Produce %d rails', 'rail', { 500, 2500, 5000 }),
             Challenges.factory('Big Electric Pole', 'Produce %d big electric poles.', 'big-electric-pole', { 50, 250, 500 }),
             Challenges.factory('Train Stop', 'Produce %d train stops.', 'train-stop', { 50, 250, 500 } ),
             Challenges.factory('Car', 'Produce %d cars.', 'car', { 10, 50, 250 } ),
@@ -98,8 +97,7 @@ return {
         { caption = 'Steel Axe', tooltip = 'Unlock the Steel Axe technology.', condition = { type = 'research', name = 'steel-axe' } },
         { caption = 'Productive Mining', tooltip = 'Unlock Mining Productivity 1.', condition = { type = 'research', name = 'mining-productivity-1' } },
         { caption = 'Bullet Specialist', tooltip = 'Research Projectile Damage 4 + Shooting Speed 4.', condition = { type = 'research', names = { 'physical-projectile-damage-4', 'weapon-shooting-speed-4' } } },
-
-        { caption = 'POWER IS FINE', tooltip = 'Total 5 min of yellow power, after researching "Electric Energy Distribution 1".', icon = icon('utility/electricity_icon') },
+        { caption = 'POWER IS FINE', tooltip = 'Total 5 min of yellow power, after researching \'Electric Energy Distribution 1\'.', icon = icon('utility/electricity_icon') },
 
         -- Hold
         { caption = 'Fishing Industry', tooltip = 'Collect 200 fish.', condition = { type = 'hold', name = 'raw-fish', count = 200 } },
@@ -118,12 +116,10 @@ return {
         { caption = 'Bug Check', tooltip = 'Destroy 1 biter base.', condition = { type = 'death', names = {'biter-spawner', 'spitter-spawner'}, enemy = true } },
         { caption = 'Biter Extinction', tooltip = 'Destroy 25 biter bases.', condition = { type = 'death', names = {'biter-spawner', 'spitter-spawner'}, count = 25, enemy = true } },
         { caption = 'Roadkill', tooltip = 'Die by getting run over by a tank.', icon = icon('entity/tank'), condition = { type = 'death', name = 'character', cause_name = 'tank' } },
-
         { caption = 'Cliffhanger', tooltip = 'Destroy a cliff.', icon = icon('utility/cliff_deconstruction_enabled_modifier_icon'), condition = { type = 'custom', name = 'destroy_cliff' } },
         { caption = 'Shotgun Sheriff', tooltip = 'Kill 100 biters with a shotgun.', icon = icon('entity/small-biter', 100) },
 
         -- Equip
-
         { caption = 'Fully Equipped', tooltip = 'Wear modular armor with filled equipment grid.', condition = { type = 'custom', name = 'full_modular_grid' }, icon = icon('item/modular-armor') },
 
         -- Custom
@@ -142,7 +138,7 @@ return {
         { caption = 'Racer', tooltip = 'Stay in a car for 3 minutes without exiting.', icon = icon('entity/car', 3) },
         { caption = 'Display of Affection', tooltip = 'Write “I❤️FACTORIO” using 10 display panels.', icon = icon('entity/display-panel') },
         { caption = 'Catch Me If You Can', tooltip = 'Get chased by 50 biters at once.', icon = icon('entity/small-biter', 50) },
-        { caption = 'Collector’s Chest', tooltip = 'Fill a steel chest with full stacks of different items.', icon = icon('entity/steel-chest'), condition = { type = 'custom', name = 'full_steel_chest_unique', data = { chests = {} } } },
+        { caption = 'Collector\'s Chest', tooltip = 'Fill a steel chest with full stacks of different items.', icon = icon('entity/steel-chest'), condition = { type = 'custom', name = 'full_steel_chest_unique', data = { chests = {} } } },
         { caption = 'Beacon King', tooltip = 'Have 12 machines running under the influence of a beacon.', icon = icon('entity/beacon', 12) },
         { caption = 'Shooting Practice', tooltip = 'Use 500 yellow ammo on biters.', icon = icon('item/firearm-magazine', 500) },
     }

@@ -52,7 +52,7 @@ local icon_map = {
 }
 
 ---@param challenges LuaChallengeUnion[]
-function process(challenges)
+local function process(challenges)
     for _, challenge in pairs(challenges) do
         if challenge.caption then
             if challenge.icon then

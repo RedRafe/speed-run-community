@@ -1,5 +1,4 @@
 local Config = require 'scripts.config'
-local Shared = require 'utils.shared'
 
 local Force = {}
 

@@ -25,7 +25,7 @@ fsrc.add(defines.events.on_player_created, function(event)
     frame.location = { x = 1, y = 40 }
     Gui.set_style(frame, { minimal_height = 40, maximal_height = 40 })
 
-    local label, line
+    local label
     local data = {}
 
     do -- North
@@ -33,27 +33,27 @@ fsrc.add(defines.events.on_player_created, function(event)
         Gui.set_style(label, { font = 'heading-1', right_padding = 4, left_padding = 4, font_color = Config.color.north })
         data.north_list = label
 
-        line = frame.add({ type = 'line', direction = 'vertical' })
+        frame.add({ type = 'line', direction = 'vertical' })
 
         label = frame.add({ type = 'label', caption = '---', tooltip = 'Challanges completed' })
         Gui.set_style(label, { font = 'default', right_padding = 4, left_padding = 4, font_color = { 225, 225, 225 } })
         data.north_count = label
     end
 
-    line = frame.add({ type = 'line', direction = 'vertical', style = 'dark_line' })
+    frame.add({ type = 'line', direction = 'vertical', style = 'dark_line' })
 
     label = frame.add({ type = 'label', caption = '---' })
     Gui.set_style(label, { font = 'default', right_padding = 4, left_padding = 4, font_color = { 225, 225, 225 } })
     data.clock = label
 
-    line = frame.add({ type = 'line', direction = 'vertical', style = 'dark_line' })
+    frame.add({ type = 'line', direction = 'vertical', style = 'dark_line' })
 
     do -- South
         label = frame.add({ type = 'label', caption = '---', tooltip = 'Challanges completed' })
         Gui.set_style(label, { font = 'default', right_padding = 4, left_padding = 4, font_color = { 225, 225, 225 } })
         data.south_count = label
 
-        line = frame.add({ type = 'line', direction = 'vertical' })
+        frame.add({ type = 'line', direction = 'vertical' })
 
         label = frame.add({ type = 'label', caption = Config.force_name_map.south })
         Gui.set_style(label, { font = 'heading-1', right_padding = 4, left_padding = 4, font_color = Config.color.south })
@@ -63,7 +63,7 @@ fsrc.add(defines.events.on_player_created, function(event)
     Gui.set_data(frame, data)
 end)
 
-Public.on_nth_tick = function(player)
+Public.on_nth_tick = function()
     local time = Public.format_time(Game.ticks())
     local status = { 'bingo.status', table.index_of(Config.game_state, Game.state()) }
     local points = Challenges.get_points()

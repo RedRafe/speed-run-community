@@ -1,4 +1,3 @@
-local Config = require 'scripts.config'
 local Game = require 'scripts.modules.game'
 local Queue = require 'utils.containers.queue'
 local ItemStatistics = require 'scripts.modules.item-statistics'
@@ -14,7 +13,6 @@ for _, fluid in pairs(prototypes.fluid) do
         table.insert(tracked_items, fluid.name)
     end
 end
-
 
 local Statistics = {}
 
@@ -169,7 +167,7 @@ fsrc.on_built_tile(function(event)
 
     for name, count in pairs(lost) do
         local old_item_stats = current[side][name]
-        if old_item_stats and old_item_stats.type == "item" then
+        if old_item_stats and old_item_stats.type == 'item' then
             old_item_stats.lost = old_item_stats.lost + count
         end
     end
@@ -182,8 +180,6 @@ fsrc.on_mined_tile(function(event)
     if not Game.is_playing() then
         return
     end
-
-    local tile = event.tile
 
     local source = event.robot or event.platform or game.get_player(event.player_index) --[[@as LuaPlayer]]
     local side = source.force.name

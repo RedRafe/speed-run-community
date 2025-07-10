@@ -253,9 +253,9 @@ end
 	local x = 5
 	local index = table.binary_search(t, x)
 	if index < 0 then
-		game.print("value not found, smallest index where t[index] > x is: " .. bit32.bnot(index))
+		game.print('value not found, smallest index where t[index] > x is: ' .. bit32.bnot(index))
 	else
-		game.print("value found at index: " .. index)
+		game.print('value found at index: ' .. index)
 	end
 ]]
 table.binary_search = function(t, target)

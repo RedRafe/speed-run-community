@@ -8,6 +8,7 @@ local this = {
 
 fsrc.subscribe(this, function(tbl) this = tbl end)
 
+--[[
 local register_lib = function(lib)
     if lib.events then
         for event_name, token in pairs(lib.events) do
@@ -21,6 +22,7 @@ local register_lib = function(lib)
         end
     end
 end
+]]
 
 Special.enabled = function()
     return this.enabled

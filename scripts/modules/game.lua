@@ -31,7 +31,7 @@ local function assert_game_sequence(expected_state, event)
         local current_state = Game.state()
         assert(
             current_state == expected_state,
-            string.format('Invalid game state: "%s" expected, got "%s"', key_of(Config.game_state, expected_state), key_of(Config.game_state, current_state))
+            string.format('Invalid game state: \'%s\' expected, got \'%s\'', key_of(Config.game_state, expected_state), key_of(Config.game_state, current_state))
         )
     end
 end

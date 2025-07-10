@@ -307,14 +307,10 @@ Editor.draw = function(player)
     local table_1 = inner_1.add { type = 'table', column_count = 4, style = 'filter_slot_table' }
     Gui.add_pusher(flow_1)
 
-    for _, button in pairs({
-        table_1.add { type = 'sprite-button', sprite = 'undo', name = editor.action_map_reset, style = 'slot_button', tooltip = { 'bingo.undo' } },
-        table_1.add { type = 'sprite-button', sprite = 'roll', name = editor.action_map_reroll, style = 'slot_button', tooltip = { 'bingo.roll' } },
-        table_1.add { type = 'sprite-button', sprite = 'stop', name = editor.action_game_end, style = 'slot_button', tooltip = { 'bingo.stop' } },
-        table_1.add { type = 'sprite-button', sprite = 'start', name = editor.action_game_start, style = 'slot_button', tooltip = { 'bingo.start' } },
-    }) do
-        --Gui.set_style(button, { width = 120 })
-    end
+    table_1.add { type = 'sprite-button', sprite = 'undo', name = editor.action_map_reset, style = 'slot_button', tooltip = { 'bingo.undo' } }
+    table_1.add { type = 'sprite-button', sprite = 'roll', name = editor.action_map_reroll, style = 'slot_button', tooltip = { 'bingo.roll' } }
+    table_1.add { type = 'sprite-button', sprite = 'stop', name = editor.action_game_end, style = 'slot_button', tooltip = { 'bingo.stop' } }
+    table_1.add { type = 'sprite-button', sprite = 'start', name = editor.action_game_start, style = 'slot_button', tooltip = { 'bingo.start' } }
 
     --- Bingo settings
     local box_2 = frame.add { type = 'frame', caption = 'Bingo settings', style = 'bordered_frame' }
@@ -336,7 +332,7 @@ Editor.draw = function(player)
     Gui.set_style(reroll, { size = 40, padding = 2, right_margin = 8 })
     Gui.add_pusher(b_flow)
 
-    local list_box = ch_table.add{ type = 'frame', style = 'deep_frame_in_shallow_frame' }.add { type = 'list-box', items = {}, vertical_scroll_policy = 'auto-and-reserve-space' }
+    list_box = ch_table.add{ type = 'frame', style = 'deep_frame_in_shallow_frame' }.add { type = 'list-box', items = {}, vertical_scroll_policy = 'auto-and-reserve-space' }
     Gui.set_style(list_box, { height = 360, width = 240 })
     Gui.add_pusher(ch_table)
     data.editor_right = list_box
@@ -357,7 +353,7 @@ Editor.update = function(player, with_random)
     end
 
     local pattern = data.searchbox.text or ''
-    patter = pattern:lower()
+    pattern = pattern:lower()
 
     if #proposed == 0 or with_random then
         table.add_all(proposed, selected)
@@ -387,12 +383,12 @@ Gui.on_click(editor.main_button_name, function(event)
     end
 end)
 
-Gui.on_click(editor.action_map_reroll, function(event)
+Gui.on_click(editor.action_map_reroll, function()
     Terrain.set_random_seed()
     fsrc.raise_event(defines.events.on_map_reset, { override = true })
 end)
 
-Gui.on_click(editor.action_map_reset, function(event)
+Gui.on_click(editor.action_map_reset, function()
     Terrain.set_current_seed()
     fsrc.raise_event(defines.events.on_map_reset, { override = true })
 end)
@@ -431,7 +427,7 @@ Gui.on_click(editor.action_clear_new_random, function(event)
     Editor.update(event.player)
 end)
 
-Gui.on_click(editor.action_confirm_new_random, function(event)
+Gui.on_click(editor.action_confirm_new_random, function()
     table.clear_table(selected)
     table.add_all(selected, proposed)
     table.clear_table(proposed)

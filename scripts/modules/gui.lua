@@ -243,12 +243,12 @@ Gui.add_closable_frame = function(player, params)
         Gui.destroy(frame)
     end
 
-    local data = {}
+    local _data = {}
 
-    local frame = player.gui.screen.add { type = 'frame', name = params.name, direction = 'vertical', style = 'frame' }
-    data.frame = frame
+    frame = player.gui.screen.add { type = 'frame', name = params.name, direction = 'vertical', style = 'frame' }
+    _data.frame = frame
     Gui.set_style(frame, Gui.styles.closable_frame)
-    Gui.set_data(frame, data)
+    Gui.set_data(frame, _data)
 
     do -- title
         local title_flow = frame.add { type = 'flow', direction = 'horizontal' }

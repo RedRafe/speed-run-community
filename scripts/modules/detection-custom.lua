@@ -90,7 +90,7 @@ Custom.full_iron_chest = {
 
         data.chests[entity.unit_number] = entity
     end,
-    [defines.events.on_tick] = function(event, data)
+    [defines.events.on_tick] = function(_, data)
         local index, chest = next(data.chests, data.index)
         if not index then
             data.index = nil
@@ -123,7 +123,7 @@ Custom.full_steel_chest_unique = {
 
         data.chests[entity.unit_number] = entity
     end,
-    [defines.events.on_tick] = function(event, data)
+    [defines.events.on_tick] = function(_, data)
         local index, chest = next(data.chests, data.index)
         if not index then
             data.index = nil

@@ -40,13 +40,11 @@ Public.utils = {
     ---@param tbl table
     ---@param challengeID LuaChallenge|string|number
     remove = function(tbl, challengeID)
-        local index = nil
+        local index = challengeID
         if type(challengeID) == 'string' then
             index = Public.utils.contains(tbl, { caption = challengeID, tooltip = '' })
         elseif type(challengeID) == 'table' then
             index = Public.utils.contains(tbl, challengeID)
-        else
-            index = challengeID
         end
         if index and type(index) == 'number' then
             table.remove(tbl, index)

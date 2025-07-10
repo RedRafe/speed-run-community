@@ -67,7 +67,7 @@ string.trim = function(text)
 end
 
 string.capital_letter = function(text)
-    return (text:gsub("^%l", string.upper))
+    return (text:gsub('^%l', string.upper))
 end
 
 return string

@@ -105,7 +105,9 @@ fsrc.add(defines.events.on_match_started, function()
 
     for _, challenge in pairs(selected) do
         local condition = challenge.condition
-        if not condition then goto continue end
+        if not condition then
+            goto continue
+        end
 
         challenge_map[condition] = challenge
 
@@ -114,14 +116,14 @@ fsrc.add(defines.events.on_match_started, function()
         elseif condition.type == 'custom' then
             current.custom[condition.name] = condition
         else
-            for _, name in pairs(condition.names or {condition.name}) do
+            for _, name in pairs(condition.names or { condition.name }) do
                 add_or_create(current[condition.type], name, condition)
             end
         end
 
         for _, death_conditions in pairs(current.death) do
             for _, death_condition in pairs(death_conditions) do
-                death_counts[death_condition] = {north = 0, south = 0}
+                death_counts[death_condition] = { north = 0, south = 0 }
             end
         end
 
@@ -340,7 +342,7 @@ fsrc.add(defines.events.on_entity_died, function(event)
                 goto continue
             end
         end
-        
+
         local side = death_side
         if condition.enemy then
             side = opposite[entity.force.name]

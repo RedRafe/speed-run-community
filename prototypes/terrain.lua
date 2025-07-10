@@ -2,7 +2,7 @@ require 'prototypes.noise'
 
 local f = string.format
 local starting_radius = 39
-local NE = data.raw['noise-expression']
+--local NE = data.raw['noise-expression']
 local NF = data.raw['noise-function']
 local mgs = data.raw.planet.nauvis.map_gen_settings
 
