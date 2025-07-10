@@ -271,4 +271,38 @@ Custom.shotgun_kills = {
     end,
 }
 
+Custom.stay_in_car = {
+    [defines.events.on_player_driving_changed_state] = function(event, data)
+        local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
+        local side = player.force.name
+        if not sides[side] then
+            return
+        end
+
+        local entity = event.entity
+        if not (entity and entity.name == 'car') then
+            data.players[event.player_index] = nil
+        end
+
+        data.players[event.player_index] = {car = entity, end_tick = event.tick + data.ticks}
+    end,
+    [defines.events.on_tick] = function(event, data)
+        for index, player_data in pairs(data.players) do
+            if player_data.end_tick == event.tick then
+                if not player_data.car.valid then
+                    data.players[index] = nil
+                else
+                    local player = game.get_player(index) --[[@as LuaPlayer]]
+                    local side = player.force.name
+                    if not sides[side] then
+                        data.players[index] = nil
+                        return
+                    end
+                    return side
+                end
+            end
+        end
+    end,
+}
+
 return Custom

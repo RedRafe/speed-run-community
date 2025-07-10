@@ -135,7 +135,7 @@ return {
         { caption = 'Belt Loop Adventure', tooltip = 'Ride a belt loop around your starter lake without moving manually.', icon = icon('item/transport-belt') },
         { caption = 'Red Ammo Belt', tooltip = 'Fill a belt loop with 500 rounds of Piercing rounds magazines.', icon = icon('item/piercing-rounds-magazine', 500) },
         { caption = 'Crypto Farm', tooltip = 'Use over 100 MW for 1 full minute.', icon = icon('entity/big-electric-pole', 100) },
-        { caption = 'Racer', tooltip = 'Stay in a car for 3 minutes without exiting.', icon = icon('entity/car', 3) },
+        { caption = 'Racer', tooltip = 'Stay in a car for 3 minutes without exiting.', icon = icon('entity/car', 3), condition = { type = 'custom', name = "stay_in_car", data = { ticks = 3*60*60, players = {} } } },
         { caption = 'Display of Affection', tooltip = 'Write “I❤️FACTORIO” using 10 display panels.', icon = icon('entity/display-panel') },
         { caption = 'Catch Me If You Can', tooltip = 'Get chased by 50 biters at once.', icon = icon('entity/small-biter', 50) },
         { caption = 'Collector\'s Chest', tooltip = 'Fill a steel chest with full stacks of different items.', icon = icon('entity/steel-chest'), condition = { type = 'custom', name = 'full_steel_chest_unique', data = { chests = {} } } },
