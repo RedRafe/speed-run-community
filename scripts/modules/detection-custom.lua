@@ -289,10 +289,10 @@ Custom.stay_in_car = {
     [defines.events.on_tick] = function(event, data)
         for index, player_data in pairs(data.players) do
             if player_data.end_tick == event.tick then
-                if not player_data.car.valid then
+                local player = game.get_player(index) --[[@as LuaPlayer]]
+                if not (player_data.car.valid and player_data.car == player.physical_vehicle) then
                     data.players[index] = nil
                 else
-                    local player = game.get_player(index) --[[@as LuaPlayer]]
                     local side = player.force.name
                     if not sides[side] then
                         data.players[index] = nil
