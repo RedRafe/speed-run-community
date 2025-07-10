@@ -235,4 +235,40 @@ Custom.long_train = {
     end,
 }
 
+Custom.shotgun_kills = {
+    [defines.events.on_entity_damaged] = function(event, data)
+        if event.entity.type ~= 'unit' then
+            return
+        end
+
+        if event.final_health > 0 then
+            return
+        end
+
+        local source = event.source
+        if not source then
+            return
+        end
+        if not (source.name == 'shotgun-pellet' or source.name == 'piercing-shotgun-pellet') then
+            return
+        end
+
+        local force = event.force
+        if not force then
+            return
+        end
+        local side = force.name
+        if not sides[side] then
+            return
+        end
+
+        local count = (data[side] or 0) + 1
+        data[side] = count
+
+        if count >= 100 then
+            return side
+        end
+    end,
+}
+
 return Custom
