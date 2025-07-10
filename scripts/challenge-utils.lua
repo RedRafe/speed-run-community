@@ -1,8 +1,8 @@
 ---@alias LuaChallengeUnion LuaChallenge|LuaChallenge[]
 
 ---@class LuaChallenge
----@field caption string
----@field tooltip string
+---@field caption LocalisedString
+---@field tooltip LocalisedString
 ---@field condition? LuaChallengeCondition
 ---@field icon? {sprite: string, number: int}
 
@@ -18,6 +18,7 @@
 
 ---@class CraftCondition:GenericCondition
 ---@field type 'craft'
+---@field is_production? boolean For tooltip localization. Should only be set by factory.
 
 ---@class ResearchCondition:GenericCondition
 ---@field type 'research'
@@ -40,6 +41,8 @@
 ---@field name string
 ---@field data table<AnyBasic, AnyBasic>
 
+local Locale = require 'utils.locale'
+
 local Public = {}
 
 local icon_map = {
@@ -55,6 +58,11 @@ local icon_map = {
 function process(challenges)
     for _, challenge in pairs(challenges) do
         if challenge.caption then
+            local caption = challenge.caption
+            if type(caption) == 'string' then
+                challenge.caption = {'?', {'challenge-caption.'..caption}, caption}
+            end
+
             if challenge.icon then
                 if not helpers.is_valid_sprite_path(challenge.icon.sprite) then
                     challenge.icon.sprite = 'utility/questionmark'
@@ -66,6 +74,10 @@ function process(challenges)
             if not condition then
                 challenge.icon = { sprite = 'utility/questionmark' }
                 goto continue
+            end
+
+            if not challenge.tooltip then
+                challenge.tooltip = Locale.condition(challenge.condition)
             end
 
             local icons = icon_map[condition.type]
@@ -101,10 +113,9 @@ function Public.icon(sprite, number)
 end
 
 ---@param caption string
----@param tooltip string
 ---@param name string|string[]
 ---@param counts uint[]
-function Public.factory(caption, tooltip, name, counts)
+function Public.factory(caption, name, counts)
     local suffixes = {'Mega Factory', 'Giga Factory'}
     if #counts == 3 then
         table.insert(suffixes, 1, 'Factory')
@@ -113,7 +124,7 @@ function Public.factory(caption, tooltip, name, counts)
     local challenges = {} ---@type LuaChallenge[]
     local multiple = type(name) == 'table'
     for i, count in pairs(counts) do
-        local condition = { type = 'craft', count = count }
+        local condition = { type = 'craft', count = count, is_production = true }
         if multiple then
             condition.names = name
         else
@@ -122,7 +133,8 @@ function Public.factory(caption, tooltip, name, counts)
 
         challenges[i] = {
             caption = caption .. ' ' .. suffixes[i],
-            tooltip = string.format(tooltip, count),
+            -- tooltip = string.format(tooltip, count), -- Made automatically now
+            tooltip = Locale.craft_condition(condition),
             condition = condition,
         }
     end
