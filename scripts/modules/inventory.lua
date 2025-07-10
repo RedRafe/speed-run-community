@@ -23,6 +23,7 @@ fsrc.add(defines.events.on_player_changed_force, function(event)
     end
 
     if player.force.name == 'player' then
+        player.clear_cursor()
         for k = 1, character.get_max_inventory_index() do
             local inv = character.get_inventory(k)
             if inv and inv.valid then

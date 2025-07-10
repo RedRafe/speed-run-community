@@ -113,4 +113,19 @@ fsrc.add(defines.events.on_player_changed_force, function(event)
     fsrc.set_timeout_in_ticks(300, chart_all_token)
 end)
 
+local radius = 32 * 2.5
+fsrc.add(300, function()
+    local surface = game.surfaces.nauvis
+    for _, player in pairs(game.connected_players) do
+        local position = player.physical_position
+        local area = {
+            left_top     = { x = position.x - radius, y = position.y - radius },
+            right_bottom = { x = position.x + radius, y = position.y + radius }
+        }
+        for _, force in pairs(game.forces) do
+            force.chart(surface, area)
+        end
+    end
+end, { on_nth_tick = true })
+
 return Force
