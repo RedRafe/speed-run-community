@@ -93,7 +93,7 @@ local opposite = {
     south = 'north',
 }
 
-fsrc.add(defines.events.on_match_started, function()
+local function on_match_started()
     local selected = PlayerGui.get_selected()
 
     clear(challenge_map)
@@ -131,12 +131,19 @@ fsrc.add(defines.events.on_match_started, function()
     end
 
     register_custom_handlers()
-end)
+end
 
-fsrc.add(defines.events.on_match_finished, function()
+local function on_match_finished()
     for _, condition in pairs(current.custom) do
         remove_handlers(Custom[condition.name])
     end
+end
+
+fsrc.add(defines.events.on_match_started, on_match_started)
+fsrc.add(defines.events.on_match_finished, on_match_finished)
+fsrc.add(defines.events.on_challenges_changed, function()
+    on_match_finished()
+    on_match_started()
 end)
 
 -- Build

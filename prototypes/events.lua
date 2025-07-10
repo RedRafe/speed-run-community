@@ -5,6 +5,7 @@ local events = {
     'on_match_finished',
     'on_match_picking_phase',
     'on_match_preparation_phase',
+    'on_challenges_changed',
 }
 
 for _, event_name in pairs(events) do

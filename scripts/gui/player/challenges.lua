@@ -200,6 +200,14 @@ Visual.print_challenge = function(challenge, side)
     })
 end
 
+Gui.on_click(PlayerMenu.config.main_button_name, function(event)
+    local player = event.player
+    PlayerMenu.toggle_main_button(player)
+    if player.gui.screen[PlayerMenu.config.main_frame_name] then
+        Visual.draw(player)
+    end
+end)
+
 -- == VISUAL - EVENTS =========================================================
 
 Gui.on_click(visual.main_button_name, function(event)
@@ -434,6 +442,8 @@ Gui.on_click(editor.action_confirm_new_random, function()
 
     Visual.update_all()
     Editor.update_all()
+
+    fsrc.raise_event(defines.events.on_challenges_changed, {})
 end)
 
 PlayerMenu.on_filter_changed(editor.main_button_name, function(event)
