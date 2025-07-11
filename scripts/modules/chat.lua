@@ -70,7 +70,6 @@ fsrc.add(defines.events.on_console_chat, function(event)
     end
 
     message = message:gsub('virtual%-signal=emoji%-', 'img=virtual-signal.emoji-')
-    game.print(message)
 
     local player_force = player.force.name
     local player_tag = player.tag or ''

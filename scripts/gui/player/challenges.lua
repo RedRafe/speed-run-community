@@ -208,6 +208,14 @@ Gui.on_click(PlayerMenu.config.main_button_name, function(event)
     end
 end)
 
+fsrc.add(prototypes.custom_input.open_player_menu, function(event)
+    local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
+    PlayerMenu.toggle_main_button(player)
+    if player.gui.screen[PlayerMenu.config.main_frame_name] then
+        Visual.draw(player)
+    end
+end)
+
 -- == VISUAL - EVENTS =========================================================
 
 Gui.on_click(visual.main_button_name, function(event)

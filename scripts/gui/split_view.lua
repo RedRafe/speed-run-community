@@ -203,11 +203,6 @@ return function(config)
         Public.toggle_main_button(event.player)
     end)
 
-    fsrc.add(prototypes.custom_input.open_player_menu, function(event)
-        local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
-        Public.toggle_main_button(player)
-    end)
-
     Public.on_filter_changed = (function()
         local handlers
 
