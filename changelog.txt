@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.1
+Date: 2025-07-11
+  Bugfixes:
+    - Fixed player chat redundancy
+    - Fixed main menu shortcut not opening challengs by degault
+    - Fixed Shotgun Sheriff and Racer challenges
+---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: 2025-07-10
   Info:
