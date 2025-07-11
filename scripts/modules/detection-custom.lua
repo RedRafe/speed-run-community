@@ -99,6 +99,7 @@ Custom.full_iron_chest = {
         end
         if not chest.valid then
             data.chests[index] = nil
+            return
         end
 
         local inventory = chest.get_inventory(defines.inventory.chest)
