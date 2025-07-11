@@ -43,15 +43,14 @@ local detector_map = {}
 local function remove_handlers(detectors)
     for id, detector in pairs(detectors) do
         fsrc.remove(id, detector_map[detector])
+        detector_map[detector] = nil
     end
 end
 
 local function register_custom_handlers()
     for k, condition in pairs(current.custom) do
-        local data = table.deepcopy(condition.data) or {}
         local detectors = Custom[condition.name]
         for id, detector in pairs(detectors) do
-            custom_data[condition.name] = data
             local handler = function(event)
                 if not Game.is_playing() then
                     return
@@ -130,6 +129,11 @@ local function on_match_started()
         ::continue::
     end
 
+    for _, condition in pairs(current.custom) do
+        local data = table.deepcopy(condition.data) or {}
+        custom_data[condition.name] = data
+    end
+
     register_custom_handlers()
 end
 
@@ -177,8 +181,8 @@ local function built(id, side)
             end
         end
 
-        complete_condition(condition, side)
         conditions[k] = nil
+        complete_condition(condition, side)
 
         ::continue::
     end
@@ -227,8 +231,8 @@ fsrc.add(defines.events.on_tick, function()
                 end
             end
 
-            complete_condition(condition, side)
             crafts[k] = nil
+            complete_condition(condition, side)
 
             ::continue::
         end
@@ -293,8 +297,8 @@ fsrc.add(defines.events.on_player_main_inventory_changed, function(event)
                 end
             end
 
-            complete_condition(condition, side)
             conditions[k] = nil
+            complete_condition(condition, side)
 
             ::continue::
         end
@@ -362,8 +366,8 @@ fsrc.add(defines.events.on_entity_died, function(event)
             goto continue
         end
 
-        complete_condition(condition, side)
         conditions[k] = nil
+        complete_condition(condition, side)
 
         ::continue::
     end
