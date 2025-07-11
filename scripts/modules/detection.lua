@@ -33,6 +33,9 @@ end)
 
 local function complete_condition(condition, side)
     local challenge = challenge_map[condition]
+    if challenge.side then
+        return
+    end
     challenge.side = side
 
     Visual.print_challenge(challenge, side)
