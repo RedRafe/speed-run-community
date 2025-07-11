@@ -50,6 +50,7 @@ end
 local function register_custom_handlers()
     for k, condition in pairs(current.custom) do
         local detectors = Custom[condition.name]
+        local data = custom_data[condition.name]
         for id, detector in pairs(detectors) do
             local handler = function(event)
                 if not Game.is_playing() then
