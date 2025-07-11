@@ -61,7 +61,7 @@ return {
         { caption = 'Uranium Touch', tooltip = 'Craft one U-235.', condition = { type = 'craft', name = 'uranium-235' } },
         { caption = 'Blue Chips', tooltip = 'Craft 200 processing units.', condition = { type = 'craft', name = 'processing-unit', count = 200 } },
         { caption = 'LDS Factory', tooltip = 'Craft 200 low-density structures.', condition = { type = 'craft', name = 'low-density-structure', count = 200 } },
-        { caption = 'Rocket Fuel', tooltip = 'Craft 200 rocket fuel.', condition = { type = 'craft', name = 'rocket-fuel', count = 100 } },
+        { caption = 'Rocket Fuel', tooltip = 'Craft 200 rocket fuel.', condition = { type = 'craft', name = 'rocket-fuel', count = 200 } },
         { caption = 'Shotgun Lord', tooltip = 'Craft 50 shotguns.', condition = { type = 'craft', name = 'shotgun', count = 50 } },
         { caption = 'Red Supremacy', tooltip = 'Craft 200 fast underground belts.', condition = { type = 'craft', name = 'fast-underground-belt', count = 200 } },
         { caption = 'Bulk Inserters', tooltip = 'Craft 200 bulk inserters.', condition = { type = 'craft', name = 'bulk-inserter', count = 200 } },
