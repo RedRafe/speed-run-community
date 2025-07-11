@@ -1,3 +1,4 @@
+local Config = require 'scripts.config'
 local Game = require 'scripts.modules.game'
 local Statistics = require 'scripts.modules.statistics'
 local PlayerGui = require 'scripts.gui.player.challenges'
@@ -39,37 +40,37 @@ local function complete_condition(condition, side)
 end
 
 -- this variable intentionally left local
-local detector_map = {}
-local function remove_handlers(detectors)
-    for id, detector in pairs(detectors) do
-        fsrc.remove(id, detector_map[detector])
-        detector_map[detector] = nil
-    end
-end
+-- local detector_map = {}
+-- local function remove_handlers(detectors)
+--     for id, detector in pairs(detectors) do
+--         fsrc.remove(id, detector_map[detector])
+--         detector_map[detector] = nil
+--     end
+-- end
 
-local function register_custom_handlers()
-    for k, condition in pairs(current.custom) do
-        local detectors = Custom[condition.name]
-        local data = custom_data[condition.name]
-        for id, detector in pairs(detectors) do
-            local handler = function(event)
-                if not Game.is_playing() then
-                    return
-                end
-                local side = detector(event, data)
-                if side then
-                    current.custom[k] = nil
-                    complete_condition(condition, side)
-                    remove_handlers(detectors)
-                end
-            end
-            detector_map[detector] = handler
-            fsrc.add(id, handler)
-        end
-    end
-end
+-- local function register_custom_handlers()
+--     for k, condition in pairs(current.custom) do
+--         local detectors = Custom[condition.name]
+--         local data = custom_data[condition.name]
+--         for id, detector in pairs(detectors) do
+--             local handler = function(event)
+--                 if not Game.is_playing() then
+--                     return
+--                 end
+--                 local side = detector(event, data)
+--                 if side then
+--                     current.custom[k] = nil
+--                     complete_condition(condition, side)
+--                     remove_handlers(detectors)
+--                 end
+--             end
+--             detector_map[detector] = handler
+--             fsrc.add(id, handler)
+--         end
+--     end
+-- end
 
-fsrc.on_load(register_custom_handlers)
+-- fsrc.on_load(register_custom_handlers)
 
 local function add_or_create(tbl, k, v)
     local arr = tbl[k]
@@ -92,6 +93,26 @@ local opposite = {
     north = 'south',
     south = 'north',
 }
+
+for _, challenge in pairs(Config.challenges) do
+    local condition = challenge.condition
+    if condition and condition.type == 'custom' then
+        local detectors = Custom[condition.name]
+        local data = custom_data[condition.name]
+        for id, detector in pairs(detectors) do
+            fsrc.add(id, function(event)
+                if not (Game.is_playing() and current.custom[condition]) then
+                    return
+                end
+                local side = detector(event, data)
+                if side then
+                    current.custom[condition] = nil
+                    complete_condition(condition, side)
+                end
+            end)
+        end
+    end
+end
 
 local function on_match_started()
     local selected = PlayerGui.get_selected()
@@ -135,21 +156,21 @@ local function on_match_started()
         custom_data[condition.name] = data
     end
 
-    register_custom_handlers()
+    -- register_custom_handlers()
 end
 
-local function on_match_finished()
-    for _, condition in pairs(current.custom) do
-        remove_handlers(Custom[condition.name])
-    end
-end
+-- local function on_match_finished()
+--     for _, condition in pairs(current.custom) do
+--         remove_handlers(Custom[condition.name])
+--     end
+-- end
 
 fsrc.add(defines.events.on_match_started, on_match_started)
-fsrc.add(defines.events.on_match_finished, on_match_finished)
-fsrc.add(defines.events.on_challenges_changed, function()
-    on_match_finished()
-    on_match_started()
-end)
+-- fsrc.add(defines.events.on_match_finished, on_match_finished)
+-- fsrc.add(defines.events.on_challenges_changed, function()
+--     on_match_finished()
+--     on_match_started()
+-- end)
 
 -- Build
 
