@@ -92,11 +92,6 @@ local sides = {
     east = true,
 }
 
-local opposite = {
-    west = 'east',
-    east = 'west',
-}
-
 for _, challenge in pairs(Config.challenges) do
     local condition = challenge.condition
     if condition and condition.type == 'custom' then
@@ -347,11 +342,20 @@ fsrc.add(defines.events.on_entity_died, function(event)
     end
 
     local death_side = entity.force.name
+
     if not sides[death_side] then
         return
     end
 
     for k, condition in pairs(conditions) do
+        local side = death_side
+        if condition.enemy then
+            if not side:find('enemy') then
+                goto continue
+            end
+            side = side:sub(7)
+            game.print(side)
+        end
         if condition.cause_name then
             local cause = event.cause
             if not cause then
@@ -377,11 +381,6 @@ fsrc.add(defines.events.on_entity_died, function(event)
             if damage_type.name ~= condition.damage_type then
                 goto continue
             end
-        end
-
-        local side = death_side
-        if condition.enemy then
-            side = opposite[entity.force.name]
         end
 
         local death_count = death_counts[condition][side] + 1

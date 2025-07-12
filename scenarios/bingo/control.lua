@@ -4,6 +4,7 @@ fsrc.on_init(function()
     for _, side in pairs({ 'west', 'east' }) do
         if not game.forces[side] then
             game.create_force(side)
+            game.create_force('enemy-' .. side)
         end
     end
 end)
