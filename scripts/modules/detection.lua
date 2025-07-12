@@ -160,8 +160,6 @@ local function on_match_started()
         custom_data[caption] = data
     end
 
-    game.print(serpent.block(current.custom))
-
     -- register_custom_handlers()
 end
 
