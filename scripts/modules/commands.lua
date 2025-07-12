@@ -1,4 +1,5 @@
 local Actions = require 'scripts.modules.command-actions'
+local Inventory = require 'scripts.modules.show_inventory'
 local shared = require('utils.shared')
 
 local function validate_player(player)
@@ -25,7 +26,7 @@ local function do_follow(cmd)
     if not player or not validate_player(player) then
         return
     end
-    if player.force.name ~= 'spectator' then
+    if player.force.name ~= 'player' then
         player.print('You must be a spectator to use this command.', { color = {r=1,g=0,b=0} })
         return
     end
@@ -62,6 +63,11 @@ for _, command in pairs({
         name = 'follow',
         help = 'Follows a player',
         action = do_follow
+    },
+    {
+        name = 'inventory',
+        help = 'Opens a players inventory!',
+        action = Inventory.action
     }
 }) do
     commands.add_command(command.name, command.help, function(cmd)
