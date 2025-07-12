@@ -24,14 +24,14 @@ local past = Queue.new()
     ticks :: number,
     winning_force :: string,
     losing_force :: string,
-    north = { item_name :: ItemStatistics(), ... },
-    south = { item_name :: ItemStatistics(), ... },
+    west = { item_name :: ItemStatistics(), ... },
+    east = { item_name :: ItemStatistics(), ... },
 ]]
 local current = {}
 
 local stats = {
-    north = { item = {}, fluid = {} },
-    south = { item = {}, fluid = {} },
+    west = { item = {}, fluid = {} },
+    east = { item = {}, fluid = {} },
 }
 
 fsrc.subscribe({
@@ -81,7 +81,7 @@ fsrc.add(defines.events.on_tick, function()
     local item_index = (game.tick % #tracked_items) + 1
     local item_name = tracked_items[item_index]
 
-    for _, side in pairs({ 'north', 'south' }) do
+    for _, side in pairs({ 'west', 'east' }) do
         local force_stats = prototypes.item[item_name] and stats[side].item or stats[side].fluid
         local item_stats = current[side] and current[side][item_name]
 
@@ -200,7 +200,7 @@ fsrc.on_mined_tile(function(event)
 end)
 
 fsrc.add(defines.events.on_map_init, function()
-    for _, side in pairs({ 'north', 'south' }) do
+    for _, side in pairs({ 'west', 'east' }) do
         -- Cache LuaFlowStatistics
         stats[side].item = game.forces[side].get_item_production_statistics('nauvis')
         stats[side].fluid = game.forces[side].get_fluid_production_statistics('nauvis')

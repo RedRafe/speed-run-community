@@ -12,8 +12,8 @@ local function generate_force_table(side)
 end
 
 local forces = {
-    north = generate_force_table('north'),
-    south = generate_force_table('south'),
+    west = generate_force_table('west'),
+    east = generate_force_table('east'),
 }
 local critical_entities_map = {}
 
@@ -25,12 +25,12 @@ fsrc.subscribe({
     critical_entities_map = critical_entities_map
 end)
 
-Force.north = function()
-    return forces.north
+Force.west = function()
+    return forces.west
 end
 
-Force.south = function()
-    return forces.south
+Force.east = function()
+    return forces.east
 end
 
 ---@param force string|LuaForce
@@ -64,24 +64,24 @@ fsrc.on_init(function()
     player.set_spawn_position(Config.spawn_point.player, 'nauvis')
     player.share_chart = true
 
-    local north = game.forces.north
-    north.set_spawn_position(Config.spawn_point.north, 'nauvis')
-    north.set_cease_fire('player', true)
-    north.set_friend('player', true)
-    north.share_chart = true
+    local west = game.forces.west
+    west.set_spawn_position(Config.spawn_point.west, 'nauvis')
+    west.set_cease_fire('player', true)
+    west.set_friend('player', true)
+    west.share_chart = true
 
-    local south = game.forces.south
-    south.set_spawn_position(Config.spawn_point.south, 'nauvis')
-    south.set_cease_fire('player', true)
-    south.set_friend('player', true)
-    south.share_chart = true
+    local east = game.forces.east
+    east.set_spawn_position(Config.spawn_point.east, 'nauvis')
+    east.set_cease_fire('player', true)
+    east.set_friend('player', true)
+    east.share_chart = true
 
-    --north.set_friend('south', true)
+    --west.set_friend('east', true)
 end)
 
 fsrc.add(defines.events.on_map_init, function()
-    forces.north = generate_force_table('north')
-    forces.south = generate_force_table('south')
+    forces.west = generate_force_table('west')
+    forces.east = generate_force_table('east')
 end)
 
 fsrc.add(defines.events.on_map_reset, function()

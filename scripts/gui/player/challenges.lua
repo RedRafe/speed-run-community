@@ -38,14 +38,14 @@ local visual = {
 local letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' }
 local btn_size = 90
 local styles = {
-    north = 'tool_button_blue',
-    south = 'tool_button_red',
+    west = 'tool_button_blue',
+    east = 'tool_button_red',
 }
 
 local challenge_tooltip = function(player, challenge)
     local claim_text = challenge.condition and {'bingo.challenge_claim_auto'} or {'bingo.challenge_claim_manual'}
     if player.admin then
-        return {'', {'bingo.challenge_admin_tooltip', Config.force_name_map.north, Config.force_name_map.south}, {'bingo.challenge_player_tooltip', challenge.side and Config.force_name_map[challenge.side] or '---', challenge.tooltip, claim_text } }
+        return {'', {'bingo.challenge_admin_tooltip', Config.force_name_map.west, Config.force_name_map.east}, {'bingo.challenge_player_tooltip', challenge.side and Config.force_name_map[challenge.side] or '---', challenge.tooltip, claim_text } }
     end
     return {'', {'bingo.challenge_player_tooltip', challenge.side and Config.force_name_map[challenge.side] or '---', challenge.tooltip, claim_text } }
 end
@@ -53,15 +53,15 @@ end
 local count_points = function()
     local points = {
         player = #selected,
-        north = 0,
-        south = 0,
+        west = 0,
+        east = 0,
     }
     for _, ch in pairs(selected) do
         if ch.side then
             points[ch.side] = points[ch.side] + 1
         end
     end
-    points.player = points.player - points.north - points.south
+    points.player = points.player - points.west - points.east
     return points
 end
 Public.get_points = count_points
@@ -93,8 +93,8 @@ Visual.draw = function(player)
         Gui.add_pusher(vert, 'vertical')
         for side, button in pairs({
             player = vert.add { type = 'sprite-button', style = 'frame_button' },
-            north = vert.add { type = 'sprite-button', caption = Config.force_name_map.north:sub(1, 1), style = styles.north, tooltip = Config.force_name_map.north },
-            south = vert.add { type = 'sprite-button', caption = Config.force_name_map.south:sub(1, 1), style = styles.south, tooltip = Config.force_name_map.south },
+            west = vert.add { type = 'sprite-button', caption = Config.force_name_map.west:sub(1, 1), style = styles.west, tooltip = Config.force_name_map.west },
+            east = vert.add { type = 'sprite-button', caption = Config.force_name_map.east:sub(1, 1), style = styles.east, tooltip = Config.force_name_map.east },
         }) do
             Gui.set_style(button, { size = 32 })
             data.challenges_counter[side] = button
@@ -240,9 +240,9 @@ Gui.on_click(visual.action_assign, function(event)
     if side == 'player' or player.admin then
         --- Case: Admin is handling the assignment
         if event.button == defines.mouse_button_type.left then
-            side = 'north'
+            side = 'west'
         elseif event.button == defines.mouse_button_type.right then
-            side = 'south'
+            side = 'east'
         end
 
         if side and (side == selected[index].side) then
@@ -424,7 +424,7 @@ Gui.on_click(editor.action_game_end, function(event)
     end
 
     local points = count_points()
-    if points.north == points.south then
+    if points.west == points.east then
         return event.player.print('Cannot end the match: teams on even points', { color = { 255, 255, 0 } })
     else
         Game.transition()

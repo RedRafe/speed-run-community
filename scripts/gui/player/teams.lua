@@ -20,10 +20,10 @@ fsrc.subscribe({
 end)
 
 local shortcuts = {
-    north_right = 'player',
-    player_left = 'north',
-    player_right = 'south',
-    south_left = 'player'
+    west_right = 'player',
+    player_left = 'west',
+    player_right = 'east',
+    east_left = 'player'
 }
 
 local pages = PlayerMenu.get_pages()
@@ -78,18 +78,18 @@ Public.draw = function(player)
     end
 
     --- Header
-    make_header(tbl, 'north')
+    make_header(tbl, 'west')
     tbl.add { type = 'empty-widget' }
     make_header(tbl, 'player')
     tbl.add { type = 'empty-widget' }
-    make_header(tbl, 'south')
+    make_header(tbl, 'east')
 
     --- Table
-    make_list(tbl, 'north')
+    make_list(tbl, 'west')
     make_buttons(tbl)
     make_list(tbl, 'player')
     make_buttons(tbl)
-    make_list(tbl, 'south')
+    make_list(tbl, 'east')
 
     data.teams = lists
 

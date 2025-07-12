@@ -1,7 +1,7 @@
 require '__speed-run-community__.utils.lib.lib'
 
 fsrc.on_init(function()
-    for _, side in pairs({ 'north', 'south' }) do
+    for _, side in pairs({ 'west', 'east' }) do
         if not game.forces[side] then
             game.create_force(side)
         end

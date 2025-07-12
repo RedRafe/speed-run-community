@@ -1,6 +1,6 @@
 local sides = {
-    north = true,
-    south = true,
+    west = true,
+    east = true,
 }
 
 local Custom = {}

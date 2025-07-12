@@ -28,16 +28,16 @@ fsrc.add(defines.events.on_player_created, function(event)
     local label
     local data = {}
 
-    do -- North
-        label = frame.add({ type = 'label', caption = Config.force_name_map.north })
-        Gui.set_style(label, { font = 'heading-1', right_padding = 4, left_padding = 4, font_color = Config.color.north })
-        data.north_list = label
+    do -- West
+        label = frame.add({ type = 'label', caption = Config.force_name_map.west })
+        Gui.set_style(label, { font = 'heading-1', right_padding = 4, left_padding = 4, font_color = Config.color.west })
+        data.west_list = label
 
         frame.add({ type = 'line', direction = 'vertical' })
 
         label = frame.add({ type = 'label', caption = '---', tooltip = 'Challanges completed' })
         Gui.set_style(label, { font = 'default', right_padding = 4, left_padding = 4, font_color = { 225, 225, 225 } })
-        data.north_count = label
+        data.west_count = label
     end
 
     frame.add({ type = 'line', direction = 'vertical', style = 'dark_line' })
@@ -48,16 +48,16 @@ fsrc.add(defines.events.on_player_created, function(event)
 
     frame.add({ type = 'line', direction = 'vertical', style = 'dark_line' })
 
-    do -- South
+    do -- East
         label = frame.add({ type = 'label', caption = '---', tooltip = 'Challanges completed' })
         Gui.set_style(label, { font = 'default', right_padding = 4, left_padding = 4, font_color = { 225, 225, 225 } })
-        data.south_count = label
+        data.east_count = label
 
         frame.add({ type = 'line', direction = 'vertical' })
 
-        label = frame.add({ type = 'label', caption = Config.force_name_map.south })
-        Gui.set_style(label, { font = 'heading-1', right_padding = 4, left_padding = 4, font_color = Config.color.south })
-        data.south_list = label
+        label = frame.add({ type = 'label', caption = Config.force_name_map.east })
+        Gui.set_style(label, { font = 'heading-1', right_padding = 4, left_padding = 4, font_color = Config.color.east })
+        data.east_list = label
     end
 
     Gui.set_data(frame, data)
@@ -67,19 +67,19 @@ Public.on_nth_tick = function()
     local time = Public.format_time(Game.ticks())
     local status = { 'bingo.status', table.index_of(Config.game_state, Game.state()) }
     local points = Challenges.get_points()
-    local north_caption = { 'bingo.force_count', points.north }
-    local north_tooltip = Public.get_force_list_tooltip('north')
-    local south_caption = { 'bingo.force_count', points.south }
-    local south_tooltip = Public.get_force_list_tooltip('south')
+    local west_caption = { 'bingo.force_count', points.west }
+    local west_tooltip = Public.get_force_list_tooltip('west')
+    local east_caption = { 'bingo.force_count', points.east }
+    local east_tooltip = Public.get_force_list_tooltip('east')
 
     for _, player in pairs(game.connected_players) do
         local frame = Gui.get_top_element(player, main_frame_name)
         local data = frame and Gui.get_data(frame)
 
-        data.north_count.caption = north_caption
-        data.north_list.tooltip = north_tooltip
-        data.south_count.caption = south_caption
-        data.south_list.tooltip = south_tooltip
+        data.west_count.caption = west_caption
+        data.west_list.tooltip = west_tooltip
+        data.east_count.caption = east_caption
+        data.east_list.tooltip = east_tooltip
         data.clock.caption = time
         data.clock.tooltip = status
     end

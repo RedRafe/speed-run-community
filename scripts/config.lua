@@ -4,8 +4,8 @@ local icon = Challenges.icon
 return {
     force_name_map = {
         player = 'Spectator',
-        north = 'West',
-        south = 'East'
+        west = 'West',
+        east = 'East'
     },
     game_state = {
         initializing = 0,
@@ -23,12 +23,12 @@ return {
     },
     spawn_point = {
         player = { x =    0, y = 0 },
-        north  = { x = -320, y = 0 },
-        south  = { x =  320, y = 0 },
+        west  = { x = -320, y = 0 },
+        east  = { x =  320, y = 0 },
     },
     color = {
-        north = { 140, 140, 252 },
-        south = { 252, 084, 084 },
+        west = { 140, 140, 252 },
+        east = { 252, 084, 084 },
         player = {111, 111, 111 },
     },
     challenges = Challenges.process{

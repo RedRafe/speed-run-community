@@ -77,8 +77,8 @@ fsrc.add(defines.events.on_console_chat, function(event)
 
     if player_force == 'player' then
         if true then -- TODO: if not tournament mode
-            game.forces.north.print(msg, { color = player.color })
-            game.forces.south.print(msg, { color = player.color })
+            game.forces.west.print(msg, { color = player.color })
+            game.forces.east.print(msg, { color = player.color })
         end
     else
         if true then -- TODO: if not preparation phase

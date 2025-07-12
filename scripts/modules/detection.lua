@@ -88,13 +88,13 @@ end
 local clear = table.clear_table
 
 local sides = {
-    north = true,
-    south = true,
+    west = true,
+    east = true,
 }
 
 local opposite = {
-    north = 'south',
-    south = 'north',
+    west = 'east',
+    east = 'west',
 }
 
 for _, challenge in pairs(Config.challenges) do
@@ -147,7 +147,7 @@ local function on_match_started()
 
         for _, death_conditions in pairs(current.death) do
             for _, death_condition in pairs(death_conditions) do
-                death_counts[death_condition] = { north = 0, south = 0 }
+                death_counts[death_condition] = { west = 0, east = 0 }
             end
         end
 
