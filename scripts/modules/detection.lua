@@ -6,7 +6,8 @@ local Custom = require 'scripts.modules.detection-custom'
 
 local Visual = PlayerGui.Visual
 
-local challenge_map = {}
+local condition_map = {}
+local caption_map = {}
 local death_counts = {}
 local custom_data = {}
 local current = {
@@ -20,19 +21,20 @@ local current = {
 }
 
 fsrc.subscribe({
-    challenge_map = challenge_map,
+    condition_map = condition_map,
+    caption_map = caption_map,
     death_counts = death_counts,
     custom_data = custom_data,
     current = current,
 }, function(tbl)
-    challenge_map = tbl.challenge_map
+    condition_map = tbl.condition_map
+    caption_map = tbl.caption_map
     death_counts = tbl.death_counts
     custom_data = tbl.custom_data
     current = tbl.current
 end)
 
-local function complete_condition(condition, side)
-    local challenge = challenge_map[condition]
+local function complete_challenge(challenge, side)
     if challenge.side then
         return
     end
@@ -92,30 +94,33 @@ local sides = {
     east = true,
 }
 
-for _, challenge in pairs(Challenges.get_challenges()) do
-    local condition = challenge.condition
-    if condition and condition.type == 'custom' then
-        local detectors = Custom[condition.name]
-        local data = custom_data[condition.name]
-        for id, detector in pairs(detectors) do
-            fsrc.add(id, function(event)
-                if not (Game.is_playing() and current.custom[condition]) then
-                    return
-                end
-                local side = detector(event, data)
-                if side then
-                    current.custom[condition] = nil
-                    complete_condition(condition, side)
-                end
-            end)
+fsrc.on_init(function()
+    local custom = current.custom
+    for _, challenge in pairs(Challenges.get_challenges()) do
+        local condition = challenge.condition
+        if condition and condition.type == 'custom' then
+            local caption = challenge.caption
+            for id, detector in pairs(Custom[condition.name]) do
+                fsrc.add(id, function(event)
+                    if not (Game.is_playing() and custom[caption]) then
+                        return
+                    end
+                    local side = detector(event, custom_data[caption])
+                    if side then
+                        complete_challenge(caption_map[caption], side)
+                        custom[caption] = nil
+                    end
+                end)
+            end
         end
     end
-end
+end)
 
 local function on_match_started()
     local selected = PlayerGui.get_selected()
 
-    clear(challenge_map)
+    clear(condition_map)
+    clear(caption_map)
     clear(death_counts)
     clear(custom_data)
     for _, tbl in pairs(current) do
@@ -128,12 +133,13 @@ local function on_match_started()
             goto continue
         end
 
-        challenge_map[condition] = challenge
+        condition_map[condition] = challenge
+        caption_map[challenge.caption] = challenge
 
         if condition.type == 'craft' then
             current.craft[challenge.caption] = condition
         elseif condition.type == 'custom' then
-            current.custom[condition.name] = condition
+            current.custom[challenge.caption] = condition
         else
             for _, name in pairs(condition.names or { condition.name }) do
                 add_or_create(current[condition.type], name, condition)
@@ -149,10 +155,12 @@ local function on_match_started()
         ::continue::
     end
 
-    for _, condition in pairs(current.custom) do
+    for caption, condition in pairs(current.custom) do
         local data = table.deepcopy(condition.data) or {}
-        custom_data[condition.name] = data
+        custom_data[caption] = data
     end
+
+    game.print(serpent.block(current.custom))
 
     -- register_custom_handlers()
 end
@@ -202,7 +210,7 @@ local function built(id, side)
         end
 
         conditions[k] = nil
-        complete_condition(condition, side)
+        complete_challenge(condition_map[condition], side)
 
         ::continue::
     end
@@ -252,7 +260,7 @@ fsrc.add(defines.events.on_tick, function()
             end
 
             crafts[k] = nil
-            complete_condition(condition, side)
+            complete_challenge(condition_map[condition], side)
 
             ::continue::
         end
@@ -288,7 +296,7 @@ fsrc.add(defines.events.on_research_finished, function(event)
         end
 
         conditions[k] = nil
-        complete_condition(condition, side)
+        complete_challenge(condition_map[condition], side)
 
         ::continue::
     end
@@ -318,7 +326,7 @@ fsrc.add(defines.events.on_player_main_inventory_changed, function(event)
             end
 
             conditions[k] = nil
-            complete_condition(condition, side)
+            complete_challenge(condition_map[condition], side)
 
             ::continue::
         end
@@ -391,7 +399,7 @@ fsrc.add(defines.events.on_entity_died, function(event)
         end
 
         conditions[k] = nil
-        complete_condition(condition, side)
+        complete_challenge(condition_map[condition], side)
 
         ::continue::
     end
@@ -426,6 +434,6 @@ fsrc.add(defines.events.on_player_placed_equipment, function(event)
         end
 
         conditions[k] = nil
-        complete_condition(condition, side)
+        complete_challenge(condition_map[condition], side)
     end
 end)
