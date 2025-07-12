@@ -1,4 +1,18 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.5
+Date: 2025-07-12
+  Features:
+    - Added /west and /east commands for chatting to specific teams
+    - Added spectator chat notifications for queueing/cancelling research and research finished
+    - Added limit support to challenge sets
+  Changes:
+    - Spectator chat is only shown to spectators during a match
+    - Mdae biters on separate forces so teams don't get alerts for their opponent's biters
+    - Various challenge language clarifications
+  Bugfixes:
+    - Fixed custom challenge conditions being completely busted
+    - Fixed changing teams would open the GUI for all players
+---------------------------------------------------------------------------------------------------
 Version: 1.0.4
 Date: 2025-07-11
   Changes:
