@@ -98,7 +98,7 @@ return {
         -- Research
         { caption = 'Steel Axe', tooltip = 'Unlock the Steel Axe technology.', condition = { type = 'research', name = 'steel-axe' } },
         { caption = 'Productive Mining', tooltip = 'Unlock Mining Productivity 1.', condition = { type = 'research', name = 'mining-productivity-1' } },
-        { caption = 'Bullet Specialist', tooltip = 'Research Projectile Damage 4 + Shooting Speed 4.', condition = { type = 'research', names = { 'physical-projectile-damage-4', 'weapon-shooting-speed-4' } } },
+        { caption = 'Bullet Specialist', tooltip = 'Research Projectile Damage 3 + Shooting Speed 3.', condition = { type = 'research', names = { 'physical-projectile-damage-3', 'weapon-shooting-speed-3' } } },
         { caption = 'POWER IS FINE', tooltip = 'After researching \'Electric Energy Distribution 1\', have low power for a total of 5 minutes.', icon = icon('utility/electricity_icon') },
 
         -- Hold
