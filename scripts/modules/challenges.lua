@@ -52,19 +52,19 @@ Public.utils = {
     end
 }
 
-local function collapse_challenges(list, challenge_arr)
+local function unpack_challenges(list, challenge_arr)
     for _, challenge in ipairs(challenge_arr) do
         if challenge.caption then
             list[#list+1] = challenge
         else
-            collapse_challenges(list, challenge)
+            unpack_challenges(list, challenge)
         end
     end
 end
 
 Public.get_challenges = function()
     local list = {}
-    collapse_challenges(list, challenges)
+    unpack_challenges(list, challenges)
     return list
 end
 
@@ -88,17 +88,20 @@ Public.clear_all = function()
     table.clear_table(challenges)
 end
 
-local function choose_random_challenge(list, remove)
-    local selected
-    if remove then
-        selected = table.remove(list, math.random(#list))
-    else
-        selected = list[math.random(#list)]
-    end
+local function choose_random_challenge(list)
+    local index = math.random(#list)
+    local selected = list[index]
 
     if not selected.caption then
-        return choose_random_challenge(selected, false)
+        if selected.limit and selected.limit > 0 then
+            selected.limit = selected.limit - 1
+        else
+            table.remove(list, index)
+        end
+        return choose_random_challenge(selected)
     end
+
+    table.remove(list, index)
     return selected
 end
 
@@ -108,7 +111,7 @@ Public.select_random_challenges = function(size)
     local to_add = (size or this.size) ^ 2
     local list = table.deepcopy(challenges)
     for i = 1, to_add do
-        selected[i] = choose_random_challenge(list, true)
+        selected[i] = choose_random_challenge(list)
     end
     return selected
 end

@@ -1,4 +1,4 @@
-local Config = require 'scripts.config'
+local Challenges = require 'scripts.modules.challenges'
 local Game = require 'scripts.modules.game'
 local Statistics = require 'scripts.modules.statistics'
 local PlayerGui = require 'scripts.gui.player.challenges'
@@ -92,7 +92,7 @@ local sides = {
     east = true,
 }
 
-for _, challenge in pairs(Config.challenges) do
+for _, challenge in pairs(Challenges.get_challenges()) do
     local condition = challenge.condition
     if condition and condition.type == 'custom' then
         local detectors = Custom[condition.name]
