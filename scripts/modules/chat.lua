@@ -1,4 +1,5 @@
 local Config = require 'scripts.config'
+local Game = require 'scripts.modules.game'
 
 local Chat = {}
 
@@ -76,7 +77,7 @@ fsrc.add(defines.events.on_console_chat, function(event)
     local msg = format('%s %s (%s): %s', player.name, player_tag, force_name_map[player_force], message)
 
     if player_force == 'player' then
-        if true then -- TODO: if not tournament mode
+        if not Game.is_playing() then -- TODO: if not tournament mode
             game.forces.west.print(msg, { color = player.color })
             game.forces.east.print(msg, { color = player.color })
         end
@@ -86,6 +87,28 @@ fsrc.add(defines.events.on_console_chat, function(event)
         end
     end
 end)
+
+-- == FORCE CHAT COMMANDS ============================================================
+
+local function force_chat(force_name, command)
+    local message = command.parameter
+    if not message then
+        return
+    end
+    local player = game.get_player(command.player_index) --[[@as LuaPlayer]]
+    local player_force = player.force.name
+    local player_tag = player.tag or ''
+    local msg = format('%s %s (%s): %s', player.name, player_tag, force_name_map[player_force], message)
+
+    game.forces.player.print(msg, { color = player.color })
+    game.forces[force_name].print(msg, { color = player.color })
+end
+
+for _, side in pairs{ 'west', 'east' } do
+    commands.add_command(side, nil, function(command)
+        force_chat(side, command)
+    end)
+end
 
 -- == PLAYER CHATS ============================================================
 
