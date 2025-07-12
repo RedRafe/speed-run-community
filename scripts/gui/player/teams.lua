@@ -161,7 +161,9 @@ Gui.on_click(action_move, function(event)
     player.force = destination
 
     for _, p in pairs(game.players) do
-        Public.update(p)
+        if PlayerMenu.try_get_main_frame(p) then
+            Public.update(p)
+        end
     end
 end)
 
