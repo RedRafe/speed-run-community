@@ -74,7 +74,6 @@ return {
         Challenges.factory('Train Stop', 'Craft %d train stops.', 'train-stop', { 50, 250, 500 } ),
         Challenges.factory('Car', 'Craft %d cars.', 'car', { 10, 50, 250 } ),
         Challenges.factory('Refined Hazard Concrete', 'Craft %d refined hazard concrete.', 'refined-hazard-concrete', { 1000, 2500, 5000 } ),
-        Challenges.factory('Accumulator', 'Craft %d accumulators.', 'accumulator', { 500, 1000 } ),
         Challenges.factory('Module', 'Craft %d modules.',
             { 'speed-module', 'speed-module-2', 'speed-module-3', 'efficiency-module', 'efficiency-module-2', 'efficiency-module-3', 'productivity-module', 'productivity-module-2', 'productivity-module-3' },
             { 50, 250 }
@@ -89,7 +88,7 @@ return {
         Challenges.factory('Programmable Speaker', 'Craft %d programmable speakers.', 'programmable-speaker', { 250, 1000 } ),
         Challenges.factory('Fast Splitter', 'Craft %d fast splitters.', 'fast-splitter', { 100, 250 } ),
         Challenges.factory('Pump', 'Craft %d pumps.', 'pump', { 250, 1000 } ),
-        Challenges.factory('Electric Engine', 'Craft %d electric engines.', 'pump', { 250, 1000 } ),
+        Challenges.factory('Electric Engine', 'Craft %d electric engines.', 'electric-engine-unit', { 250, 1000 } ),
         Challenges.factory('Oil Refinery', 'Craft %d oil refineries.', 'oil-refinery', { 50, 200 } ),
         Challenges.factory('Solid Fuel', 'Craft %d solid fuel.', 'solid-fuel', { 500, 2000, 10000 } ),
         Challenges.factory('Heavy Armor', 'Craft %d heavy armors.', 'heavy-armor', { 1, 5, 10 } ),
@@ -122,7 +121,7 @@ return {
         { caption = 'Shotgun Sheriff', tooltip = 'Kill 100 biters with shotgun shells.', icon = icon('entity/small-biter', 100), condition = { type = 'custom', name = 'shotgun_kills', data = { count = 100 } } },
         { caption = 'Rocket Launcher', tooltip = 'Kill 10 enemy spawners with rockets.', icon = icon('entity/biter-spawner', 10), },
         { caption = 'Deforestation', tooltip = 'Destroy 1,000 trees with poison capsules.', icon = icon('entity/tree-01', 1000), },
-        { caption = 'Loan Repayment', tooltip = format('Destroy a chest containing the same items you started with.\n(%s)', Challenges.starting_items()), icon = icon('item/stone-furnace') },
+        { caption = 'Loan Repayment', tooltip = format('Sacrifice items by shooting a chest.\n(%s)', Challenges.starting_items()), icon = icon('item/stone-furnace') },
 
         -- Equip
         { caption = 'Fully Equipped', tooltip = 'Wear modular armor with a fill equipment grid.', condition = { type = 'custom', name = 'full_modular_grid' }, icon = icon('item/modular-armor') },
