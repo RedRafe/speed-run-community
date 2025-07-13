@@ -87,6 +87,7 @@ end)
 fsrc.add(defines.events.on_map_reset, function()
     for _, f in pairs(game.forces) do
         f.reset()
+        f.reset_evolution()
     end
 
     for _, player in pairs(game.players) do
