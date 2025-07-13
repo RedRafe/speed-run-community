@@ -86,7 +86,7 @@ function Public.factory(caption, tooltip, name, counts)
             caption = caption .. ' ' .. suffixes[i],
             tooltip = string.format(tooltip, count),
             condition = condition,
-            weight = 0.5,
+            weight = 1/3,
         }
     end
 
