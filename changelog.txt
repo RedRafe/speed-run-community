@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.8
+Date: 2025-07-12
+  Features:
+    - Added several new challenges
+    - Made factory challenges much more likely
+  Bugfixes:
+    - Removed debug print on match start (sorry)
+---------------------------------------------------------------------------------------------------
 Version: 1.0.7
 Date: 2025-07-12
   Changes:
