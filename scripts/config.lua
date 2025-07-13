@@ -24,8 +24,8 @@ return {
     },
     spawn_point = {
         player = { x =    0, y = 0 },
-        west  = { x = -320, y = 0 },
-        east  = { x =  320, y = 0 },
+        west   = { x = -320, y = 0 },
+        east   = { x =  320, y = 0 },
     },
     color = {
         west = { 140, 140, 252 },
@@ -69,33 +69,31 @@ return {
         { caption = 'Paint It Red', tooltip = 'Mine 10,000 copper ore.', condition = { type = 'craft', name = 'copper-ore', count = 10000 } },
         { caption = 'Laser Turret Factory', tooltip = 'Craft 50 laser turrets.', condition = { type = 'craft', name = 'laser-turret', count = 100 } },
 
-        {
-            limit = 3,
-            Challenges.factory('Underground Pipe', 'Craft %d underground pipes', 'pipe-to-ground', { 500, 2000 }),
-            Challenges.factory('Fast Inserter', 'Craft %d fast inserters', 'fast-inserter', { 250, 1000 }),
-            Challenges.factory('Rail', 'Craft %d rails', 'rail', { 500, 2500, 5000 }),
-            Challenges.factory('Big Electric Pole', 'Craft %d big electric poles.', 'big-electric-pole', { 50, 250, 500 }),
-            Challenges.factory('Train Stop', 'Craft %d train stops.', 'train-stop', { 50, 250, 500 } ),
-            Challenges.factory('Car', 'Craft %d cars.', 'car', { 10, 50, 250 } ),
-            Challenges.factory('Refined Hazard Concrete', 'Craft %d refined hazard concrete.', 'refined-hazard-concrete', { 1000, 2500, 5000 } ),
-            Challenges.factory('Accumulator', 'Craft %d accumulators.', 'accumulator', { 500, 1000 } ),
-            Challenges.factory('Module', 'Craft %d modules.',
-                { 'speed-module', 'speed-module-2', 'speed-module-3', 'efficiency-module', 'efficiency-module-2', 'efficiency-module-3', 'productivity-module', 'productivity-module-2', 'productivity-module-3' },
-                { 50, 250 }
-            ),
-            Challenges.factory('Flamethrower Turret', 'Craft %d flamethrower turrets.', 'flamethrower-turret', { 25, 100 } ),
-            Challenges.factory('Rocket', 'Craft %d rockets.', 'rocket', { 500, 2500 } ),
-            Challenges.factory('Land Mine', 'Craft %d land mines.', 'land-mine', { 1000, 5000 } ),
-            Challenges.factory('Flamethrower Ammo', 'Craft %d flamethrower ammo.', 'flamethrower-ammo', { 500, 2500 } ),
-            Challenges.factory('Grenade', 'Craft %d grenades.', 'grenade', { 50, 250, 1000 } ),
-            Challenges.factory('Defender Capsule', 'Craft %d defender capsules.', 'defender-capsule', { 10, 50, 250 } ),
-            Challenges.factory('Submachine Gun', 'Craft %d submachine guns.', 'submachine-gun', { 100, 250 } ),
-            Challenges.factory('Programmable Speaker', 'Craft %d programmable speakers.', 'programmable-speaker', { 250, 1000 } ),
-            Challenges.factory('Fast Splitter', 'Craft %d fast splitters.', 'fast-splitter', { 100, 250 } ),
-            Challenges.factory('Electric Pump', 'Craft %d electric pumps.', 'pump', { 250, 1000 } ),
-            Challenges.factory('Oil Refinery', 'Craft %d oil refineries.', 'oil-refinery', { 50, 200 } ),
-            Challenges.factory('Solid Fuel', 'Craft %d solid fuel.', 'solid-fuel', { 500, 2000, 10000 } ),
-        },
+        Challenges.factory('Underground Pipe', 'Craft %d underground pipes', 'pipe-to-ground', { 500, 2000 }),
+        Challenges.factory('Fast Inserter', 'Craft %d fast inserters', 'fast-inserter', { 250, 1000 }),
+        Challenges.factory('Rail', 'Craft %d rails', 'rail', { 500, 2500, 5000 }),
+        Challenges.factory('Big Electric Pole', 'Craft %d big electric poles.', 'big-electric-pole', { 50, 250, 500 }),
+        Challenges.factory('Train Stop', 'Craft %d train stops.', 'train-stop', { 50, 250, 500 } ),
+        Challenges.factory('Car', 'Craft %d cars.', 'car', { 10, 50, 250 } ),
+        Challenges.factory('Refined Hazard Concrete', 'Craft %d refined hazard concrete.', 'refined-hazard-concrete', { 1000, 2500, 5000 } ),
+        Challenges.factory('Accumulator', 'Craft %d accumulators.', 'accumulator', { 500, 1000 } ),
+        Challenges.factory('Module', 'Craft %d modules.',
+            { 'speed-module', 'speed-module-2', 'speed-module-3', 'efficiency-module', 'efficiency-module-2', 'efficiency-module-3', 'productivity-module', 'productivity-module-2', 'productivity-module-3' },
+            { 50, 250 }
+        ),
+        Challenges.factory('Flamethrower Turret', 'Craft %d flamethrower turrets.', 'flamethrower-turret', { 25, 100 } ),
+        Challenges.factory('Rocket', 'Craft %d rockets.', 'rocket', { 500, 2500 } ),
+        Challenges.factory('Land Mine', 'Craft %d land mines.', 'land-mine', { 1000, 5000 } ),
+        Challenges.factory('Flamethrower Ammo', 'Craft %d flamethrower ammo.', 'flamethrower-ammo', { 500, 2500 } ),
+        Challenges.factory('Grenade', 'Craft %d grenades.', 'grenade', { 50, 250, 1000 } ),
+        Challenges.factory('Defender Capsule', 'Craft %d defender capsules.', 'defender-capsule', { 10, 50, 250 } ),
+        Challenges.factory('Submachine Gun', 'Craft %d submachine guns.', 'submachine-gun', { 100, 250 } ),
+        Challenges.factory('Programmable Speaker', 'Craft %d programmable speakers.', 'programmable-speaker', { 250, 1000 } ),
+        Challenges.factory('Fast Splitter', 'Craft %d fast splitters.', 'fast-splitter', { 100, 250 } ),
+        Challenges.factory('Pump', 'Craft %d pumps.', 'pump', { 250, 1000 } ),
+        Challenges.factory('Electric Engine', 'Craft %d electric engines.', 'pump', { 250, 1000 } ),
+        Challenges.factory('Oil Refinery', 'Craft %d oil refineries.', 'oil-refinery', { 50, 200 } ),
+        Challenges.factory('Solid Fuel', 'Craft %d solid fuel.', 'solid-fuel', { 500, 2000, 10000 } ),
 
         -- Research
         { caption = 'Steel Axe', tooltip = 'Unlock the Steel Axe technology.', condition = { type = 'research', name = 'steel-axe' } },
@@ -123,7 +121,7 @@ return {
         { caption = 'Cliffhanger', tooltip = 'Destroy a cliff.', icon = icon('utility/cliff_deconstruction_enabled_modifier_icon'), condition = { type = 'custom', name = 'destroy_cliff' } },
         { caption = 'Shotgun Sheriff', tooltip = 'Kill 100 biters with shotgun shells.', icon = icon('entity/small-biter', 100), condition = { type = 'custom', name = 'shotgun_kills', data = { count = 100 } } },
         { caption = 'Rocket Launcher', tooltip = 'Kill 10 enemy spawners with rockets.', icon = icon('entity/biter-spawner', 10), },
-        { caption = 'Deforest-\nation', tooltip = 'Destroy 1,000 trees with poison capsules.', icon = icon('entity/tree-01', 1000), },
+        { caption = 'Deforestation', tooltip = 'Destroy 1,000 trees with poison capsules.', icon = icon('entity/tree-01', 1000), },
         { caption = 'Loan Repayment', tooltip = format('Destroy a chest containing the same items you started with.\n(%s)', Challenges.starting_items()), icon = icon('item/stone-furnace') },
 
         -- Equip
@@ -142,7 +140,7 @@ return {
         { caption = 'Radar Network', tooltip = 'Power 50 radars with full energy satisfaction.', icon = icon('entity/radar', 50) },
         { caption = 'Belt Loop Adventure', tooltip = 'Ride a belt loop around your starter lake without moving manually.', icon = icon('item/transport-belt') },
         { caption = 'Red Ammo Belt', tooltip = 'Fill a belt loop with 500 rounds of Piercing rounds magazines.', icon = icon('item/piercing-rounds-magazine', 500) },
-        { caption = 'Crypto Farm', tooltip = 'Use at least 80 MW for one minute.', icon = icon('entity/big-electric-pole', 80) }, -- icon change
+        { caption = 'Crypto Farm', tooltip = 'Use at least 80 MW for one minute.', icon = icon('utility/electricity_icon_unplugged', 80) }, -- icon change
         { caption = 'Racer', tooltip = 'Stay in a car for 3 minutes without exiting.', icon = icon('entity/car', 3), condition = { type = 'custom', name = "stay_in_car", data = { ticks = 3*60*60, players = {} } } },
         { caption = 'Display of Affection', tooltip = 'Write “I❤️FACTORIO” using the signal icons of 10 display panels.', icon = icon('entity/display-panel') },
         { caption = 'Catch Me If You Can', tooltip = 'Get chased by 50 biters at once.', icon = icon('entity/small-biter', 50) },
@@ -150,6 +148,6 @@ return {
         { caption = 'Collector\'s Vault', tooltip = 'Fill a steel chest with full stacks of different items.', icon = icon('entity/steel-chest'), condition = { type = 'custom', name = 'full_chest_unique', data = { name = 'steel-chest', chests = {} } } },
         { caption = 'Beacon King', tooltip = 'Have 12 machines running under the influence of a beacon.', icon = icon('entity/beacon', 12) },
         { caption = 'Shooting Practice', tooltip = 'Shoot 500 yellow ammo.', icon = icon('item/firearm-magazine', 500) },
-        { caption = 'Highway to Hell', tooltip = 'Connect 3 separate biter bases to the starter lake with stone bricks.', icon = icon('item/brick', 3) },
+        { caption = 'Highway to Hell', tooltip = 'Connect 3 separate biter bases to the starter lake with stone bricks.', icon = icon('item/stone-brick', 3) },
     }
 }
