@@ -66,7 +66,7 @@ return {
         { caption = 'Red Supremacy', tooltip = 'Craft 200 fast underground belts.', condition = { type = 'craft', name = 'fast-underground-belt', count = 200 } },
         { caption = 'Bulk Inserters', tooltip = 'Craft 200 bulk inserters.', condition = { type = 'craft', name = 'bulk-inserter', count = 200 } },
         { caption = 'Mining Industry', tooltip = 'Mine 10,000 copper ore.', condition = { type = 'craft', name = 'copper-ore', count = 10000 } },
-        { caption = 'Laser Turret Factory', tooltip = 'Craft 50 laser turrets.', condition = { type = 'craft', name = 'laser-turret', count = 100 } },
+        { caption = 'Laser Turret Factory', tooltip = 'Craft 50 laser turrets.', condition = { type = 'craft', name = 'laser-turret', count = 100 }, weight = 0.5 },
 
         Challenges.factory('Fast Inserter', 'Craft %d fast inserters', 'fast-inserter', { 250, 1000 }),
         Challenges.factory('Rail', 'Craft %d rails', 'rail', { 500, 2500, 5000 }),
@@ -89,7 +89,7 @@ return {
         Challenges.factory('Programmable Speaker', 'Craft %d programmable speakers.', 'programmable-speaker', { 250, 1000 } ),
         Challenges.factory('Fast Splitter', 'Craft %d fast splitters.', 'fast-splitter', { 100, 250 } ),
         Challenges.factory('Pump', 'Craft %d pumps.', 'pump', { 250, 1000 } ),
-        Challenges.factory('Electric Engine', 'Craft %d electric engines.', 'pump', { 250, 1000 } ),
+        Challenges.factory('Electric Engine', 'Craft %d electric engines.', 'electric-engine', { 250, 1000 } ),
         Challenges.factory('Oil Refinery', 'Craft %d oil refineries.', 'oil-refinery', { 50, 200 } ),
         Challenges.factory('Solid Fuel', 'Craft %d solid fuel.', 'solid-fuel', { 500, 2000, 10000 } ),
         Challenges.factory('Heavy Armor', 'Craft %d heavy armors.', 'heavy-armor', { 1, 5, 10 } ),
@@ -111,7 +111,7 @@ return {
 
         -- Death
         { caption = 'RIP', tooltip = 'Die once in any way.', condition = { type = 'death', name = 'character' } },
-        { caption = 'Bit the dust', tooltip = 'Die once in any way except to biters/worms/spitters.'},
+        { caption = 'Bit the dust', tooltip = 'Die once in any way except to biters/worms/spitters.', icon = icon('entity/character')},
         { caption = 'Crash Test', tooltip = 'Destroy a car by impact.', condition = { type = 'death', name = 'car', damage_type = 'impact' }},
         { caption = 'Pole Wrecker', tooltip = 'Destroy 150 power poles.', condition = { type = 'death', names = { 'small-electric-pole', 'medium-electric-pole', 'big-electric-pole', 'substation' }, count = 150 } },
         { caption = 'Turret Buster', tooltip = 'Destroy 5 gun turrets.', condition = { type = 'death', name = 'gun-turret', count = 5 } },
