@@ -20,10 +20,10 @@ fsrc.subscribe({
 end)
 
 local shortcuts = {
-    north_right = 'player',
-    player_left = 'north',
-    player_right = 'south',
-    south_left = 'player'
+    west_right = 'player',
+    player_left = 'west',
+    player_right = 'east',
+    east_left = 'player'
 }
 
 local pages = PlayerMenu.get_pages()
@@ -73,23 +73,23 @@ Public.draw = function(player)
         local tt = parent.add { type = 'table', column_count = 1 }
         local button = tt.add({ type = 'sprite-button', caption = '←', tags = { [Gui.tag] = action_move, direction = 'left' } })
         Gui.set_style(button, { font = 'heading-1', maximal_height = 38, maximal_width = 38, font_color = { 255, 255, 255 } })
-        local button = tt.add({ type = 'sprite-button', caption = '→', tags = { [Gui.tag] = action_move, direction = 'right' } })
+        button = tt.add({ type = 'sprite-button', caption = '→', tags = { [Gui.tag] = action_move, direction = 'right' } })
         Gui.set_style(button, { font = 'heading-1', maximal_height = 38, maximal_width = 38, font_color = { 255, 255, 255 } })
     end
 
     --- Header
-    make_header(tbl, 'north')
+    make_header(tbl, 'west')
     tbl.add { type = 'empty-widget' }
     make_header(tbl, 'player')
     tbl.add { type = 'empty-widget' }
-    make_header(tbl, 'south')
+    make_header(tbl, 'east')
 
     --- Table
-    make_list(tbl, 'north')
+    make_list(tbl, 'west')
     make_buttons(tbl)
     make_list(tbl, 'player')
     make_buttons(tbl)
-    make_list(tbl, 'south')
+    make_list(tbl, 'east')
 
     data.teams = lists
 
@@ -104,7 +104,7 @@ Public.update = function(player)
     end
 
     local pattern = data.searchbox.text or ''
-    patter = pattern:lower()
+    pattern = pattern:lower()
 
     for force, list_box in pairs(data.teams) do
         if list_box.valid then
@@ -161,7 +161,9 @@ Gui.on_click(action_move, function(event)
     player.force = destination
 
     for _, p in pairs(game.players) do
-        Public.update(p)
+        if PlayerMenu.try_get_main_frame(p) then
+            Public.update(p)
+        end
     end
 end)
 

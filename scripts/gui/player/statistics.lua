@@ -1,10 +1,9 @@
 local Gui = require 'scripts.modules.gui'
 local PlayerMenu = require 'scripts.gui.player.core'
 local Statistics = require 'scripts.modules.statistics'
-local Config = require 'scripts.config'
 
 local string_find = string.find
-function formatNumberWithCommas(number)
+local function formatNumberWithCommas(number)
     local formattedNumber = string.format('%d', number)
     local left, num, right = string.match(formattedNumber, '^([^%d]*%d)(%d*)(.-)$')
     return left..(num:reverse():gsub('(%d%d%d)','%1,'):reverse())..right
@@ -77,17 +76,17 @@ Public.update = function(player)
     end
 
     local pattern = data.searchbox.text or ''
-    patter = pattern:lower()
+    pattern = pattern:lower()
     local current = Statistics.get_current()
-    local north = current.north
-    local south = current.south
+    local west = current.west
+    local east = current.east
 
     local function add_flow_statistic(parent, item_name)
         local value = {
-            north = north[item_name][parent.name] or 0,
-            south = south[item_name][parent.name] or 0
+            west = west[item_name][parent.name] or 0,
+            east = east[item_name][parent.name] or 0
         }
-        local tot = value.north + value.south
+        local tot = value.west + value.east
         if tot == 0 then
             return
         end
@@ -95,21 +94,21 @@ Public.update = function(player)
         local flow = parent.add { type = 'frame', direction = 'horizontal', style = 'shallow_frame' }
         Gui.set_style(flow, { left_padding = 10, right_padding = 10 })
 
-        flow.add { type = 'sprite-button', sprite = north[item_name].sprite, tooltip = north[item_name].localised_name, style = 'slot_button_in_shallow_frame' }
+        flow.add { type = 'sprite-button', sprite = west[item_name].sprite, tooltip = west[item_name].localised_name, style = 'slot_button_in_shallow_frame' }
 
         local comparison = flow.add { type = 'flow', direction = 'vertical' }
 
         for side, color in pairs({
-            north = { 140, 140, 252 },
-            south = { 252, 084, 084 },
+            west = { 140, 140, 252 },
+            east = { 252, 084, 084 },
         }) do
-            local flow = comparison.add { type = 'flow', direction = 'horizontal' }
-            Gui.set_style(flow, { vertical_align = 'center' })
+            local flow_2 = comparison.add { type = 'flow', direction = 'horizontal' }
+            Gui.set_style(flow_2, { vertical_align = 'center' })
 
-            local progressbar = flow.add { type = 'progressbar', value = value[side] / tot }
+            local progressbar = flow_2.add { type = 'progressbar', value = value[side] / tot }
             Gui.set_style(progressbar, { color = color, natural_width = 160 })
 
-            local label = flow.add { type = 'label', caption = formatNumberWithCommas(value[side]) }
+            local label = flow_2.add { type = 'label', caption = formatNumberWithCommas(value[side]) }
             Gui.set_style(label, { minimal_width = 65, horizontal_align = 'right' })
         end
     end
@@ -117,7 +116,7 @@ Public.update = function(player)
     for _, parent in pairs(data.stats_tables) do
         if parent.valid then
             parent.clear()
-            for _, stat in pairs(current.north) do
+            for _, stat in pairs(current.west) do
                 if string_find(stat.name:lower(), pattern) then
                     add_flow_statistic(parent, stat.name)
                 end

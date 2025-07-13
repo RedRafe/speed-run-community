@@ -8,7 +8,7 @@ fsrc.on_built(function(event)
         return
     end
 
-    local force = entity.force.name == 'north'
+    local force = entity.force.name == 'west'
     local side = entity.position.x < 0
     if force == side then
         return
@@ -24,7 +24,7 @@ fsrc.add(defines.events.on_marked_for_deconstruction, function(event)
     end
 
     local force_name = entity.force.name
-    local force = force_name == 'north'
+    local force = force_name == 'west'
     local side = entity.position.x < 0
     if force == side then
         return

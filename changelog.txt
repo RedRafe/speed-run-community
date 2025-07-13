@@ -1,5 +1,62 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.8
+Date: 2025-07-12
+  Features:
+    - Added several new challenges
+    - Made factory challenges much more likely
+  Bugfixes:
+    - Removed debug print on match start (sorry)
+---------------------------------------------------------------------------------------------------
+Version: 1.0.7
+Date: 2025-07-12
+  Changes:
+    - Nerfed Bullet Specialist to tech level 3 instead of 4
+---------------------------------------------------------------------------------------------------
+Version: 1.0.6
+Date: 2025-07-12
+  Changes:
+    - Reverted spectator chat privacy in favor of making just map pings private
+---------------------------------------------------------------------------------------------------
+Version: 1.0.5
+Date: 2025-07-12
+  Features:
+    - Added /west and /east commands for chatting to specific teams
+    - Added spectator chat notifications for queueing/cancelling research and research finished
+    - Added limit support to challenge sets
+  Changes:
+    - Spectator chat is only shown to spectators during a match
+    - Mdae biters on separate forces so teams don't get alerts for their opponent's biters
+    - Various challenge language clarifications
+  Bugfixes:
+    - Fixed custom challenge conditions being completely busted
+    - Fixed changing teams would open the GUI for all players
+---------------------------------------------------------------------------------------------------
+Version: 1.0.4
+Date: 2025-07-11
+  Changes:
+    - Removed conditional event handling
+  Bugfixes:
+    - Fixed ironception mising return
+---------------------------------------------------------------------------------------------------
+Version: 1.0.3
+Date: 2025-07-11
+  Bugfixes:
+    - Fixed some custom conditions not working
+---------------------------------------------------------------------------------------------------
+Version: 1.0.2
+Date: 2025-07-11
+  Bugfixes:
+    - Fixed desyncs (hopefully)
+    - Fixed incorrect Rocket Fuel auto completion condition
+---------------------------------------------------------------------------------------------------
+Version: 1.0.1
+Date: 2025-07-11
+  Bugfixes:
+    - Fixed player chat redundancy
+    - Fixed main menu shortcut not opening challengs by degault
+    - Fixed Shotgun Sheriff and Racer challenges
+---------------------------------------------------------------------------------------------------
 Version: 1.0.0
-Date: 2024-10-30
+Date: 2025-07-10
   Info:
     - Initial release

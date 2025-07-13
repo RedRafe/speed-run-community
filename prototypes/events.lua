@@ -5,6 +5,7 @@ local events = {
     'on_match_finished',
     'on_match_picking_phase',
     'on_match_preparation_phase',
+    'on_challenges_changed',
 }
 
 for _, event_name in pairs(events) do
@@ -15,3 +16,11 @@ for _, event_name in pairs(events) do
         }
     })
 end
+
+data:extend({
+    {
+        type = 'custom-input',
+        name = 'open_player_menu',
+        key_sequence = 'SHIFT + B',
+    }
+})

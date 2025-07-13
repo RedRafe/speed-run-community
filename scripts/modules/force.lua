@@ -1,5 +1,4 @@
 local Config = require 'scripts.config'
-local Shared = require 'utils.shared'
 
 local Force = {}
 
@@ -13,8 +12,8 @@ local function generate_force_table(side)
 end
 
 local forces = {
-    north = generate_force_table('north'),
-    south = generate_force_table('south'),
+    west = generate_force_table('west'),
+    east = generate_force_table('east'),
 }
 local critical_entities_map = {}
 
@@ -26,12 +25,12 @@ fsrc.subscribe({
     critical_entities_map = critical_entities_map
 end)
 
-Force.north = function()
-    return forces.north
+Force.west = function()
+    return forces.west
 end
 
-Force.south = function()
-    return forces.south
+Force.east = function()
+    return forces.east
 end
 
 ---@param force string|LuaForce
@@ -65,24 +64,24 @@ fsrc.on_init(function()
     player.set_spawn_position(Config.spawn_point.player, 'nauvis')
     player.share_chart = true
 
-    local north = game.forces.north
-    north.set_spawn_position(Config.spawn_point.north, 'nauvis')
-    north.set_cease_fire('player', true)
-    north.set_friend('player', true)
-    north.share_chart = true
+    local west = game.forces.west
+    west.set_spawn_position(Config.spawn_point.west, 'nauvis')
+    west.set_cease_fire('player', true)
+    west.set_friend('player', true)
+    west.share_chart = true
 
-    local south = game.forces.south
-    south.set_spawn_position(Config.spawn_point.south, 'nauvis')
-    south.set_cease_fire('player', true)
-    south.set_friend('player', true)
-    south.share_chart = true
+    local east = game.forces.east
+    east.set_spawn_position(Config.spawn_point.east, 'nauvis')
+    east.set_cease_fire('player', true)
+    east.set_friend('player', true)
+    east.share_chart = true
 
-    --north.set_friend('south', true)
+    --west.set_friend('east', true)
 end)
 
 fsrc.add(defines.events.on_map_init, function()
-    forces.north = generate_force_table('north')
-    forces.south = generate_force_table('south')
+    forces.west = generate_force_table('west')
+    forces.east = generate_force_table('east')
 end)
 
 fsrc.add(defines.events.on_map_reset, function()
@@ -113,5 +112,20 @@ fsrc.add(defines.events.on_player_changed_force, function(event)
 
     fsrc.set_timeout_in_ticks(300, chart_all_token)
 end)
+
+local radius = 32 * 2.5
+fsrc.add(300, function()
+    local surface = game.surfaces.nauvis
+    for _, player in pairs(game.connected_players) do
+        local position = player.physical_position
+        local area = {
+            left_top     = { x = position.x - radius, y = position.y - radius },
+            right_bottom = { x = position.x + radius, y = position.y + radius }
+        }
+        for _, force in pairs(game.forces) do
+            force.chart(surface, area)
+        end
+    end
+end, { on_nth_tick = true })
 
 return Force

@@ -9,7 +9,7 @@ fsrc.on_trigger(Shared.triggers.on_enemy_created, function(event)
         return
     end
 
-    entity.force = (entity.position.x > 0) and 'north' or 'south'
+    entity.force = (entity.position.x < 0) and 'enemy-west' or 'enemy-east'
 end)
 
 --- Freeze all moving parts at the end of the match

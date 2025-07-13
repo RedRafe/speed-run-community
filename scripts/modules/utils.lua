@@ -2,23 +2,23 @@ local Public = {}
 
 Public.for_teams = function(callback, ...)
     local forces = game.forces
-    callback(forces.north, ...)
-    callback(forces.south, ...)
+    callback(forces.west, ...)
+    callback(forces.east, ...)
 end
 
 Public.for_forces = function(callback, ...)
     local forces = game.forces
-    callback(forces.north, ...)
-    callback(forces.south, ...)
+    callback(forces.west, ...)
+    callback(forces.east, ...)
     callback(forces.player, ...)
 end
 
 Public.for_players = function(callback, ...)
     local forces = game.forces
-    for _, player in pairs(forces.north) do
+    for _, player in pairs(forces.west) do
         callback(player, ...)
     end
-    for _, player in pairs(forces.south) do
+    for _, player in pairs(forces.east) do
         callback(player, ...)
     end
 end

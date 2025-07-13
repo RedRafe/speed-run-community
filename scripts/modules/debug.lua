@@ -9,7 +9,7 @@ fsrc.add(defines.events.on_research_started, function(event)
     event.research.researched = true
 end)
 fsrc.add(defines.events.on_match_started, function()
-    for _, force in pairs({ game.forces.north, game.forces.south }) do
+    for _, force in pairs({ game.forces.west, game.forces.east }) do
         force.technologies['electronics'].researched = true
         force.technologies['steam-power'].researched = true
         force.technologies['automation-science-pack'].researched = true
@@ -33,8 +33,8 @@ fsrc.add(defines.events.on_player_created, function(event)
     frame.add{ type = 'label', caption = 'Debug menu', style = 'caption_label'}
     frame.add{ type = 'button', caption = 'Hax', name = hax_button, tooltip = 'Unlock all recipes' }
     frame.add{ type = 'button', caption = 'Armor', name = armor_button, tooltip = 'Suit up with full MK2 armor' }
-    frame.add{ type = 'button', caption = 'North', tags = { [Gui.tag] = force_button, force = 'north'}, tooltip = 'Join North' }
-    frame.add{ type = 'button', caption = 'South', tags = { [Gui.tag] = force_button, force = 'south'}, tooltip = 'Join South' }
+    frame.add{ type = 'button', caption = 'West', tags = { [Gui.tag] = force_button, force = 'west'}, tooltip = 'Join West' }
+    frame.add{ type = 'button', caption = 'East', tags = { [Gui.tag] = force_button, force = 'east'}, tooltip = 'Join East' }
     frame.add{ type = 'button', caption = 'Spectator', tags = { [Gui.tag] = force_button, force = 'player'}, tooltip = 'Join spectator island' }
 end)
 

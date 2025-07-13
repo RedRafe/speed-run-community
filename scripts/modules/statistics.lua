@@ -1,4 +1,3 @@
-local Config = require 'scripts.config'
 local Game = require 'scripts.modules.game'
 local Queue = require 'utils.containers.queue'
 local ItemStatistics = require 'scripts.modules.item-statistics'
@@ -15,7 +14,6 @@ for _, fluid in pairs(prototypes.fluid) do
     end
 end
 
-
 local Statistics = {}
 
 local MAX_STORED_GAMES = 10
@@ -26,14 +24,14 @@ local past = Queue.new()
     ticks :: number,
     winning_force :: string,
     losing_force :: string,
-    north = { item_name :: ItemStatistics(), ... },
-    south = { item_name :: ItemStatistics(), ... },
+    west = { item_name :: ItemStatistics(), ... },
+    east = { item_name :: ItemStatistics(), ... },
 ]]
 local current = {}
 
 local stats = {
-    north = { item = {}, fluid = {} },
-    south = { item = {}, fluid = {} },
+    west = { item = {}, fluid = {} },
+    east = { item = {}, fluid = {} },
 }
 
 fsrc.subscribe({
@@ -83,7 +81,7 @@ fsrc.add(defines.events.on_tick, function()
     local item_index = (game.tick % #tracked_items) + 1
     local item_name = tracked_items[item_index]
 
-    for _, side in pairs({ 'north', 'south' }) do
+    for _, side in pairs({ 'west', 'east' }) do
         local force_stats = prototypes.item[item_name] and stats[side].item or stats[side].fluid
         local item_stats = current[side] and current[side][item_name]
 
@@ -146,8 +144,63 @@ fsrc.on_destroyed(function(event)
     end
 end)
 
+fsrc.on_built_tile(function(event)
+    if not Game.is_playing() then
+        return
+    end
+
+    local tile = event.tile
+
+    local source = event.robot or event.platform or game.get_player(event.player_index) --[[@as LuaPlayer]]
+    local side = source.force.name
+    local side_stats = current[side]
+    local item_stats = side_stats and side_stats[tile.name]
+    if not item_stats then
+        return
+    end
+
+    local lost = {}
+    for _, data in pairs(event.tiles) do
+        local old = data.old_tile
+        lost[old.name] = (lost[old.name] or 0) + 1
+    end
+
+    for name, count in pairs(lost) do
+        local old_item_stats = current[side][name]
+        if old_item_stats and old_item_stats.type == 'item' then
+            old_item_stats.lost = old_item_stats.lost + count
+        end
+    end
+
+    item_stats.placed = item_stats.placed + #event.tiles
+    item_stats:get_stored()
+end)
+
+fsrc.on_mined_tile(function(event)
+    if not Game.is_playing() then
+        return
+    end
+
+    local source = event.robot or event.platform or game.get_player(event.player_index) --[[@as LuaPlayer]]
+    local side = source.force.name
+    if not current[side] then
+        return
+    end
+
+    local lost = {}
+    for _, data in pairs(event.tiles) do
+        local old = data.old_tile
+        lost[old.name] = (lost[old.name] or 0) + 1
+    end
+
+    for name, count in pairs(lost) do
+        local old_item_stats = current[side][name]
+        old_item_stats.lost = old_item_stats.lost + count
+    end
+end)
+
 fsrc.add(defines.events.on_map_init, function()
-    for _, side in pairs({ 'north', 'south' }) do
+    for _, side in pairs({ 'west', 'east' }) do
         -- Cache LuaFlowStatistics
         stats[side].item = game.forces[side].get_item_production_statistics('nauvis')
         stats[side].fluid = game.forces[side].get_fluid_production_statistics('nauvis')

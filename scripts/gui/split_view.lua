@@ -10,7 +10,9 @@ local Gui = require 'scripts.modules.gui'
 ---@param config.search_button_name string
 ---@param config.searchbox_name string
 return function(config)
-    local Public = {}
+    local Public = {
+        config = config
+    }
     local pages = {}
 
     function Public.get_pages()
@@ -223,7 +225,7 @@ return function(config)
             handler(event)
         end
 
-        return function(element_name, handler)            
+        return function(element_name, handler)
             if not handlers then
                 handlers = {}
                 Gui.on_text_changed(config.searchbox_name, on_event)

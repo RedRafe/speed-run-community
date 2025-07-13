@@ -1,9 +1,10 @@
 require '__speed-run-community__.utils.lib.lib'
 
 fsrc.on_init(function()
-    for _, side in pairs({ 'north', 'south' }) do
+    for _, side in pairs({ 'west', 'east' }) do
         if not game.forces[side] then
             game.create_force(side)
+            game.create_force('enemy-' .. side)
         end
     end
 end)
@@ -22,6 +23,7 @@ require '__speed-run-community__.scripts.modules.freeplay'
 require '__speed-run-community__.scripts.modules.game'
 require '__speed-run-community__.scripts.modules.inventory'
 require '__speed-run-community__.scripts.modules.permission'
+require '__speed-run-community__.scripts.modules.research-queue'
 require '__speed-run-community__.scripts.modules.statistics'
 require '__speed-run-community__.scripts.modules.teleport'
 require '__speed-run-community__.scripts.modules.terrain'
@@ -32,3 +34,6 @@ require '__speed-run-community__.scripts.gui.player.challenges'
 require '__speed-run-community__.scripts.gui.player.statistics'
 require '__speed-run-community__.scripts.gui.player.teams'
 require '__speed-run-community__.scripts.gui.clock.main'
+
+-- Post Modules
+require '__speed-run-community__.scripts.modules.detection'

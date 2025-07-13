@@ -243,19 +243,19 @@ Gui.add_closable_frame = function(player, params)
         Gui.destroy(frame)
     end
 
-    local data = {}
+    local info = {}
 
-    local frame = player.gui.screen.add { type = 'frame', name = params.name, direction = 'vertical', style = 'frame' }
-    data.frame = frame
+    frame = player.gui.screen.add { type = 'frame', name = params.name, direction = 'vertical', style = 'frame' }
+    info.frame = frame
     Gui.set_style(frame, Gui.styles.closable_frame)
-    Gui.set_data(frame, data)
+    Gui.set_data(frame, info)
 
     do -- title
         local title_flow = frame.add { type = 'flow', direction = 'horizontal' }
         Gui.set_style(title_flow, { horizontal_spacing = 8, vertical_align = 'center', bottom_padding = 4 })
 
-        data.label = title_flow.add { type = 'label', caption = params.caption, style = 'frame_title' }
-        data.label.drag_target = frame
+        info.label = title_flow.add { type = 'label', caption = params.caption, style = 'frame_title' }
+        info.label.drag_target = frame
 
         local dragger = title_flow.add { type = 'empty-widget', style = 'draggable_space_header' }
         dragger.drag_target = frame
@@ -270,11 +270,11 @@ Gui.add_closable_frame = function(player, params)
             name = params.searchbox or Gui.closable_frame_searchbox_name,
             style = 'search_popup_textfield',
         })
-        data.searchbox = searchbox
-        data.searchbox.visible = false
-        Gui.set_data(data.searchbox, data)
+        info.searchbox = searchbox
+        info.searchbox.visible = false
+        Gui.set_data(info.searchbox, info)
 
-        data.searchbutton = title_flow.add({
+        info.searchbutton = title_flow.add({
             type = 'sprite-button',
             name = params.search_button or Gui.closable_frame_search_button_name,
             style = 'frame_action_button',
@@ -282,9 +282,9 @@ Gui.add_closable_frame = function(player, params)
             tooltip = { 'gui.search-with-focus', '__CONTROL__focus-search__' },
             auto_toggle = true,
         })
-        Gui.set_data(data.searchbutton, data)
+        Gui.set_data(info.searchbutton, info)
 
-        data.close_button = title_flow.add {
+        info.close_button = title_flow.add {
             type = 'sprite-button',
             name = params.close_button or Gui.closable_frame_close_button_name,
             sprite = 'utility/close',
@@ -292,7 +292,7 @@ Gui.add_closable_frame = function(player, params)
             style = 'close_button',
             tooltip = { 'gui.close-instruction' },
         }
-        Gui.set_data(data.close_button, data)
+        Gui.set_data(info.close_button, info)
     end
 
     frame.auto_center = true

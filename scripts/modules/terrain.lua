@@ -24,7 +24,6 @@ end)
 
 fsrc.add(defines.events.on_map_init, function()
     --- Chart map
-    local force = game.forces.player
     local radius = 32*7
     local surface = game.surfaces.nauvis
     for _, position in pairs(Config.spawn_point) do
@@ -32,8 +31,8 @@ fsrc.add(defines.events.on_map_init, function()
     end
     surface.force_generate_chunk_requests()
 
-    for _, force in pairs(game.forces) do
-        force.chart(surface, {
+    for _, f in pairs(game.forces) do
+        f.chart(surface, {
             { x = -750 - radius, y = -200 },
             { x =  750 + radius, y =  200 }
         })
@@ -44,7 +43,7 @@ fsrc.add(defines.events.on_match_picking_phase, function()
     local surface = game.surfaces.nauvis
 
     --- Remove all rocks/trees of spect island
-    for _, entity in pairs(surface.find_entities_filtered{ 
+    for _, entity in pairs(surface.find_entities_filtered{
         position = { 0, 0 },
         radius = 30,
         name = 'character',

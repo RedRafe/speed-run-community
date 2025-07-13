@@ -1,10 +1,11 @@
 require '__speed-run-community__.utils.lib.lib'
 
 require 'prototypes.events'
-require 'prototypes.entity'
+-- require 'prototypes.entity'
 require 'prototypes.map'
 require 'prototypes.noise'
-require 'prototypes.progression'
+-- require 'prototypes.progression'
 require 'prototypes.sprites'
 require 'prototypes.styles'
 require 'prototypes.terrain'
+require 'prototypes.tips-and-tricks'
