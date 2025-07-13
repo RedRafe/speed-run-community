@@ -114,7 +114,7 @@ fsrc.add(defines.events.on_player_changed_force, function(event)
     fsrc.set_timeout_in_ticks(300, chart_all_token)
 end)
 
-local radius = 32 * 2.5
+local radius = 32 * 6
 fsrc.add(300, function()
     local surface = game.surfaces.nauvis
     for _, player in pairs(game.connected_players) do
