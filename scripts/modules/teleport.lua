@@ -30,6 +30,9 @@ local function teleport_player_to_force_spawn(player)
         return
     end
     local destination = Config.spawn_point[player and player.force.name]
+    if not destination then
+        return
+    end
     game.surfaces.nauvis.request_to_generate_chunks(destination, 1)
     game.surfaces.nauvis.force_generate_chunk_requests()
     Teleport.teleport(player, destination)
