@@ -68,7 +68,6 @@ return {
         { caption = 'Mining Industry', tooltip = 'Mine 10,000 copper ore.', condition = { type = 'craft', name = 'copper-ore', count = 10000 } },
         { caption = 'Laser Turret Factory', tooltip = 'Craft 50 laser turrets.', condition = { type = 'craft', name = 'laser-turret', count = 100 } },
 
-        Challenges.factory('Underground Pipe', 'Craft %d underground pipes', 'pipe-to-ground', { 500, 2000 }),
         Challenges.factory('Fast Inserter', 'Craft %d fast inserters', 'fast-inserter', { 250, 1000 }),
         Challenges.factory('Rail', 'Craft %d rails', 'rail', { 500, 2500, 5000 }),
         Challenges.factory('Big Electric Pole', 'Craft %d big electric poles.', 'big-electric-pole', { 50, 250, 500 }),
@@ -93,6 +92,7 @@ return {
         Challenges.factory('Electric Engine', 'Craft %d electric engines.', 'pump', { 250, 1000 } ),
         Challenges.factory('Oil Refinery', 'Craft %d oil refineries.', 'oil-refinery', { 50, 200 } ),
         Challenges.factory('Solid Fuel', 'Craft %d solid fuel.', 'solid-fuel', { 500, 2000, 10000 } ),
+        Challenges.factory('Heavy Armor', 'Craft %d heavy armors.', 'heavy-armor', { 1, 5, 10 } ),
 
         -- Research
         { caption = 'Steelaxe%', tooltip = 'Unlock Steel Axe.', condition = { type = 'research', name = 'steel-axe' } },
@@ -102,11 +102,11 @@ return {
         { caption = 'POWER IS FINE', tooltip = 'After researching \'Electric Energy Distribution 1\', have low power for a total of 5 minutes.', icon = icon('utility/electricity_icon') },
 
         -- Hold
-        { caption = 'Fishing Industry', tooltip = 'Carry 200 fish.', condition = { type = 'hold', name = 'raw-fish', count = 200 } },
-        { caption = 'Vat of Acid', tooltip = 'Carry 100 sulfuric acid barrels.', condition = { type = 'hold', name = 'sulfuric-acid-barrel', count = 100 } },
-        { caption = 'Sommelier', tooltip = 'Carry one of each barrel type.', condition = { type = 'hold', names = { 'water-barrel', 'crude-oil-barrel', 'petroleum-gas-barrel', 'light-oil-barrel', 'heavy-oil-barrel', 'lubricant-barrel', 'sulfuric-acid-barrel'} } },
-        { caption = 'Inserter Collector', tooltip = 'Carry one of each inserter type.', condition = { type = 'hold', names = { 'burner-inserter', 'inserter', 'long-handed-inserter', 'fast-inserter', 'bulk-inserter' } } },
-        { caption = 'Comfort Coal', tooltip = 'Fill your inventory with only coal.', icon = icon('item/coal'), condition = { type = 'custom', name = 'full_inventory_coal' } },
+        { caption = 'Fishing Industry', tooltip = 'Collect 200 fish.', condition = { type = 'hold', name = 'raw-fish', count = 200 } },
+        { caption = 'Vat of Acid', tooltip = 'Collect 100 sulfuric acid barrels.', condition = { type = 'hold', name = 'sulfuric-acid-barrel', count = 100 } },
+        { caption = 'Sommelier', tooltip = 'Collect one of each barrel type.', condition = { type = 'hold', names = { 'water-barrel', 'crude-oil-barrel', 'petroleum-gas-barrel', 'light-oil-barrel', 'heavy-oil-barrel', 'lubricant-barrel', 'sulfuric-acid-barrel'} } },
+        { caption = 'Inserter Collector', tooltip = 'Collect one of each inserter type.', condition = { type = 'hold', names = { 'burner-inserter', 'inserter', 'long-handed-inserter', 'fast-inserter', 'bulk-inserter' } } },
+        { caption = 'Comfort Coal', tooltip = 'Fill your inventory with coal.', icon = icon('item/coal'), condition = { type = 'custom', name = 'full_inventory_coal' } },
         { caption = 'Inventory Variety', tooltip = 'Fill your inventory with a different item in every slot.', icon = icon('technology/toolbelt'), condition = { type = 'custom', name = 'full_inventory_unique' } },
 
         -- Death
@@ -144,7 +144,8 @@ return {
         { caption = 'Catch Me If You Can', tooltip = 'Get chased by 50 biters at once.', icon = icon('entity/small-biter', 50) },
         { caption = 'Collector\'s Chest', tooltip = 'Fill a wooden chest with full stacks of different items.', icon = icon('entity/wooden-chest'), condition = { type = 'custom', name = 'full_chest_unique', data = { name = 'wooden-chest', chests = {} } } },
         { caption = 'Collector\'s Vault', tooltip = 'Fill an iron chest with full stacks of different items.', icon = icon('entity/iron-chest'), condition = { type = 'custom', name = 'full_chest_unique', data = { name = 'iron-chest', chests = {} } } },
-        { caption = 'Beacon King', tooltip = 'Have 12 machines running under the influence of a beacon.', icon = icon('entity/beacon', 12) },
+        { caption = 'Collector\'s Sanctum', tooltip = 'Fill a steel chest with full stacks of different items.', icon = icon('entity/steel-chest'), condition = { type = 'custom', name = 'full_chest_unique', data = { name = 'steel-chest', chests = {} } } },
+        { caption = 'Beacon King', tooltip = 'Have 12 machines running under the influence of a beacon.', icon = icon('entity/beacon') },
         { caption = 'Shooting Practice', tooltip = 'Shoot 500 yellow ammo.', icon = icon('item/firearm-magazine', 500) },
         { caption = 'Highway to Hell', tooltip = 'Connect 3 separate biter bases to the starter lake with stone bricks.', icon = icon('item/stone-brick', 3) },
     }
