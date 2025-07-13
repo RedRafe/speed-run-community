@@ -252,7 +252,7 @@ fsrc.add(defines.events.on_tick, function()
         local item_stats = stats[side]
         for k, condition in pairs(crafts) do
             for _, name in pairs(condition.names or {condition.name}) do
-                if item_stats[name].produced < (condition.count or 1) then
+                if item_stats[name] and (item_stats[name].produced < (condition.count or 1)) then
                     goto continue
                 end
             end
