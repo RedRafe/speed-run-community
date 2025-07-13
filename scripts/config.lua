@@ -66,7 +66,7 @@ return {
         { caption = 'Red Supremacy', tooltip = 'Craft 200 fast underground belts.', condition = { type = 'craft', name = 'fast-underground-belt', count = 200 } },
         { caption = 'Bulk Inserters', tooltip = 'Craft 200 bulk inserters.', condition = { type = 'craft', name = 'bulk-inserter', count = 200 } },
         { caption = 'Mining Industry', tooltip = 'Mine 10,000 copper ore.', condition = { type = 'craft', name = 'copper-ore', count = 10000 } },
-        { caption = 'Laser Turret Factory', tooltip = 'Craft 50 laser turrets.', condition = { type = 'craft', name = 'laser-turret', count = 100 }, weight = 0.5 },
+        { caption = 'Laser Turret Factory', tooltip = 'Craft 50 laser turrets.', condition = { type = 'craft', name = 'laser-turret', count = 100 }, weight = 1/3 },
 
         Challenges.factory('Fast Inserter', 'Craft %d fast inserters', 'fast-inserter', { 250, 1000 }),
         Challenges.factory('Rail', 'Craft %d rails', 'rail', { 500, 2500, 5000 }),
