@@ -433,10 +433,18 @@ Gui.on_click(editor.action_game_end, function(event)
 end)
 
 Gui.on_click(editor.action_get_random, function(event)
+    if Game.is_playing() then
+        return
+    end
+    
     Editor.update(event.player, true)
 end)
 
 Gui.on_click(editor.action_clear_new_random, function(event)
+    if Game.is_playing() then
+        return
+    end
+
     table.clear_table(proposed)
     table.add_all(proposed, selected)
 
@@ -444,6 +452,10 @@ Gui.on_click(editor.action_clear_new_random, function(event)
 end)
 
 Gui.on_click(editor.action_confirm_new_random, function()
+    if Game.is_playing() then
+        return
+    end
+
     table.clear_table(selected)
     table.add_all(selected, proposed)
     table.clear_table(proposed)
