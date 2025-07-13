@@ -18,8 +18,9 @@ Actions.hax = function()
 end
 
 Actions.chat = function(command)
+    command.destination = command.name
     if (command.name == 'spectator') or (command.name == 'spect') then
-        command.name = 'player'
+        command.destination = 'player'
     end
     Chat.process_message(command)
 end

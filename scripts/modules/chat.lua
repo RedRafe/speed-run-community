@@ -70,7 +70,7 @@ function Chat.process_message(event)
         return
     end
 
-    if (event.name == nil) and message:find('%[gps_tag=.+%]') then
+    if (event.destination == nil) and message:find('%[gps_tag=.+%]') then
         return
     end
 
@@ -83,9 +83,9 @@ function Chat.process_message(event)
     local msg = format('%s %s %s: %s', player.name, player_tag, player_force_text, message)
 
     --- Case: anyone using command /spect, /west, /east
-    if event.name and game.forces[event.name] then
-        game.forces[event.name].print(msg, { color = player.color })
-        if player_force ~= event.name then
+    if event.destination and game.forces[event.destination] then
+        game.forces[event.destination].print(msg, { color = player.color })
+        if player_force ~= event.destination then
             game.forces[player_force].print(msg, { color = player.color })
         end
     else
