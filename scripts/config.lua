@@ -89,7 +89,7 @@ return {
         Challenges.factory('Programmable Speaker', 'Craft %d programmable speakers.', 'programmable-speaker', { 250, 1000 } ),
         Challenges.factory('Fast Splitter', 'Craft %d fast splitters.', 'fast-splitter', { 100, 250 } ),
         Challenges.factory('Pump', 'Craft %d pumps.', 'pump', { 250, 1000 } ),
-        Challenges.factory('Electric Engine', 'Craft %d electric engines.', 'electric-engine', { 250, 1000 } ),
+        Challenges.factory('Electric Engine', 'Craft %d electric engines.', 'electric-engine-unit', { 250, 1000 } ),
         Challenges.factory('Oil Refinery', 'Craft %d oil refineries.', 'oil-refinery', { 50, 200 } ),
         Challenges.factory('Solid Fuel', 'Craft %d solid fuel.', 'solid-fuel', { 500, 2000, 10000 } ),
         Challenges.factory('Heavy Armor', 'Craft %d heavy armors.', 'heavy-armor', { 1, 5, 10 } ),
