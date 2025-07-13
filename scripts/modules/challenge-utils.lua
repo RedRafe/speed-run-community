@@ -1,44 +1,6 @@
----@alias LuaChallengeUnion LuaChallenge|LuaChallenge[]
+local Inventory = require 'scripts.modules.inventory'
 
----@class LuaChallenge
----@field caption string
----@field tooltip string
----@field condition? LuaChallengeCondition
----@field icon? {sprite: string, number: int}
-
----@alias LuaChallengeCondition BuildCondition|CraftCondition|ResearchCondition|HoldCondition|DeathCondition|EquipCondition|CustomCondition
-
----@class GenericCondition
----@field name? string
----@field names? string[]
----@field count? uint
-
----@class BuildCondition:GenericCondition
----@field type 'build'
-
----@class CraftCondition:GenericCondition
----@field type 'craft'
-
----@class ResearchCondition:GenericCondition
----@field type 'research'
-
----@class HoldCondition:GenericCondition
----@field type 'hold'
-
----@class DeathCondition:GenericCondition
----@field type 'death'
----@field damage_type? string
----@field cause_type? string
----@field cause_name? string
----@field enemy? boolean
-
----@class EquipCondition:GenericCondition
----@field type 'equip'
-
----@class CustomCondition
----@field type 'custom'
----@field name string
----@field data table<AnyBasic, AnyBasic>
+local format = string.format
 
 local Public = {}
 
@@ -130,4 +92,54 @@ function Public.factory(caption, tooltip, name, counts)
     return challenges
 end
 
+function Public.starting_items()
+    local tbl = {}
+    for i, item in pairs(Inventory.get_starting_items()) do
+        tbl[i] = format('%dx [img=item.%s]', item.count, item.name)
+    end
+    return table.concat(tbl, ', ')
+end
+
 return Public
+
+---@alias LuaChallengeUnion LuaChallenge|LuaChallenge[]
+
+---@class LuaChallenge
+---@field caption string
+---@field tooltip string
+---@field condition? LuaChallengeCondition
+---@field icon? {sprite: string, number: int}
+
+---@alias LuaChallengeCondition BuildCondition|CraftCondition|ResearchCondition|HoldCondition|DeathCondition|EquipCondition|CustomCondition
+
+---@class GenericCondition
+---@field name? string
+---@field names? string[]
+---@field count? uint
+
+---@class BuildCondition:GenericCondition
+---@field type 'build'
+
+---@class CraftCondition:GenericCondition
+---@field type 'craft'
+
+---@class ResearchCondition:GenericCondition
+---@field type 'research'
+
+---@class HoldCondition:GenericCondition
+---@field type 'hold'
+
+---@class DeathCondition:GenericCondition
+---@field type 'death'
+---@field damage_type? string
+---@field cause_type? string
+---@field cause_name? string
+---@field enemy? boolean
+
+---@class EquipCondition:GenericCondition
+---@field type 'equip'
+
+---@class CustomCondition
+---@field type 'custom'
+---@field name string
+---@field data table<AnyBasic, AnyBasic>

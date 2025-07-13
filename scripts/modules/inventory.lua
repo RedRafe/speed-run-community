@@ -40,4 +40,8 @@ fsrc.add(defines.events.on_player_changed_force, function(event)
     end
 end)
 
+function Public.get_starting_items()
+    return table.deepcopy(starting_items)
+end
+
 return Public

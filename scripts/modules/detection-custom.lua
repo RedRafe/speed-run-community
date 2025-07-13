@@ -110,10 +110,11 @@ Custom.full_iron_chest = {
 }
 Custom.full_iron_chest[defines.events.on_robot_built_entity] = Custom.full_iron_chest[defines.events.on_built_entity]
 
-Custom.full_steel_chest_unique = {
+-- TODO: disallow spawnable items
+Custom.full_chest_unique = {
         [defines.events.on_built_entity] = function(event, data)
         local entity = event.entity
-        if entity.name ~= 'steel-chest' then
+        if entity.name ~= data.name then
             return
         end
 
@@ -152,7 +153,7 @@ Custom.full_steel_chest_unique = {
         return chest.force.name
     end,
 }
-Custom.full_steel_chest_unique[defines.events.on_robot_built_entity] = Custom.full_steel_chest_unique[defines.events.on_built_entity]
+Custom.full_chest_unique[defines.events.on_robot_built_entity] = Custom.full_chest_unique[defines.events.on_built_entity]
 
 Custom.full_modular_grid = {
     [defines.events.on_player_placed_equipment] = function(event)
