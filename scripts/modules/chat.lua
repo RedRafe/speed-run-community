@@ -52,10 +52,11 @@ fsrc.add(defines.events.on_player_removed, function(event)
     muted_players[event.player_index] = nil
 end)
 
---- Forward force chats to spectators
-fsrc.add(defines.events.on_console_chat, function(event)
+-- == FORCE CHATS =============================================================
+
+function Chat.process_message(event)
     local index = event.player_index
-    local message = event.message
+    local message = event.message or event.parameter
     if not (index and message) then
         return
     end
@@ -69,6 +70,10 @@ fsrc.add(defines.events.on_console_chat, function(event)
         return
     end
 
+    if (event.name == nil) and message:find('%[gps_tag=.+%]') then
+        return
+    end
+
     message = message:gsub('virtual%-signal=emoji%-', 'img=virtual-signal.emoji-')
 
     local player_force = player.force.name
@@ -77,43 +82,26 @@ fsrc.add(defines.events.on_console_chat, function(event)
     local player_force_text = format('[color=%d,%d,%d](%s)[/color]', color[1], color[2], color[3], force_name_map[player_force])
     local msg = format('%s %s %s: %s', player.name, player_tag, player_force_text, message)
 
-    if player_force == 'player' then
-        if not msg:find('%[gps_tag=.+%]') then -- TODO: if not tournament mode
-            game.forces.west.print(msg, { color = player.color })
-            game.forces.east.print(msg, { color = player.color })
+    --- Case: anyone using command /spect, /west, /east
+    if event.name and game.forces[event.name] then
+        game.forces[event.name].print(msg, { color = player.color })
+        if player_force ~= event.name then
+            game.forces[player_force].print(msg, { color = player.color })
         end
     else
-        if true then -- TODO: if not preparation phase
+        --- Case: spectator chatting
+        if player_force == 'player' then
+            game.forces.west.print(msg, { color = player.color })
+            game.forces.east.print(msg, { color = player.color })
+        else
+        --- Case: team member chatting
             game.forces.player.print(msg, { color = player.color })
         end
     end
-end)
-
--- == FORCE CHAT COMMANDS ============================================================
-
-local function force_chat(force_name, command)
-    local message = command.parameter
-    if not message then
-        return
-    end
-    local player = game.get_player(command.player_index) --[[@as LuaPlayer]]
-    local player_force = player.force.name
-    local player_tag = player.tag or ''
-    local color = Config.color[player_force]
-    local player_force_text = format('[color=%d,%d,%d](%s)[/color]', color[1], color[2], color[3], force_name_map[player_force])
-    color = Config.color[force_name]
-    local force_text = format('[color=%d,%d,%d](%s)[/color]', color[1], color[2], color[3], force_name_map[force_name])
-    local msg = format('%s %s %s to %s: %s', player.name, player_tag, player_force_text, force_text, message)
-
-    game.forces.player.print(msg, { color = player.color })
-    game.forces[force_name].print(msg, { color = player.color })
 end
 
-for name, cmd in pairs{ west = 'west', east = 'east', player = 'spectator' } do
-    commands.add_command(cmd, nil, function(command)
-        force_chat(name, command)
-    end)
-end
+--- Forward force chats to spectators
+fsrc.add(defines.events.on_console_chat, Chat.process_message)
 
 -- == PLAYER CHATS ============================================================
 

@@ -1,3 +1,4 @@
+local Chat = require 'scripts.modules.chat'
 local Game = require 'scripts.modules.game'
 
 local Actions = {}
@@ -14,6 +15,13 @@ Actions.hax = function()
     for _, recipe in pairs(game.player.force.recipes) do
         recipe.enabled = true
     end
+end
+
+Actions.chat = function(command)
+    if (command.name == 'spectator') or (command.name == 'spect') then
+        command.name = 'player'
+    end
+    Chat.process_message(command)
 end
 
 return Actions
