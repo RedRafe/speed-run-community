@@ -89,19 +89,34 @@ Public.clear_all = function()
 end
 
 local function choose_random_challenge(list)
-    local index = math.random(#list)
-    local selected = list[index]
+    local weight_total = 0
+    local weight_map = {}
+    local index_map = {}
+    for i, challenge in pairs(list) do
+        index_map[challenge] = i
+        weight_map[weight_total + 1024] = challenge
+        weight_total = weight_total + (challenge.weight or challenge.limit or 1)
+    end
+
+    local rand = math.random() * weight_total + 1024
+    local selected
+    for weight, challenge in pairs(weight_map) do
+        if weight >= rand then
+            break
+        end
+        selected = challenge
+    end
 
     if not selected.caption then
         if selected.limit and selected.limit > 0 then
             selected.limit = selected.limit - 1
         else
-            table.remove(list, index)
+            table.remove(list, index_map[selected])
         end
         return choose_random_challenge(selected)
     end
 
-    table.remove(list, index)
+    table.remove(list, index_map[selected])
     return selected
 end
 
