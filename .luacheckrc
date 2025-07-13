@@ -844,6 +844,7 @@ stds.factorio = {
                         'on_research_cancelled',
                         'on_research_finished',
                         'on_research_moved',
+                        'on_research_queued',
                         'on_research_reversed',
                         'on_research_started',
                         'on_resource_depleted',
