@@ -57,9 +57,7 @@ Force.register_critical_entity = function(entity)
     return true
 end
 
-fsrc.on_init(function()
-    game.surfaces.nauvis.peaceful_mode = true
-
+local function configure_forces()
     local player = game.forces.player
     player.set_spawn_position(Config.spawn_point.player, 'nauvis')
     player.share_chart = true
@@ -77,6 +75,12 @@ fsrc.on_init(function()
     east.share_chart = true
 
     --west.set_friend('east', true)
+end
+
+fsrc.on_init(function()
+    game.surfaces.nauvis.peaceful_mode = true
+
+    configure_forces()
 end)
 
 fsrc.add(defines.events.on_map_init, function()
@@ -89,6 +93,8 @@ fsrc.add(defines.events.on_map_reset, function()
         f.reset()
         f.reset_evolution()
     end
+
+    configure_forces()
 
     for _, player in pairs(game.players) do
         player.force = 'player'
