@@ -34,6 +34,10 @@ end
 local visual = {
     main_button_name = Gui.uid_name('main_button_visual'),
     action_assign = Gui.uid_name('action_assign'),
+    pin_button_name = Gui.uid_name('pin_button'),
+    pinned_view_name = Gui.uid_name('pinned_view'),
+    unpin_button_name = Gui.uid_name('unpin_button'),
+    pinned_view_close_button_name = Gui.uid_name('pinned_view_close_button'),
 }
 local letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' }
 local btn_size = 90
@@ -81,11 +85,9 @@ pages[#pages + 1] = {
     },
 }
 
-Visual.draw = function(player)
-    local data = PlayerMenu.get_right_data(player)
-    local frame = data.canvas
-
-    local flow = frame.add { type = 'frame' }.add{ type = 'flow', direction = 'horizontal' }
+--- Call update after
+local draw_challenge_ui = function (parent, data)
+    local flow = parent.add { type = 'frame' }.add{ type = 'flow', direction = 'horizontal' }
 
     do --- Counter
         data.challenges_counter = {}
@@ -111,75 +113,240 @@ Visual.draw = function(player)
         Gui.add_pusher(flow)
         data.challenges_table = tbl
     end
-
-    Visual.update(player)
+    do -- Pin Button
+        Gui.add_pusher(flow)
+        local pin_button = flow.add {
+            type = 'sprite-button',
+            sprite = 'utility/track_button',
+            name = visual.pin_button_name,
+            style = 'tool_button'
+        }
+        Gui.set_style(pin_button, { size = 32, padding = 0 })
+        pin_button.tooltip = 'Pin challenges to the screen'
+        pin_button.style.font_color = { 255, 255, 255 }
+        pin_button.style.hovered_font_color = { 255, 255, 0 }
+        pin_button.style.clicked_font_color = { 255, 0, 0 }
+    end
 end
 
-Visual.update = function(player)
-    local frame = PlayerMenu.try_get_main_frame(player)
-    local data = frame and Gui.get_data(frame)
-    if not (data and data.challenges_table and data.challenges_table.valid) then
-        return
-    end
-    local tbl = data.challenges_table
-    Gui.clear(tbl)
 
-    for x = 0, tbl.column_count - 1 do
-        for y = 0, tbl.column_count - 1 do
+
+
+local update_single_challenge = function (player, index, parent, challenge)
+    local button = parent.add {
+        type = 'button',
+        -- caption = challenge_tooltip(player, challenge),
+        style = challenge.side and styles[challenge.side] or 'frame_button',
+        tags = { [Gui.tag] = visual.action_assign, index = index },
+        tooltip = challenge_tooltip(player, challenge),
+    }
+    Gui.set_style(button, { size = btn_size, padding = 0 })
+
+    local h_flow = button.add { type = 'flow', direction = 'horizontal' }
+    Gui.set_style(h_flow, {
+        vertical_align = 'center',
+        horizontally_stretchable = true,
+        vertically_stretchable = true,
+        size = btn_size - 6,
+        margin = -2
+    })
+
+    local v_flow = h_flow.add { type = 'flow', direction = 'vertical' }
+    Gui.add_pusher(v_flow, 'vertical')
+    Gui.set_style(v_flow, {
+        horizontal_align = 'center',
+        vertically_stretchable = true,
+        horizontally_stretchable = true,
+        size = btn_size - 6,
+        margin = -2
+    })
+
+    if not (challenge.condition or challenge.side) then
+        local asterisk = h_flow.add { type = 'label', caption = '[font=var][color=red]*[/color][/font]' }
+        Gui.set_style(asterisk, { left_margin = -8, top_margin = 38 })
+    end
+
+    local label = v_flow.add { type = 'label', caption = challenge.caption, style = 'caption_label' }
+    Gui.set_style(label, {
+        single_line = false,
+        font = 'var',
+        font_color = { 255, 255, 255 },
+        maximal_width = btn_size - 10,
+        horizontal_align = 'center',
+        padding = 0,
+        margin = 0
+    })
+    Gui.add_pusher(v_flow, 'vertical')
+    local icon = v_flow.add { type = 'sprite-button', style = 'transparent_slot' }
+    if challenge.icon then
+        icon.sprite = challenge.icon.sprite
+        icon.number = challenge.icon.number
+    end
+end
+
+local update_challenge_ui = function (player, parent, challenges_counter)
+    Gui.clear(parent)
+
+    for x = 0, parent.column_count - 1 do
+        for y = 0, parent.column_count - 1 do
             if x == 0 and y == 0 then
                 --- 1st empty slot
-                tbl.add { type = 'empty-widget' }
+                parent.add { type = 'empty-widget' }
             elseif x == 0 then
                 --- Header row
-                local flow = tbl.add { type = 'flow', direction = 'vertical' }
+                local flow = parent.add { type = 'flow', direction = 'vertical' }
                 Gui.set_style(flow, { horizontal_align = 'center', width = btn_size+4 })
                 flow.add { type = 'label', caption = y, style = 'caption_label' }
             elseif y == 0 then
                 --- Header column
-                local flow = tbl.add { type = 'flow', direction = 'horizontal' }
+                local flow = parent.add { type = 'flow', direction = 'horizontal' }
                 Gui.set_style(flow, { vertical_align = 'center', height = btn_size+4, right_padding = 4 })
                 flow.add { type = 'label', caption = letters[x], style = 'caption_label' }
             else
                 --- Challenge button
-                local index = (x - 1) * (tbl.column_count - 1) + y
+                local index = (x - 1) * (parent.column_count - 1) + y
                 local ch = selected[index]
-                local button = tbl.add {
-                    type = 'button',
-                    tooltip = challenge_tooltip(player, ch),
-                    style = ch.side and styles[ch.side] or 'frame_button',
-                    tags = { [Gui.tag] = visual.action_assign, index = index }
-                }
-                Gui.set_style(button, { size = btn_size, padding = 0 })
-
-                local h_flow = button.add { type = 'flow', direction = 'horizontal' }
-                Gui.set_style(h_flow, { vertical_align = 'center', horizontally_stretchable = true, vertically_stretchable = true, size = btn_size - 6, margin = -2 })
-
-                local v_flow = h_flow.add { type = 'flow', direction = 'vertical' }
-                Gui.add_pusher(v_flow, 'vertical')
-                Gui.set_style(v_flow, { horizontal_align = 'center', vertically_stretchable = true, horizontally_stretchable = true, size = btn_size - 6, margin = -2 })
-
-                if not (ch.condition or ch.side) then
-                    local asterisk = h_flow.add { type = 'label', caption = '[font=var][color=red]*[/color][/font]', }
-                    Gui.set_style(asterisk, { left_margin = -8, top_margin = 38 })
-                end
-
-                local label = v_flow.add { type = 'label', caption = ch.caption, style = 'caption_label' }
-                Gui.set_style(label, { single_line = false, font = 'var', font_color = { 255, 255, 255 }, maximal_width = btn_size - 10, horizontal_align = 'center', padding = 0, margin = 0 })
-                Gui.add_pusher(v_flow, 'vertical')
-
-                local icon = v_flow.add { type = 'sprite-button', style = 'transparent_slot' }
-                if ch.icon then
-                    icon.sprite = ch.icon.sprite
-                    icon.number = ch.icon.number
-                end
+                update_single_challenge(player, index, parent, ch)
             end
         end
     end
 
     local points = count_points()
-    for side, button in pairs(data.challenges_counter) do
+    for side, button in pairs(challenges_counter) do
         button.number = points[side]
     end
+end
+
+
+--- Create a frame that is pinned to the left side of the screen
+---@param player LuaPlayer
+---@param params { caption: string, close_button_name: string, unpin_button_name: string, searchbox_name: string }
+local function draw_pinned_frame(player, params)
+    local info = {}
+
+    local parent = player.gui.left
+    local frame = parent.add { 
+        type = 'frame',
+        name = visual.pinned_view_name,
+        direction = 'vertical',
+        style = 'frame'
+    }
+    Gui.set_style(frame, Gui.styles.closable_frame)
+    frame.style.padding = 3
+    Gui.set_data(frame, info)
+    info.frame = frame
+
+
+    local title_flow = frame.add{ type = 'flow', direction = 'horizontal' }
+    Gui.set_style(title_flow, { horizontal_spacing = 8, vertical_align = 'center', bottom_padding = 4 })
+
+    info.label = title_flow.add { type = 'label', caption = params.caption, style = 'frame_title' }
+
+    Gui.add_pusher(title_flow)
+
+
+    local searchbox = title_flow.add({
+        type = 'textfield',
+        name = params.searchbox_name or Gui.closable_frame_searchbox_name,
+        style = 'search_popup_textfield',
+    })
+    info.searchbox = searchbox
+    info.searchbox.visible = false
+    Gui.set_data(info.searchbox, info)
+
+
+    info.unpin_button = title_flow.add { 
+        type = 'sprite-button',
+        name = params.unpin_button_name,
+        sprite = 'utility/track_button_white',
+        clicked_sprite = 'utility/track_button',
+        style = 'frame_action_button',
+        tooltip = 'Unpin this window'
+    }
+    Gui.set_data(info.unpin_button, info)
+
+    info.close_button = title_flow.add { 
+        type = 'sprite-button',
+        name = params.close_button_name,
+        sprite = 'utility/close',
+        clicked_sprite = 'utility/close_black',
+        style = 'frame_action_button',
+        tooltip = 'Close this window'
+    }
+    Gui.set_data(info.close_button, info)
+    return frame
+end
+
+local function draw_challenge_table_pinned(parent, data)
+    local tbl = parent.add { type = 'table', column_count = Challenges.get_size() }
+    Gui.set_style(tbl, { vertical_spacing = 0, horizontal_spacing = 0 })
+    data.challenges_table = tbl
+end
+
+local function update_challenge_table_pinned(player, tbl, challenges_counter)
+    Gui.clear(tbl)
+
+    for x = 0, tbl.column_count - 1 do 
+        for y = 0, tbl.column_count - 1 do
+            local index = x * tbl.column_count + y + 1
+            local challenge = selected[index]
+            update_single_challenge(player, index, tbl, challenge)
+        end
+    end
+end
+
+
+local draw_pinned = function(player)
+    local frame
+    local result, error = pcall(function()
+    frame = draw_pinned_frame(player, {
+        caption = 'Bingo Challenges',
+        close_button_name = visual.pinned_view_close_button_name,
+        unpin_button_name = visual.unpin_button_name,
+        searchbox_name = Gui.closable_frame_searchbox_name
+    })
+    end)
+    if not result then
+        game.print("Error drawing pinned challenges: " .. error)
+        return
+    end
+    local data = Gui.get_data(frame)
+    draw_challenge_table_pinned(frame, data)
+    update_challenge_table_pinned(player, data.challenges_table, data.challenges_counter)
+end
+
+
+local function destroy_pinned(player)
+    local view = player.gui.left[visual.pinned_view_name]
+    if view and view.valid then
+        Gui.destroy(view)
+    end
+end
+
+Visual.draw = function(player)
+    local data = PlayerMenu.get_right_data(player)
+    local parent = data.canvas
+    destroy_pinned(player)
+    draw_challenge_ui(parent, data)
+    update_challenge_ui(player, data.challenges_table, data.challenges_counter)
+end
+
+
+Visual.update = function(player)
+    local frame = PlayerMenu.try_get_main_frame(player)
+    local data = frame and Gui.get_data(frame)
+    if (data and data.challenges_table and data.challenges_table.valid) then
+        update_challenge_ui(player, data.challenges_table, data.challenges_counter)
+    end
+
+    local pinned = player.gui.left[visual.pinned_view_name]
+    if (pinned and pinned.valid) then
+        data = Gui.get_data(pinned)
+        update_challenge_table_pinned(
+            player, data.challenges_table, data.challenges_counter
+        )
+    end
+
 end
 
 Visual.update_all = function()
@@ -200,6 +367,7 @@ Visual.print_challenge = function(challenge, side)
     })
 end
 
+
 Gui.on_click(PlayerMenu.config.main_button_name, function(event)
     local player = event.player
     PlayerMenu.toggle_main_button(player)
@@ -217,6 +385,29 @@ fsrc.add(prototypes.custom_input.open_player_menu, function(event)
 end)
 
 -- == VISUAL - EVENTS =========================================================
+
+Gui.on_click(visual.pin_button_name, function(event)
+    PlayerMenu.clear_right_data(event.player)
+    PlayerMenu.toggle_main_button(event.player)
+    draw_pinned(event.player)
+end)
+
+Gui.on_click(visual.unpin_button_name, function(event)
+    local player = event.player
+    PlayerMenu.toggle_main_button(event.player)
+    local result, error = pcall(function()
+    PlayerMenu.clear_right_data(event.player)
+    Visual.draw(player)
+
+end)
+    if not result then
+        game.print("Error unpinning challenges: " .. error)
+    end
+end)
+
+Gui.on_click(visual.pinned_view_close_button_name, function(event)
+    destroy_pinned(event.player)
+end)
 
 Gui.on_click(visual.main_button_name, function(event)
     PlayerMenu.toggle_left_button(event.player, visual.main_button_name)
