@@ -70,7 +70,7 @@ function Chat.process_message(event)
         return
     end
 
-    if (event.destination == nil) and message:find('%[gps_tag=.+%]') then
+    if (event.destination == nil) and message:find('%[gps=.+%]') then
         return
     end
 
