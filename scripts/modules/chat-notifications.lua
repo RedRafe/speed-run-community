@@ -8,6 +8,8 @@ local sides = {
     east = true,
 }
 
+-- == RESEARCH QUEUE ============================================================
+
 fsrc.add(defines.events.on_research_queued, function(event)
     local player = game.get_player(event.player) --[[@as LuaPlayer]]
     local side = player.force.name
@@ -60,4 +62,23 @@ fsrc.add(defines.events.on_research_finished, function(event)
     local force_text = format('(%s) ', force_name_map[side])
     local research_text = format('[technology=%s]', research.name)
     game.forces.player.print({ '', force_text, { 'technology-researched', research_text } }, { color = Config.color[side], skip = defines.print_skip.never, sound = defines.print_sound.never })
+end)
+
+-- == DEATH ============================================================
+
+fsrc.add(defines.events.on_pre_player_died, function(event)
+    local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
+    local side = player.force.name
+    if not sides[side] then
+        return
+    end
+
+    local force_text = format('(%s) ', force_name_map[side])
+    local player_text = format('%s %s', player.name, player.tag)
+
+    if event.cause then
+        game.forces.player.print({ '', force_text, { 'multiplayer.player-died-by', player_text, event.cause, player.position}, { color = Config.color[side] })
+    else
+        game.forces.player.print( { '', force_text, { 'multiplayer.player-died', player_text, player.position}, { color = Config.color[side] })
+    end
 end)
