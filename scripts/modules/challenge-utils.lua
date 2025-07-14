@@ -83,7 +83,7 @@ function Public.factory(caption, tooltip, name, counts)
         end
 
         challenges[i] = {
-            caption = caption .. ' ' .. suffixes[i],
+            caption = '[img=item.' .. (multiple and name[1] or name) .. ']' .. ' ' .. suffixes[i],
             tooltip = string.format(tooltip, count),
             condition = condition,
             weight = 1/3,

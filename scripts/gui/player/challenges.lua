@@ -36,7 +36,7 @@ local visual = {
     action_assign = Gui.uid_name('action_assign'),
 }
 local letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' }
-local btn_size = 90
+local btn_size = 100
 local styles = {
     west = 'tool_button_blue',
     east = 'tool_button_red',
@@ -436,7 +436,7 @@ Gui.on_click(editor.action_get_random, function(event)
     if Game.is_playing() then
         return
     end
-    
+
     Editor.update(event.player, true)
 end)
 
