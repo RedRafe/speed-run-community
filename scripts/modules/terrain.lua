@@ -16,12 +16,6 @@ end
 
 fsrc.subscribe(this, function(tbl) this = tbl end)
 
-fsrc.on_init(function()
-    local mgs = game.surfaces.nauvis.map_gen_settings
-    mgs.starting_points = { { x = 320, y = 0 } }
-    game.surfaces.nauvis.map_gen_settings = mgs
-end)
-
 fsrc.add(defines.events.on_map_init, function()
     --- Chart map
     local radius = 32*7
