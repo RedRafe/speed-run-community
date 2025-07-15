@@ -61,7 +61,7 @@ local sides = {
     east = true,
 }
 
-fsrc.on_init(function()
+local function register_custom_handlers()
     local custom = current.custom
     for _, challenge in pairs(Challenges.get_challenges()) do
         local condition = challenge.condition
@@ -81,7 +81,10 @@ fsrc.on_init(function()
             end
         end
     end
-end)
+end
+
+fsrc.on_init(register_custom_handlers)
+fsrc.on_load(register_custom_handlers)
 
 local function on_match_started()
     local selected = PlayerGui.get_selected()
