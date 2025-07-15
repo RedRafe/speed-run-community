@@ -74,7 +74,7 @@ return {
         Challenges.factory('Train Stop', 'Craft %d train stops.', 'train-stop', { 50, 250, 500 } ),
         Challenges.factory('Car', 'Craft %d cars.', 'car', { 10, 50, 250 } ),
         Challenges.factory('Refined Hazard Concrete', 'Craft %d refined hazard concrete.', 'refined-hazard-concrete', { 1000, 2500, 5000 } ),
-        Challenges.factory('Module', 'Craft %d modules.',
+        Challenges.factory('Module', 'Craft %d modules.', -- TODO: custom icon
             { 'speed-module', 'speed-module-2', 'speed-module-3', 'efficiency-module', 'efficiency-module-2', 'efficiency-module-3', 'productivity-module', 'productivity-module-2', 'productivity-module-3' },
             { 50, 250 }
         ),
@@ -110,18 +110,18 @@ return {
 
         -- Death
         { caption = 'RIP', tooltip = 'Die once in any way.', condition = { type = 'death', name = 'character' } },
-        { caption = 'Bit the dust', tooltip = 'Die once in any way except to biters/worms/spitters.', icon = icon('entity/character')},
+        { caption = 'Bit the dust', tooltip = 'Die once in any way that isn\'t from enemies.', condition = { type = 'death', name = 'character', same_force = true }},
         { caption = 'Crash Test', tooltip = 'Destroy a car by impact.', condition = { type = 'death', name = 'car', damage_type = 'impact' }},
-        { caption = 'Pole Wrecker', tooltip = 'Destroy 150 power poles.', condition = { type = 'death', names = { 'small-electric-pole', 'medium-electric-pole', 'big-electric-pole', 'substation' }, count = 150 } },
+        { caption = 'Pole Wrecker', tooltip = 'Destroy 150 power poles.', icon = icon('entity/small-electric-pole', 150), condition = { type = 'death', entity_type = 'electric-pole', count = 150 } },
         { caption = 'Turret Buster', tooltip = 'Destroy 5 gun turrets.', condition = { type = 'death', name = 'gun-turret', count = 5 } },
-        { caption = 'Bug Check', tooltip = 'Kill 1 enemy spawner.', condition = { type = 'death', names = {'biter-spawner', 'spitter-spawner'}, enemy = true } },
-        { caption = 'Biter Extinction', tooltip = 'Kill 25 enemy spawners.', condition = { type = 'death', names = {'biter-spawner', 'spitter-spawner'}, count = 25, enemy = true } },
+        { caption = 'Bug Check', tooltip = 'Kill 1 enemy spawner.', condition = { type = 'death', names = {'biter-spawner', 'spitter-spawner'} } },
+        { caption = 'Biter Extinction', tooltip = 'Kill 25 enemy spawners.', condition = { type = 'death', names = {'biter-spawner', 'spitter-spawner'}, count = 25 } },
         { caption = 'Roadkill', tooltip = 'Die by getting run over by a tank.', icon = icon('entity/tank'), condition = { type = 'death', name = 'character', cause_name = 'tank' } },
         { caption = 'Cliffhanger', tooltip = 'Destroy a cliff.', icon = icon('utility/cliff_deconstruction_enabled_modifier_icon'), condition = { type = 'custom', name = 'destroy_cliff' } },
-        { caption = 'Shotgun Sheriff', tooltip = 'Kill 100 biters with shotgun shells.', icon = icon('entity/small-biter', 100), condition = { type = 'custom', name = 'shotgun_kills', data = { count = 100 } } },
-        { caption = 'Rocket Launcher', tooltip = 'Kill 10 enemy spawners with rockets.', icon = icon('entity/biter-spawner', 10), },
-        { caption = 'Deforestation', tooltip = 'Destroy 1,000 trees with poison capsules.', icon = icon('entity/tree-01', 1000), },
-        { caption = 'Loan Repayment', tooltip = format('Sacrifice items by shooting a chest.\n(%s)', Challenges.starting_items()), icon = icon('item/stone-furnace') },
+        { caption = 'Shotgun Sheriff', tooltip = 'Kill 100 biters with shotgun shells.', icon = icon('entity/small-biter', 100), condition = { type = 'custom', name = 'source_kills', data = { entity_type = 'unit', source = { 'shotgun-pellet', 'piercing-shotgun-pellet' }, count = 100 } } },
+        { caption = 'Rocket Launcher', tooltip = 'Kill 10 enemy spawners with rockets.', icon = icon('entity/biter-spawner', 10), condition = { type = 'custom', name = 'source_kills', data = { entity_type = 'unit-spawner', source = { 'rocket', 'explosive-rocket'}, count = 10  } } },
+        { caption = 'Deforestation', tooltip = 'Destroy 1,000 trees with poison capsules.', icon = icon('entity/tree-01', 1000), condition = { type = 'death', entity_type = 'tree', damage_type = 'poison', count = 1000 } },
+        { caption = 'Loan Repayment', tooltip = format('Sacrifice these items by destroying a chest:\n%s', Challenges.starting_items()), icon = icon('item/stone-furnace') },
 
         -- Equip
         { caption = 'Fully Equipped', tooltip = 'Wear modular armor with a fill equipment grid.', condition = { type = 'custom', name = 'full_modular_grid' }, icon = icon('item/modular-armor') },

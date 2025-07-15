@@ -132,10 +132,11 @@ return Public
 
 ---@class DeathCondition:GenericCondition
 ---@field type 'death'
+---@field entity_type? string
 ---@field damage_type? string
 ---@field cause_type? string
 ---@field cause_name? string
----@field enemy? boolean
+---@field same_force? boolean
 
 ---@class EquipCondition:GenericCondition
 ---@field type 'equip'

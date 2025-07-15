@@ -138,6 +138,10 @@ local function on_match_started()
 
         if condition.type == 'craft' then
             current.craft[challenge.caption] = condition
+        elseif condition.type == 'death' and condition.entity_type then
+            for name in pairs(prototypes.get_entity_filtered{ { filter = "type", type = condition.entity_type } }) do
+                add_or_create(current.death, name, condition)
+            end
         elseif condition.type == 'custom' then
             current.custom[challenge.caption] = condition
         else
@@ -347,35 +351,32 @@ fsrc.add(defines.events.on_entity_died, function(event)
         return
     end
 
-    local death_side = entity.force.name
+    local force = event.force
+    if not force then
+        return
+    end
 
-    if not sides[death_side] then
+    local side = force.name
+    if not sides[side] then
         return
     end
 
     for k, condition in pairs(conditions) do
-        local side = death_side
-        if condition.enemy then
-            if not side:find('enemy') then
-                goto continue
-            end
-            side = side:sub(7)
-            game.print(side)
+        local cause = event.cause
+        if not cause then
+            goto continue
         end
         if condition.cause_name then
-            local cause = event.cause
-            if not cause then
-                goto continue
-            end
             if cause.name ~= condition.cause_name then
                 goto continue
             end
         elseif condition.cause_type then
-            local cause = event.cause
-            if not cause then
+            if cause.type ~= condition.cause_type then
                 goto continue
             end
-            if cause.type ~= condition.cause_type then
+        end
+        if condition.same_force ~= nil then
+            if (cause.force == force) ~= condition.same_force then
                 goto continue
             end
         end
