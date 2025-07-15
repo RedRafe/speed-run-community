@@ -28,7 +28,7 @@ local shortcuts = {
 
 local pages = PlayerMenu.get_pages()
 pages[#pages + 1] = {
-    admin = true,
+    admin = false,
     button = {
         type = 'sprite-button',
         sprite = 'team',
