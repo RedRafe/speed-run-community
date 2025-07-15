@@ -5,48 +5,6 @@ local sides = {
 
 local Custom = {}
 
-Custom.source_kills = {
-    [defines.events.on_entity_damaged] = function(event, data)
-        if event.entity.type ~= data.entity_type then
-            return
-        end
-
-        if event.final_health > 0 then
-            return
-        end
-
-        local force = event.force
-        if not force then
-            return
-        end
-
-        local side = force.name
-        if not sides[side] then
-            return
-        end
-
-        local source = event.source
-        if not source then
-            return
-        end
-
-        for _, name in pairs(data.source) do
-            if source.name == name then
-                goto forelse
-            end
-        end
-        do return end
-        ::forelse::
-
-        local count = (data[side] or 0) + 1
-        data[side] = count
-
-        if count >= data.count then
-            return side
-        end
-    end,
-}
-
 Custom.botlap = {
     [defines.events.on_robot_built_entity] = function(event)
         local entity = event.entity
@@ -274,6 +232,48 @@ Custom.long_train = {
         end
 
         if #train.carriages >= data.count then
+            return side
+        end
+    end,
+}
+
+Custom.source_kills = {
+    [defines.events.on_entity_damaged] = function(event, data)
+        if event.entity.type ~= data.entity_type then
+            return
+        end
+
+        if event.final_health > 0 then
+            return
+        end
+
+        local force = event.force
+        if not force then
+            return
+        end
+
+        local side = force.name
+        if not sides[side] then
+            return
+        end
+
+        local source = event.source
+        if not source then
+            return
+        end
+
+        for _, name in pairs(data.source) do
+            if source.name == name then
+                goto forelse
+            end
+        end
+        do return end
+        ::forelse::
+
+        local count = (data[side] or 0) + 1
+        data[side] = count
+
+        if count >= data.count then
             return side
         end
     end,
