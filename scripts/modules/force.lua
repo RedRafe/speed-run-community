@@ -61,6 +61,12 @@ local function configure_forces()
     local player = game.forces.player
     player.set_spawn_position(Config.spawn_point.player, 'nauvis')
     player.share_chart = true
+    for _, recipe in pairs(player.recipes) do
+        recipe.enabled = true
+    end
+    for _, technology in pairs(player.technologies) do
+        technology.researched = true
+    end
 
     local west = game.forces.west
     west.set_spawn_position(Config.spawn_point.west, 'nauvis')
