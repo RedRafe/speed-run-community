@@ -92,13 +92,13 @@ local function choose_random_challenge(list)
     local weight_total = 0
     local weight_map = {}
     local index_map = {}
-    for i, challenge in pairs(list) do
+    for i, challenge in ipairs(list) do
         index_map[challenge] = i
-        weight_map[weight_total + 1024] = challenge
+        weight_map[weight_total + 1025] = challenge
         weight_total = weight_total + (challenge.weight or challenge.limit or 1)
     end
 
-    local rand = math.random() * weight_total + 1024
+    local rand = math.random() * weight_total + 1025
     local selected
     for weight, challenge in pairs(weight_map) do
         if weight >= rand then

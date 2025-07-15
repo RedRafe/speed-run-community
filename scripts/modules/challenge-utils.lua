@@ -62,31 +62,34 @@ function Public.icon(sprite, number)
     return { sprite = sprite, number = number }
 end
 
----@param caption string
----@param tooltip string
+local suffixes = { 'Factory', 'Mega Factory', 'Giga Factory' }
 ---@param name string|string[]
 ---@param counts uint[]
-function Public.factory(_, tooltip, name, counts)
-    local suffixes = {'Mega Factory', 'Giga Factory'}
-    if #counts == 3 then
-        table.insert(suffixes, 1, 'Factory')
-    end
-
-    local challenges = {} ---@type LuaChallenge[]
+function Public.factory(name, counts)
+    local challenges = { weight = 1/2 } ---@type LuaChallenge[]
     local multiple = type(name) == 'table'
     for i, count in pairs(counts) do
         local condition = { type = 'craft', count = count }
         if multiple then
-            condition.names = name
+            condition.names = name --[[@as string[] ]]
         else
-            condition.name = name
+            condition.name = name --[[@as string]]
+        end
+
+        local rich_icons = {}
+        for j, craft in pairs(condition.names or { condition.name }) do
+            rich_icons[j] = format('[img=item.%s]', craft)
+        end
+
+        local len = #rich_icons
+        if len > 1 then
+            rich_icons[len] = 'or ' .. rich_icons[len]
         end
 
         challenges[i] = {
-            caption = '[img=item.' .. (multiple and name[1] or name) .. ']' .. ' ' .. suffixes[i],
-            tooltip = string.format(tooltip, count),
+            caption =  rich_icons[1] .. ' ' .. suffixes[i],
+            tooltip = format('Craft a total of %dx %s.', count, table.concat(rich_icons, ', ')),
             condition = condition,
-            weight = 1/3,
         }
     end
 
