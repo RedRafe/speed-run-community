@@ -3,17 +3,17 @@ local Actions = require 'scripts.modules.command-actions'
 for _, command in pairs({
     {
         name = 'on-map-reset',
-        help = 'Instantly rerolls a new map',
+        help = '[Admin] Instantly rerolls a new map',
         action = Actions.instant_map_reset
     },
     {
         name = 'transition',
-        help = 'Moves game state to nest stage',
+        help = '[Admin] Moves game state to nest stage',
         action = Actions.transition
     },
     {
         name = 'hax',
-        help = 'Unlock all recipes',
+        help = '[Admin] Unlock all recipes',
         action = Actions.hax
     },
     {
