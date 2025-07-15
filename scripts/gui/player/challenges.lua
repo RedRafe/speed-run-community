@@ -7,21 +7,26 @@ local Terrain = require 'scripts.modules.terrain'
 
 local Public = {
     Visual = {},
-    Editor = {}
+    Editor = {},
+    Compact = {},
 }
 local Visual = Public.Visual
 local Editor = Public.Editor
+local Compact = Public.Compact
 
 local pages = PlayerMenu.get_pages()
 local selected = {}
 local proposed = {}
+local pin_settings = {}
 
 fsrc.subscribe({
     selected = selected,
-    proposed = proposed
+    proposed = proposed,
+    pin_settings = pin_settings
 }, function(tbl)
     selected = tbl.selected
     proposed = tbl.proposed
+    pin_settings = tbl.pin_settings
 end)
 
 function Public.get_selected()
@@ -34,8 +39,10 @@ end
 local visual = {
     main_button_name = Gui.uid_name('main_button_visual'),
     action_assign = Gui.uid_name('action_assign'),
+    pin_button = Gui.uid_name('pin_button'),
 }
 local letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' }
+local red_asterisk = '[font=var][color=red]*[/color][/font]'
 local btn_size = 100
 local styles = {
     west = 'tool_button_blue',
@@ -91,6 +98,14 @@ Visual.draw = function(player)
         data.challenges_counter = {}
         local vert = flow.add { type = 'flow', direction = 'vertical' }
         Gui.add_pusher(vert, 'vertical')
+        local pin = vert.add {
+            type = 'sprite-button',
+            style = 'frame_button',
+            name = visual.pin_button,
+            sprite = 'utility/track_button_white',
+            tooltip = 'Pin window to the side'
+        }
+        Gui.set_style(pin, { size = 32, padding = 4 })
         for side, button in pairs({
             player = vert.add { type = 'sprite-button', style = 'frame_button' },
             west = vert.add { type = 'sprite-button', caption = Config.force_name_map.west:sub(1, 1), style = styles.west, tooltip = Config.force_name_map.west },
@@ -159,7 +174,7 @@ Visual.update = function(player)
                 Gui.set_style(v_flow, { horizontal_align = 'center', vertically_stretchable = true, horizontally_stretchable = true, size = btn_size - 6, margin = -2 })
 
                 if not (ch.condition or ch.side) then
-                    local asterisk = h_flow.add { type = 'label', caption = '[font=var][color=red]*[/color][/font]', }
+                    local asterisk = h_flow.add { type = 'label', caption = red_asterisk, }
                     Gui.set_style(asterisk, { left_margin = -8, top_margin = 38 })
                 end
 
@@ -267,6 +282,231 @@ Gui.on_click(visual.action_assign, function(event)
 
     Visual.print_challenge(selected[index], side)
     Visual.update_all()
+    Compact.update_all()
+end)
+
+-- == COMPACT =================================================================
+
+local compact = {
+    main_frame_name = Gui.uid_name('compact_main_frame'),
+    pin_button = visual.pin_button,
+    action_mark_favourite = Gui.uid_name('action_mark_favourite')
+}
+
+local favourite_enabled_icon = '[img=virtual-signal/signal-star]'
+local favourite_disabled_icon = '[img=virtual-signal/signal-damage;tint=55,55,55,0]'
+
+Compact.toggle = function(player)
+    local frame = Gui.get_left_element(player, compact.main_frame_name)
+    if frame then
+        Gui.destroy(frame)
+    else
+        Compact.draw(player)
+    end
+end
+
+Compact.draw = function(player)
+    local frame = Gui.get_left_element(player, compact.main_frame_name)
+    if frame and frame.valid then
+        return frame
+    end
+
+    frame = Gui.add_left_element(player, {
+        name = compact.main_frame_name,
+        type = 'frame',
+        direction = 'vertical'
+    })
+    Gui.set_style(frame, { maximal_width = 336, padding = 2 })
+
+    local data = {}
+    Gui.set_data(frame, data)
+
+    local canvas = frame
+        .add({ type = 'flow', style = 'vertical_flow', direction = 'vertical' })
+        .add({ type = 'frame', style = 'inside_shallow_frame_packed', direction = 'vertical' })
+
+    do -- Subheader
+        local subheader = canvas.add({ type = 'frame', style = 'subheader_frame' })
+        Gui.set_style(subheader, { horizontally_squashable = true, maximal_height = 40 })
+
+        subheader.add {
+            type = 'sprite-button',
+            style = 'frame_action_button',
+            name = compact.pin_button,
+            sprite = 'utility/track_button_white',
+            tooltip = 'Unpin window'
+        }
+
+        local label = subheader.add({ type = 'label', caption = 'Challenges' })
+        Gui.set_style(label, { font = 'default-semibold', font_color = { 225, 225, 225 }, left_margin = 4 })
+
+        Gui.add_pusher(subheader)
+        subheader.add({ type = 'line', direction = 'vertical' })
+        Gui.add_pusher(subheader)
+
+        data.label = subheader.add({ type = 'label', caption = '---' })
+        Gui.set_style(label, { font = 'default-semibold', font_color = { 225, 225, 225 }, right_margin = 4 })
+    end
+
+    data.sp = canvas.add {
+        type = 'scroll-pane',
+        direction = 'vertical',
+        horizontal_scroll_policy = 'never',
+        vertical_scroll_policy = 'auto',
+    }
+    Compact.update(player)
+end
+
+Compact.update = function(player)
+    local frame = Gui.get_left_element(player, compact.main_frame_name)
+    if not frame then
+        return
+    end
+
+    local data = Gui.get_data(frame)
+    if not data then
+        return
+    end
+
+    data.label.caption = 'Remaining: '..count_points().player
+    Gui.clear(data.sp)
+    Gui.set_style(data.sp, { maximal_height = 50 * settings.get_player_settings(player).bingo_show_challenges.value })
+
+    local function make_challenge(parent, ch)
+        local flow = parent.add { type = 'flow', direction = 'horizontal' }
+        Gui.set_style(flow, {
+            vertical_align = 'center',
+            left_padding = 8,
+            right_padding = 8,
+            top_padding = 2,
+            bottom_padding = 2,
+            horizontal_spacing = 6,
+        })
+        local icon = flow.add {
+            type = 'sprite-button',
+            style = ch.side and styles[ch.side] or 'slot_button_in_shallow_frame',
+            sprite = ch.icon.sprite,
+            number = ch.icon.number,
+            tooltip = challenge_tooltip(player, ch),
+            tags = { [Gui.tag] = visual.action_assign, index = ch.index }
+        }
+        Gui.set_style(icon, { size = 40 })
+        flow.add {
+            type = 'label',
+            caption = (not (ch.condition or ch.side)) and (ch.caption .. ' ' .. red_asterisk) or ch.caption,
+            tooltip = challenge_tooltip(player, ch),
+        }
+        Gui.add_pusher(flow)
+        local favourite = flow.add({
+            type = 'label',
+            name = compact.action_mark_favourite,
+            caption = ch.pinned and favourite_enabled_icon or favourite_disabled_icon,
+            tooltip = ch.pinned and 'Remove from pinned' or 'Add to pinned',
+            tags = { player_index = player.index, index = ch.index, pinned = ch.pinned },
+        })
+        Gui.set_style(favourite, { font = 'default-small' })
+    end
+
+    for _, ch in pairs(Compact.get_challenges_sorted_and_filtered(player)) do
+        make_challenge(data.sp, ch)
+    end
+end
+
+Compact.update_all = function()
+    for _, player in pairs(game.players) do
+        Compact.update(player)
+    end
+end
+
+Compact.get_pin_settings = function(player)
+    local pinned = pin_settings[player.index]
+    if not pinned then
+        pinned = {}
+        pin_settings[player.index] = pinned
+    end
+    return pinned
+end
+
+Compact.get_challenges_sorted_and_filtered = function(player)
+    local pinned = Compact.get_pin_settings(player)
+    local show_claimed = settings.get_player_settings(player).bingo_show_claimed.value
+    local show_on_top = settings.get_player_settings(player).bingo_show_on_top.value
+    local list = {}
+
+    local function push(challenge, index)
+        local ch = table.deepcopy(challenge)
+        ch.index = index
+        ch.pinned = table.contains(pinned, index)
+        table.insert(list, ch)
+    end
+
+    -- Helper to determine if challenge should be included
+    local function should_include(ch)
+        return show_claimed or (ch.side == nil)
+    end
+
+    if show_on_top then
+        -- Add pinned first
+        for _, index in ipairs(pinned) do
+            local ch = selected[index]
+            if ch and should_include(ch) then
+                push(ch, index)
+            end
+        end
+        -- Add remaining (non-pinned)
+        for index, ch in pairs(selected) do
+            if should_include(ch) and not table.contains(pinned, index) then
+                push(ch, index)
+            end
+        end
+    else
+        -- Add all, no special order
+        for index, ch in pairs(selected) do
+            if should_include(ch) then
+                push(ch, index)
+            end
+        end
+    end
+
+    return list
+end
+
+-- == COMPACT - EVENTS ========================================================
+
+Gui.on_click(compact.pin_button, function(event)
+    local player = event.player
+    -- Toggle compact view
+    local frame = Gui.get_left_element(player, compact.main_frame_name)
+    if frame then
+        Gui.destroy(frame)
+    else
+        Compact.draw(player)
+        -- Toggle big view
+        PlayerMenu.toggle_main_button(player)
+        if player.gui.screen[PlayerMenu.config.main_frame_name] then
+            Visual.draw(player)
+        end
+    end
+end)
+
+Gui.on_click(compact.action_mark_favourite, function(event)
+    local index = event.element.tags.index
+    local pinned = Compact.get_pin_settings(event.player)
+    if table.contains(pinned, index) then
+        table.remove_element(pinned, index)
+    else
+        table.insert(pinned, index)
+    end
+
+    Compact.update(event.player)
+end)
+
+fsrc.add(defines.events.on_runtime_mod_setting_changed, function(event)
+    Compact.update(game.get_player(event.player_index))
+end)
+
+fsrc.add(defines.events.on_player_removed, function(event)
+    pin_settings[event.player_index] = nil
 end)
 
 -- == EDITOR ==================================================================
@@ -362,7 +602,7 @@ Editor.draw = function(player)
 end
 
 Editor.update = function(player, with_random)
-    local frame = PlayerMenu.get_main_frame(player)
+    local frame = PlayerMenu.try_get_main_frame(player)
     local data = frame and Gui.get_data(frame)
     if not (data and data.editor_left and data.editor_left) then
         return
@@ -460,9 +700,6 @@ Gui.on_click(editor.action_confirm_new_random, function()
     table.add_all(selected, proposed)
     table.clear_table(proposed)
 
-    Visual.update_all()
-    Editor.update_all()
-
     fsrc.raise_event(defines.events.on_challenges_changed, {})
 end)
 
@@ -474,10 +711,21 @@ end)
 
 fsrc.add(defines.events.on_map_init, function()
     table.add_all(selected, Challenges.select_random_challenges())
+    fsrc.raise_event(defines.events.on_challenges_changed, {})
 end)
 
 fsrc.add(defines.events.on_map_reset, function()
     table.clear_table(selected)
+end)
+
+fsrc.add(defines.events.on_challenges_changed, function()
+    for _, pinned in pairs(pin_settings) do
+        table.clear_table(pinned)
+    end
+
+    Visual.update_all()
+    Compact.update_all()
+    Editor.update_all()
 end)
 
 -- ============================================================================
