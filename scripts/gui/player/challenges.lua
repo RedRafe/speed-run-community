@@ -283,7 +283,7 @@ local editor = {
 }
 
 pages[#pages + 1] = {
-    admin = true,
+    admin = false,
     button = {
         type = 'sprite-button',
         sprite = 'game',
