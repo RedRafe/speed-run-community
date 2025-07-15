@@ -77,8 +77,8 @@ fsrc.add(defines.events.on_pre_player_died, function(event)
     local player_text = format('%s %s', player.name, player.tag)
 
     if event.cause then
-        game.forces.player.print({ '', force_text, { 'multiplayer.player-died-by', player_text, event.cause, player.position}, { color = Config.color[side] })
+        game.forces.player.print({ '', force_text, { 'multiplayer.player-died-by', player_text, event.cause, player.position}, { color = Config.color[side] } })
     else
-        game.forces.player.print( { '', force_text, { 'multiplayer.player-died', player_text, player.position}, { color = Config.color[side] })
+        game.forces.player.print({ '', force_text, { 'multiplayer.player-died', player_text, player.position}, { color = Config.color[side] } })
     end
 end)
