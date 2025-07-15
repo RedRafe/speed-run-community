@@ -44,39 +44,6 @@ local function complete_challenge(challenge, side)
     Visual.update_all()
 end
 
--- this variable intentionally left local
--- local detector_map = {}
--- local function remove_handlers(detectors)
---     for id, detector in pairs(detectors) do
---         fsrc.remove(id, detector_map[detector])
---         detector_map[detector] = nil
---     end
--- end
-
--- local function register_custom_handlers()
---     for k, condition in pairs(current.custom) do
---         local detectors = Custom[condition.name]
---         local data = custom_data[condition.name]
---         for id, detector in pairs(detectors) do
---             local handler = function(event)
---                 if not Game.is_playing() then
---                     return
---                 end
---                 local side = detector(event, data)
---                 if side then
---                     current.custom[k] = nil
---                     complete_condition(condition, side)
---                     remove_handlers(detectors)
---                 end
---             end
---             detector_map[detector] = handler
---             fsrc.add(id, handler)
---         end
---     end
--- end
-
--- fsrc.on_load(register_custom_handlers)
-
 local function add_or_create(tbl, k, v)
     local arr = tbl[k]
     if arr then
@@ -163,25 +130,11 @@ local function on_match_started()
         local data = table.deepcopy(condition.data) or {}
         custom_data[caption] = data
     end
-
-    -- register_custom_handlers()
 end
 
--- local function on_match_finished()
---     for _, condition in pairs(current.custom) do
---         remove_handlers(Custom[condition.name])
---     end
--- end
-
 fsrc.add(defines.events.on_match_started, on_match_started)
--- fsrc.add(defines.events.on_match_finished, on_match_finished)
--- fsrc.add(defines.events.on_challenges_changed, function()
---     on_match_finished()
---     on_match_started()
--- end)
 
--- Build
-
+--- Build
 ---@param id string
 ---@param side string
 local function built(id, side)
@@ -241,7 +194,7 @@ fsrc.on_built_tile(function(event)
     built(tile.name, source.force.name)
 end)
 
--- Craft
+--- Craft
 -- can potentially be optimized to have statistics.lua call something here when it scans an item that's being tracked
 -- but I doubt the perf hit is that bad for <25 items a tick - this isn't even making api calls, just indexing tables
 fsrc.add(defines.events.on_tick, function()
@@ -270,7 +223,7 @@ fsrc.add(defines.events.on_tick, function()
 
 end)
 
--- Research
+--- Research
 fsrc.add(defines.events.on_research_finished, function(event)
     if not Game.is_playing() then
         return
@@ -305,7 +258,7 @@ fsrc.add(defines.events.on_research_finished, function(event)
 
 end)
 
--- Hold
+--- Hold
 fsrc.add(defines.events.on_player_main_inventory_changed, function(event)
     if not Game.is_playing() then
         return
@@ -335,7 +288,7 @@ fsrc.add(defines.events.on_player_main_inventory_changed, function(event)
     end
 end)
 
--- Death
+--- Death
 fsrc.add(defines.events.on_entity_died, function(event)
     if not Game.is_playing() then
         return
@@ -404,7 +357,7 @@ fsrc.add(defines.events.on_entity_died, function(event)
     end
 end)
 
--- Equip
+--- Equip
 fsrc.add(defines.events.on_player_placed_equipment, function(event)
     if not Game.is_playing() then
         return

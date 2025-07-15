@@ -66,7 +66,7 @@ end
 ---@param tooltip string
 ---@param name string|string[]
 ---@param counts uint[]
-function Public.factory(caption, tooltip, name, counts)
+function Public.factory(_, tooltip, name, counts)
     local suffixes = {'Mega Factory', 'Giga Factory'}
     if #counts == 3 then
         table.insert(suffixes, 1, 'Factory')
