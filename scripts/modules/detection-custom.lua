@@ -77,6 +77,9 @@ Custom.full_inventory_unique = {
 }
 
 Custom.full_iron_chest = {
+    [defines.events.on_match_started] = function(_, data)
+        data.chests = {}
+    end,
     [defines.events.on_built_entity] = function(event, data)
         local entity = event.entity
         if entity.name ~= 'iron-chest' then
@@ -112,6 +115,9 @@ Custom.full_iron_chest[defines.events.on_robot_built_entity] = Custom.full_iron_
 
 -- TODO: disallow spawnable items
 Custom.full_chest_unique = {
+        [defines.events.on_match_started] = function(_, data)
+            data.chests = {}
+        end,
         [defines.events.on_built_entity] = function(event, data)
         local entity = event.entity
         if entity.name ~= data.name then
@@ -237,6 +243,75 @@ Custom.long_train = {
     end,
 }
 
+local rock_whitelist = { 'big-sand-rock', 'big-rock', 'huge-rock', }
+Custom.rock_power = {
+    [defines.events.on_match_started] = function(_, data)
+        data.rocks = {}
+    end,
+    [defines.events.on_built_entity] = function(event, data)
+        local entity = event.entity --[[@as LuaEntity]]
+        if entity.type ~= 'electric-pole' then
+            return
+        end
+
+        local side = entity.force.name
+        if not sides[side] then
+            return
+        end
+
+        local supply_distance = entity.prototype.get_supply_area_distance(entity.quality)
+        local area = { entity.position, entity.position }
+        area[1].x = area[1].x - supply_distance
+        area[1].y = area[1].y - supply_distance
+        area[2].x = area[2].x + supply_distance
+        area[2].y = area[2].y + supply_distance
+
+        local rocks = entity.surface.find_entities_filtered{ area = area, name = rock_whitelist }
+        for _, rock in pairs(rocks) do
+            local rock_id = script.register_on_object_destroyed(rock)
+            local rock_data = data.rocks[rock_id] or {  }
+            data.rocks[rock_id] = rock_data
+            rock_data[entity.unit_number] = entity
+
+            rock.surface.create_entity{
+                name = 'highlight-box',
+                position = rock.position,
+                source = rock,
+                time_to_live = 90,
+                blink_interval = 15,
+            }
+        end
+
+        local networks = {}
+        for _, poles in pairs(data.rocks) do
+            for unit_number, pole in pairs(poles) do
+                if not pole.valid then
+                    poles[unit_number] = nil
+                    goto continue
+                end
+
+                local id = pole.electric_network_id
+                local network = networks[id] or { pole = pole, count = 0 }
+                networks[id] = network
+                network.count = network.count + 1
+
+                ::continue::
+            end
+        end
+
+        for _, network in pairs(networks) do
+            if network.count >= data.count then
+                local statistics = network.pole.electric_network_statistics
+                for _, output_count in pairs(statistics.output_counts) do
+                    if output_count > 0 then
+                        return side
+                    end
+                end
+            end
+        end
+    end,
+}
+
 Custom.source_kills = {
     [defines.events.on_entity_damaged] = function(event, data)
         if event.entity.type ~= data.entity_type then
@@ -280,6 +355,9 @@ Custom.source_kills = {
 }
 
 Custom.stay_in_car = {
+    [defines.events.on_match_started] = function(_, data)
+        data.players = {}
+    end,
     [defines.events.on_player_driving_changed_state] = function(event, data)
         local player = game.get_player(event.player_index) --[[@as LuaPlayer]]
         local side = player.force.name
