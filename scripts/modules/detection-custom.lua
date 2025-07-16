@@ -5,6 +5,64 @@ local sides = {
 
 local Custom = {}
 
+local function is_targeting_entity(unit, entity)
+    local distraction = unit.commandable.distraction_command
+    if not distraction then
+        return
+    end
+
+    local target = distraction.target
+    if not target then
+        return
+    end
+
+    if target == entity then
+        return true
+    end
+
+    if target.type == 'unit' then
+        return is_targeting_entity(target, entity)
+    end
+end
+
+Custom.biter_chase = {
+    [defines.events.on_tick] = function(_, data)
+        for side in pairs(sides) do
+            for _, player in pairs(game.forces[side].connected_players) do
+                local character = player.character
+                if not character then
+                    goto continue
+                end
+
+                local surface = player.surface
+                local enemy = surface.find_nearest_enemy{max_distance = 32, position = player.position, force = player.force}
+                if not (enemy and enemy.type == 'unit') then
+                    goto continue
+                end
+
+                if not is_targeting_entity(enemy, character) then
+                    goto continue
+                end
+
+                local count = 0
+                for _, unit in pairs(surface.find_enemy_units(player.position, 100, player.force)) do
+                    if is_targeting_entity(unit, character) then
+                        -- unit.surface.create_entity{name = 'highlight-box', position = unit.position, source = unit, time_to_live = 1}
+                        count = count + 1
+                    end
+                end
+
+                -- game.print(count)
+                if count >= data.count then
+                    return side
+                end
+
+                ::continue::
+            end
+        end
+    end,
+}
+
 Custom.botlap = {
     [defines.events.on_robot_built_entity] = function(event)
         local entity = event.entity
@@ -97,7 +155,7 @@ Custom.full_iron_chest = {
         local index, chest = next(data.chests, data.index)
         if not index then
             data.index = nil
-            ---@cast chest -?
+            ---@cast chest LuaEntity
             return
         end
         if not chest.valid then
@@ -105,7 +163,7 @@ Custom.full_iron_chest = {
             return
         end
 
-        local inventory = chest.get_inventory(defines.inventory.chest)
+        local inventory = chest.get_inventory(defines.inventory.chest) --[[@as LuaInventory]]
         if inventory.get_item_count('iron-chest') == #inventory * 50 then
             return chest.force.name
         end

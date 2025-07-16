@@ -140,7 +140,7 @@ return {
         { caption = 'Crypto Farm', tooltip = 'Use at least 80 MW for one minute.', icon = icon('utility/electricity_icon_unplugged', 80) }, -- icon change
         { caption = 'Joyride', tooltip = 'Stay in a car for 3 minutes without exiting.', icon = icon('entity/car', 3), condition = { type = 'custom', name = "stay_in_car", data = { ticks = 3*60*60 } } },
         { caption = 'Display of Affection', tooltip = 'Write “I❤️FACTORIO” using the signal icons of 10 display panels.', icon = icon('entity/display-panel') },
-        { caption = 'Catch Me If You Can', tooltip = 'Get chased by 50 biters at once.', icon = icon('entity/small-biter', 50) },
+        { caption = 'Catch Me If You Can', tooltip = 'Get chased by 50 biters at once.', icon = icon('entity/small-biter', 50), condition = { type = 'custom', name = 'biter_chase', data = { count = 50 } } },
         { caption = 'Collector\'s Chest', tooltip = 'Fill a wooden chest with full stacks of different items.', icon = icon('entity/wooden-chest'), condition = { type = 'custom', name = 'full_chest_unique', data = { name = 'wooden-chest' } } },
         { caption = 'Collector\'s Vault', tooltip = 'Fill an iron chest with full stacks of different items.', icon = icon('entity/iron-chest'), condition = { type = 'custom', name = 'full_chest_unique', data = { name = 'iron-chest' } } },
         { caption = 'Collector\'s Sanctum', tooltip = 'Fill a steel chest with full stacks of different items.', icon = icon('entity/steel-chest'), condition = { type = 'custom', name = 'full_chest_unique', data = { name = 'steel-chest' } } },
