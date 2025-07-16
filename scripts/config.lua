@@ -145,7 +145,7 @@ return {
         { caption = 'Collector\'s Vault', tooltip = 'Fill an iron chest with full stacks of different items.', icon = icon('entity/iron-chest'), condition = { type = 'custom', name = 'full_chest_unique', data = { name = 'iron-chest' } } },
         { caption = 'Collector\'s Sanctum', tooltip = 'Fill a steel chest with full stacks of different items.', icon = icon('entity/steel-chest'), condition = { type = 'custom', name = 'full_chest_unique', data = { name = 'steel-chest' } } },
         { caption = 'Beacon King', tooltip = 'Have 12 machines running under the influence of a beacon.', icon = icon('entity/beacon') },
-        { caption = 'Shooting Practice', tooltip = 'Shoot 500 yellow ammo.', icon = icon('item/firearm-magazine', 500) },
+        { caption = 'Shooting Practice', tooltip = 'Shoot 500 yellow ammo.', icon = icon('item/firearm-magazine', 500), condition = { type = 'custom', name = 'shoot_ammo', data = { count = 500 } } },
         { caption = 'Highway to Hell', tooltip = 'Connect 3 separate biter bases to the starter lake with stone bricks.', icon = icon('item/stone-brick', 3) },
     }
 }

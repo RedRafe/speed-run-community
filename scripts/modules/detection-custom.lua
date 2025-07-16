@@ -1,3 +1,5 @@
+local Statistics = require 'scripts.modules.statistics'
+
 local sides = {
     west = true,
     east = true,
@@ -365,6 +367,19 @@ Custom.rock_power = {
                         return side
                     end
                 end
+            end
+        end
+    end,
+}
+
+Custom.shoot_ammo = {
+    [defines.events.on_tick] = function()
+        local stats = Statistics.get_current()
+
+        for side in pairs(sides) do
+            local item_stats = stats[side]
+            if item_stats['firearm-magazine'].consumed - item_stats['piercing-rounds-magazine'].consumed >= 500 then
+                return side
             end
         end
     end,
