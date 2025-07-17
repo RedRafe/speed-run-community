@@ -210,7 +210,8 @@ Custom.full_chest_unique = {
         local seen = {}
         for i = 1, #inventory do
             local name = inventory[i].name
-            if seen[name] or inventory.get_insertable_count(name) > 0 then
+            local flags = prototypes.item[name].flags
+            if (flags and flags.spawnable) or seen[name] or inventory.get_insertable_count(name) > 0 then
                 return
             end
             seen[name] = true
