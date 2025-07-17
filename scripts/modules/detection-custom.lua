@@ -370,6 +370,9 @@ Custom.rock_power = {
             end
         end
     end,
+    [defines.events.on_object_destroyed] = function(event, data)
+        data.rocks[event.registration_number] = nil
+    end,
 }
 
 Custom.shoot_ammo = {
