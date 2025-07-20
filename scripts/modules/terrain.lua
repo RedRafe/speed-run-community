@@ -14,6 +14,23 @@ Public.set_random_seed = function()
     this.seed = nil
 end
 
+local function configure_forces()
+    local player = game.forces.player
+    player.set_spawn_position(Config.spawn_point.player, 'nauvis')
+
+    local west = game.forces.west
+    west.set_spawn_position(Config.spawn_point.west, 'nauvis')
+
+    local east = game.forces.east
+    east.set_spawn_position(Config.spawn_point.east, 'nauvis')
+end
+
+fsrc.on_init(function()
+    local mgs = game.surfaces.nauvis.map_gen_settings
+    mgs.starting_points = { { x = 320, y = 0 } }
+    game.surfaces.nauvis.map_gen_settings = mgs
+end)
+
 fsrc.subscribe(this, function(tbl) this = tbl end)
 
 fsrc.add(defines.events.on_map_init, function()
@@ -62,6 +79,8 @@ fsrc.add(defines.events.on_map_reset, function()
     surface.clear(true)
     surface.request_to_generate_chunks({ x = 0, y = 0 }, 8)
     surface.force_generate_chunk_requests()
+
+    configure_forces()
 end)
 
 return Public
