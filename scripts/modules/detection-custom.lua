@@ -382,7 +382,7 @@ Custom.shoot_ammo = {
 
         for side in pairs(sides) do
             local item_stats = stats[side]
-            if item_stats['firearm-magazine'].consumed - item_stats['piercing-rounds-magazine'].consumed >= 500 then
+            if item_stats['firearm-magazine'].consumed - item_stats['piercing-rounds-magazine'].produced >= 500 then
                 return side
             end
         end
