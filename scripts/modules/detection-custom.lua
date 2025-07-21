@@ -272,7 +272,7 @@ Custom.long_gate = {
         local seen = {[entity.unit_number] = true}
         for _, gate in pairs(to_check) do
             for _, neighbor in pairs(gate.neighbours) do
-                if not seen[neighbor.unit_number] then
+                if neighbor.type == 'gate' and not seen[neighbor.unit_number] then
                     seen[neighbor.unit_number] = true
                     to_check[#to_check+1] = neighbor
                 end
